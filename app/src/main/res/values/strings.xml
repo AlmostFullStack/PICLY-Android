@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">PiCo</string>
+    <string name="bottom_album">내 앨범</string>
+    <string name="bottom_setting">설정</string>
+    <string name="app_title">PiCo</string>
+    <string name="app_settings_title">설정</string>
+    <string name="multiple_picture">multiple_picture</string>
+    <string name="link">link</string>
 </resources>

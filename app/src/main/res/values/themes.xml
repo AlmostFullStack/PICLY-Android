@@ -5,5 +5,11 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style
+        name="ToolbarTheme"
+        parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">54sp</item>
+    </style>
+
     <style name="Theme.PiCo" parent="Base.Theme.PiCo" />
 </resources>

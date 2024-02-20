@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="mainText">#FFEEEEEE</color>
+    <color name="secondText">#FFB0B0B0</color>
+    <color name="mainBackground">#FF2C2C35</color>
+    <color name="collectionViewCellBackground">#FF383843</color>
+    <color name="FloatButtonBackground">#FF62626D</color>
+    <color name="highlightBlue">#FF83B4F9</color>
+    <color name="textFieldBackground">#FF1C1C1E</color>
+    <color name="unselectedColor">#FF8C8C8E</color>
 </resources>
