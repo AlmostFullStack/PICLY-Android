@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/loginFragment"
+>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.easyhz.picly.view.MainFragment"
+        android:label="MainFragment"
+        tools:layout="@layout/fragment_main"
+        />
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.easyhz.picly.view.user.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login"
+        >
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_emailLoginFragment"
+            app:destination="@id/emailLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/emailLoginFragment"
+        android:name="com.easyhz.picly.view.user.EmailLoginFragment"
+        android:label="EmailLoginFragment"
+        tools:layout="@layout/fragment_email_login"
+        >
+        <argument
+            android:name="type"
+            app:argType="integer"
+            android:defaultValue="1" />
+        <action
+            android:id="@+id/action_loginFragment_to_emailLoginFragment"
+            app:destination="@id/emailLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+        </action>
+    </fragment>
+</navigation>

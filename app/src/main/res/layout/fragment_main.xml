@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+        <include layout="@layout/main_toolbar" android:id="@+id/toolbar"/>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragmentContainerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            app:defaultNavHost="false"
+            app:navGraph="@navigation/nav_graph"
+            app:layout_constraintBottom_toTopOf="@id/bottomNavigation"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            android:background="@color/mainBackground"
+            />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_above="@id/bottomNavigation"
+            android:background="@color/collectionViewCellBackground"
+            app:layout_constraintBottom_toBottomOf="@+id/fragmentContainerView" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:menu="@menu/bottom_menu"
+            android:background="@color/mainBackground"
+            app:itemIconTint="@color/bottom_color"
+            app:itemTextColor="@color/bottom_color"
+            app:itemRippleColor="@android:color/transparent"
+            app:itemActiveIndicatorStyle="@android:color/transparent"
+            app:itemIconSize="36dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

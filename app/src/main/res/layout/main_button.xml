@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/mainBackground"
+        >
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/main_button_shape"
+            android:gravity="center"
+            android:layout_margin="16dp"
+            android:text="@string/login_title"
+            android:textSize="20sp"
+            android:textColor="@color/textFieldBackground"
+            android:fontFamily="@font/sf_pro_bold"
+            android:textAllCaps="false"
+            android:stateListAnimator="@null"
+        />
+    </LinearLayout>
+</layout>

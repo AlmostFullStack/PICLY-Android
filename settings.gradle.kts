@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PiCo"
+rootProject.name = "Picly"
 include(":app")
  

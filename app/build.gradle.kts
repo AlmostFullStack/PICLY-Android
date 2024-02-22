@@ -4,14 +4,15 @@ plugins {
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
-    namespace = "com.easyhz.pico"
+    namespace = "com.easyhz.picly"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.easyhz.pico"
+        applicationId = "com.easyhz.picly"
         minSdk = 26
         targetSdk = 34
         versionCode = 1
@@ -45,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -54,8 +54,13 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
+    // Kotlin
     implementation(libs.activity.ktx)
     implementation(libs.fragment.ktx)
+
+    // navigation
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
     // dagger hilt
     implementation(libs.hilt.android)
@@ -70,5 +75,8 @@ dependencies {
     // Glide
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
+
+    // Splash
+    implementation(libs.core.splashscreen)
 
 }

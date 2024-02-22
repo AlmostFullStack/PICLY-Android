@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/mainBackground"
+    >
+        <TextView
+            android:id="@+id/textViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/mainText"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="3dp"
+            android:text="@string/email_text" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editTextField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:hintEnabled="false"
+            app:boxBackgroundMode="none"
+            app:helperTextEnabled="false"
+            android:theme="@style/PasswordToggleTransparent"
+            >
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/text_field_shape"
+            android:inputType="text"
+            android:textColor="@color/mainText"
+            android:textColorHint="@color/secondText"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="11dp"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/email_hint"
+            android:autofillHints="no" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+</layout>
