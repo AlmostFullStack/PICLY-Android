@@ -10,7 +10,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.easyhz.picly.R
-import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.databinding.FragmentMainBinding
 import com.easyhz.picly.view.album.AlbumViewModel
 
@@ -28,17 +27,12 @@ class MainFragment:Fragment() {
         binding = FragmentMainBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[AlbumViewModel::class.java]
         setNavigation()
-        if (UserManager.isLoggedIn()) {
-            println("로그인")
-        } else {
-//            navController.navigate(R.id.action_mainFragment_to_loginFragment)
-        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setUp()
     }
     private fun setUp() {

@@ -17,8 +17,10 @@ object UserManager {
 
     suspend fun login(email: String, password: String): AuthResult = firebaseAuth.signInWithEmailAndPassword(email, password).await()
 
-
     fun logout() {
         firebaseAuth.signOut()
     }
+
+    suspend fun signUp(email: String, password: String): AuthResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+
 }

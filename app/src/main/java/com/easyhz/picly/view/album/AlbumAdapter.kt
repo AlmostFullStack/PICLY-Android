@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.easyhz.picly.databinding.AlbumItemBinding
-import com.easyhz.picly.domain.model.AlbumItem
+import com.easyhz.picly.domain.model.album.AlbumItem
 
 class AlbumAdapter():RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 

@@ -6,47 +6,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/mainToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:paddingHorizontal="24dp"
             android:background="@color/mainBackground"
             app:layout_constraintTop_toTopOf="parent">
-            <LinearLayout
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/back_button"
+                android:src="@drawable/arrow_back_24"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/toolbarTitle"
+                app:layout_constraintTop_toTopOf="parent"
+            />
+
+            <TextView
+                android:id="@+id/toolbarTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingEnd="24dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                tools:ignore="RtlSymmetry">
+                android:layout_weight="1"
+                android:text="@string/app_title"
+                android:textColor="@color/mainText"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="24dp" />
 
-                <ImageView
-                    android:id="@+id/backButton"
-                    android:src="@drawable/arrow_back_24"
-                    android:visibility="gone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/back_button" />
-                <TextView
-                    android:id="@+id/toolbarTitle"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/mainText"
-                    android:layout_marginStart="24dp"
-                    android:text="@string/app_title"
-                    android:layout_weight="1"
-                    android:textSize="32sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/signUpTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="invisible"
-                    android:text="@string/sign_up"
-                    android:gravity="center"
-                    android:textColor="@color/secondText"
-                     />
-            </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
+            <TextView
+                android:id="@+id/signUpTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/sign_up"
+                android:textColor="@color/secondText"
+                android:textSize="16sp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

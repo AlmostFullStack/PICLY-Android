@@ -1,4 +1,4 @@
-package com.easyhz.picly.domain.model
+package com.easyhz.picly.domain.model.album
 
 data class AlbumItem(
     val regDate: String,

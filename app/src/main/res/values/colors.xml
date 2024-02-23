@@ -17,4 +17,6 @@
 
     <color name="appleColor">#FFFFFFFF</color>
     <color name="appleTextColor">#000000</color>
+
+    <color name="transparent">#00FFFFFF</color>
 </resources>

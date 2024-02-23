@@ -3,7 +3,8 @@ package com.easyhz.picly.di
 import com.easyhz.picly.domain.repository.album.AlbumRepository
 import com.easyhz.picly.domain.repository.user.UserRepository
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
-import com.easyhz.picly.domain.usecase.user.UserUseCase
+import com.easyhz.picly.domain.usecase.user.LoginUseCase
+import com.easyhz.picly.domain.usecase.user.SignUpUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,8 +23,13 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideUserUseCase(
+    fun provideLoginUseCase(
         userRepository: UserRepository
-    ): UserUseCase = UserUseCase(userRepository)
+    ): LoginUseCase = LoginUseCase(userRepository)
 
+    @Provides
+    @Singleton
+    fun provideSignUpUseCase(
+        userRepository: UserRepository
+    ): SignUpUseCase = SignUpUseCase(userRepository)
 }

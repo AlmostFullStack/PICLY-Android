@@ -14,7 +14,7 @@
             android:textColor="@color/mainText"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="3dp"
-            android:text="@string/email_text" />
+            android:text="@string/password_text" />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editTextField"
             android:layout_width="match_parent"
@@ -24,18 +24,19 @@
             app:helperTextEnabled="false"
             android:theme="@style/PasswordToggleTransparent"
             >
-        <EditText
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="44dp"
             android:background="@drawable/text_field_shape"
-            android:inputType="text"
+            android:inputType="textPassword"
             android:textColor="@color/mainText"
             android:textColorHint="@color/secondText"
             android:paddingHorizontal="16dp"
             android:paddingVertical="11dp"
             android:layout_marginBottom="16dp"
-            android:hint="@string/email_hint"
+            android:hint="@string/password_hint"
+            android:textSize="17sp"
             android:autofillHints="no" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

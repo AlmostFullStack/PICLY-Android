@@ -6,7 +6,7 @@ enum class AuthError(val messageId: Int) {
     ERROR_INVALID_CUSTOM_TOKEN(R.string.error_invalid_custom_token),
     ERROR_CUSTOM_TOKEN_MISMATCH(R.string.error_custom_token_mismatch),
     ERROR_INVALID_CREDENTIAL(R.string.error_invalid_credential), // 제공된 인증 자격 증명이 잘못되었거나 만료되었습니다.
-    ERROR_INVALID_EMAIL(R.string.error_invalid_email),
+    ERROR_INVALID_EMAIL(R.string.error_invalid_email), // 이메일 주소가 잘못되었거나 비밀번호가 틀렸습니다.
     ERROR_WRONG_PASSWORD(R.string.error_wrong_password),
     ERROR_USER_MISMATCH(R.string.error_user_mismatch),
     ERROR_REQUIRES_RECENT_LOGIN(R.string.error_requires_recent_login),
@@ -18,8 +18,10 @@ enum class AuthError(val messageId: Int) {
     ERROR_USER_NOT_FOUND(R.string.error_user_not_found),
     ERROR_INVALID_USER_TOKEN(R.string.error_invalid_user_token),
     ERROR_OPERATION_NOT_ALLOWED(R.string.error_operation_not_allowed),
-    ERROR_WEAK_PASSWORD(R.string.error_weak_password),
+    ERROR_WEAK_PASSWORD(R.string.error_weak_password), // 제공된 비밀번호가 유효하지 않습니다.
     ERROR_MISSING_EMAIL(R.string.error_missing_email),
+    ERROR_EMAIL_EMPTY(R.string.error_email_empty),
+    ERROR_PASSWORD_EMPTY(R.string.error_password_empty),
     ERROR_UNKNOWN(R.string.error_unknown)
 }
 
