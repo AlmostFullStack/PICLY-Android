@@ -9,11 +9,22 @@
         android:name="com.easyhz.picly.view.album.AlbumFragment"
         android:label="AlbumFragment"
         tools:layout="@layout/fragment_album"
-        />
+        >
+        <action
+            android:id="@+id/action_page_album_to_uploadFragment"
+            app:destination="@id/uploadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/page_settings"
         android:name="com.easyhz.picly.view.settings.SettingsFragment"
         android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings"
+        />
+
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.easyhz.picly.view.album.upload.UploadFragment"
+        android:label="UploadFragment"
+        tools:layout="@layout/fragment_upload"
         />
 </navigation>

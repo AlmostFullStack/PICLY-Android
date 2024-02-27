@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-        <include layout="@layout/main_toolbar" android:id="@+id/toolbar"/>
+        <include layout="@layout/toolbar_main" android:id="@+id/toolbar"/>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
@@ -20,8 +20,8 @@
             android:background="@color/mainBackground"
             />
 
-
         <View
+            android:id="@+id/dividerView"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_above="@id/bottomNavigation"

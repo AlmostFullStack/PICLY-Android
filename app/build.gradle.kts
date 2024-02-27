@@ -79,4 +79,7 @@ dependencies {
     // Splash
     implementation(libs.core.splashscreen)
 
+    // Paging Source
+    implementation(libs.paging.runtime.ktx)
+
 }

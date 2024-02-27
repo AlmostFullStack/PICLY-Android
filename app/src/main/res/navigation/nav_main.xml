@@ -11,7 +11,11 @@
         android:name="com.easyhz.picly.view.MainFragment"
         android:label="MainFragment"
         tools:layout="@layout/fragment_main"
-        />
+        >
+        <action
+            android:id="@+id/action_mainFragment_to_uploadFragment"
+            app:destination="@id/uploadFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.easyhz.picly.view.user.LoginFragment"
@@ -65,4 +69,21 @@
             app:popUpToInclusive="true"
         />
     </fragment>
+
+    <fragment
+        android:id="@+id/uploadFragment"
+        android:name="com.easyhz.picly.view.album.upload.UploadFragment"
+        android:label="UploadFragment"
+        tools:layout="@layout/fragment_upload"
+        >
+        <action
+            android:id="@+id/action_uploadFragment_to_galleryBottomSheet"
+            app:destination="@id/galleryBottomSheet" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryBottomSheet"
+        android:name="com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment"
+        android:label="GalleryBottomSheetFragment"
+        tools:layout="@layout/gallery_bottom_sheet"
+        />
 </navigation>

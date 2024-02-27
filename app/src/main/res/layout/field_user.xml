@@ -10,11 +10,11 @@
     >
         <include
             android:id="@+id/emailField"
-            layout="@layout/text_field"
+            layout="@layout/field_text"
         />
         <include
             android:id="@+id/passwordField"
-            layout="@layout/text_field"
+            layout="@layout/field_text"
         />
     </LinearLayout>
 </layout>

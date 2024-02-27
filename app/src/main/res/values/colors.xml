@@ -7,9 +7,11 @@
     <color name="secondText">#FFB0B0B0</color>
     <color name="mainBackground">#FF2C2C35</color>
     <color name="collectionViewCellBackground">#FF383843</color>
-    <color name="FloatButtonBackground">#FF62626D</color>
+    <color name="floatButtonBackground">#FF62626D</color>
     <color name="highlightBlue">#FF83B4F9</color>
     <color name="textFieldBackground">#FF1C1C1E</color>
+    <color name="textFieldBackground80">#CC1C1C1E</color>
+    <color name="textFieldBackground40">#661C1C1E</color>
     <color name="unselectedColor">#FF8C8C8E</color>
 
     <color name="googleColor">#FF4285F4</color>

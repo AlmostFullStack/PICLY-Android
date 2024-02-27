@@ -14,6 +14,8 @@
             android:textColor="@color/mainText"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="3dp"
+            android:textSize="14sp"
+            android:fontFamily="@font/sf_pro"
             android:text="@string/password_text" />
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editTextField"
@@ -22,22 +24,26 @@
             app:hintEnabled="false"
             app:boxBackgroundMode="none"
             app:helperTextEnabled="false"
+            app:cursorColor="@color/highlightBlue"
             android:theme="@style/PasswordToggleTransparent"
-            >
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:background="@drawable/text_field_shape"
-            android:inputType="textPassword"
-            android:textColor="@color/mainText"
-            android:textColorHint="@color/secondText"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="11dp"
-            android:layout_marginBottom="16dp"
-            android:hint="@string/password_hint"
-            android:textSize="17sp"
-            android:autofillHints="no" />
+        >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editText"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:background="@drawable/text_field_shape"
+                android:inputType="textPassword"
+                android:textColor="@color/mainText"
+                android:textColorHint="@color/secondText"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="11dp"
+                android:layout_marginBottom="16dp"
+                android:hint="@string/password_hint"
+                android:textSize="17sp"
+                android:autofillHints="no"
+                android:textCursorDrawable="@drawable/cursor_shape"
+                android:drawablePadding="6dp"
+            />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </layout>

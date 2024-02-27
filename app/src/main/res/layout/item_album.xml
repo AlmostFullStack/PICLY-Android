@@ -35,7 +35,7 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@{data.thumbnailUrl}"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ic_launcher_background"
+                    android:src="@drawable/default_image"
                     app:imageUrl="@{data.thumbnailUrl}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

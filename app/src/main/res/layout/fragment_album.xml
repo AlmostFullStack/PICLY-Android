@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/mainBackground"
     >
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/albumRecyclerView"
+            android:background="@color/mainBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
             android:overScrollMode="never"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:listitem="@layout/item_album"
         />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addFab"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_margin="24dp"
+            android:backgroundTint="@color/floatButtonBackground"
+            android:contentDescription="@string/floating_action_button"
+            android:src="@drawable/icon_add_24"
+            android:tint="@color/highlightBlue"
+            app:borderWidth="0dp"
+            app:elevation="4dp"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:maxImageSize="40dp"
+            app:rippleColor="@null"
+            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Round"
+            app:tint="@color/highlightBlue" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

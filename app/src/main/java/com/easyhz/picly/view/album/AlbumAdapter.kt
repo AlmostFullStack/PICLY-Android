@@ -5,12 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.easyhz.picly.databinding.AlbumItemBinding
+import com.easyhz.picly.databinding.ItemAlbumBinding
 import com.easyhz.picly.domain.model.album.AlbumItem
 
 class AlbumAdapter():RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
-    inner class AlbumViewHolder(val binding: AlbumItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class AlbumViewHolder(val binding: ItemAlbumBinding) : RecyclerView.ViewHolder(binding.root)
 
 
     private val differ = AsyncListDiffer(this, object : DiffUtil.ItemCallback<AlbumItem>() {
@@ -24,7 +24,7 @@ class AlbumAdapter():RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     })
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumViewHolder = AlbumViewHolder(
-        AlbumItemBinding.inflate(
+        ItemAlbumBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
     )

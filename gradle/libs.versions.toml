@@ -17,6 +17,7 @@ kotlin = "1.9.10"
 navigation-fragment-ktx = "2.7.7"
 navigation-safe-args-gradle-plugin = "2.7.7"
 navigation-ui-ktx = "2.7.7"
+paging-runtime-ktx = "3.2.1"
 
 [libraries]
 activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity-ktx" }
@@ -41,6 +42,7 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
 navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle-plugin" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
+paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging-runtime-ktx" }
 
 [plugins]
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

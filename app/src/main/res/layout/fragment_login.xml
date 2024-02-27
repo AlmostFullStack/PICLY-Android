@@ -13,7 +13,7 @@
             android:background="@color/mainBackground"
             android:orientation="vertical"
         >
-            <include layout="@layout/main_toolbar" android:id="@+id/toolbar"/>
+            <include layout="@layout/toolbar_main" android:id="@+id/toolbar"/>
 
             <TextView
                 android:layout_width="wrap_content"

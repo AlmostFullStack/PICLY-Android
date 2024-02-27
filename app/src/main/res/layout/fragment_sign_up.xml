@@ -6,7 +6,7 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout"
+            android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/mainBackground"
@@ -14,11 +14,11 @@
 
             <include
                 android:id="@+id/toolbar"
-                layout="@layout/main_toolbar" />
+                layout="@layout/toolbar_main" />
 
             <include
                 android:id="@+id/userField"
-                layout="@layout/user_field"
+                layout="@layout/field_user"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar" />
             <View
                 android:layout_width="match_parent"

@@ -1,8 +1,10 @@
 package com.easyhz.picly.di
 
 import com.easyhz.picly.data.repository.album.AlbumRepositoryImpl
+import com.easyhz.picly.data.repository.gallery.GalleryRepositoryImpl
 import com.easyhz.picly.data.repository.user.UserRepositoryImpl
 import com.easyhz.picly.domain.repository.album.AlbumRepository
+import com.easyhz.picly.domain.repository.gallery.GalleryRepository
 import com.easyhz.picly.domain.repository.user.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -25,4 +27,10 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ): UserRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindGalleryRepository(
+        galleryRepositoryImpl: GalleryRepositoryImpl
+    ): GalleryRepository
 }

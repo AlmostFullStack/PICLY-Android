@@ -1,8 +1,10 @@
 package com.easyhz.picly.di
 
 import com.easyhz.picly.domain.repository.album.AlbumRepository
+import com.easyhz.picly.domain.repository.gallery.GalleryRepository
 import com.easyhz.picly.domain.repository.user.UserRepository
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
+import com.easyhz.picly.domain.usecase.album.upload.GalleryUseCase
 import com.easyhz.picly.domain.usecase.user.LoginUseCase
 import com.easyhz.picly.domain.usecase.user.SignUpUseCase
 import dagger.Module
@@ -32,4 +34,10 @@ object UseCaseModule {
     fun provideSignUpUseCase(
         userRepository: UserRepository
     ): SignUpUseCase = SignUpUseCase(userRepository)
+
+    @Provides
+    @Singleton
+    fun provideGalleryUseCase(
+        galleryRepository: GalleryRepository
+    ): GalleryUseCase = GalleryUseCase(galleryRepository)
 }

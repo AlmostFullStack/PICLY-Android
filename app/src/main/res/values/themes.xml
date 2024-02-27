@@ -3,6 +3,9 @@
     <style name="Base.Theme.Picly" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textCursorDrawable">@color/highlightBlue</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+
     </style>
 
     <style
@@ -14,6 +17,44 @@
     <style name="PasswordToggleTransparent" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorControlHighlight">#0000</item>
     </style>
+    <style name="ShapeAppearanceOverlay.App.Round" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/gallery_bottom_sheet_shape</item>
+    </style>
+
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/highlightBlue</item>
+        <item name="android:textColorPrimary">@color/mainText</item>
+    </style>
+    <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
+        <item name="android:textColor">@color/mainText</item>
+    </style>
+
+    <style name="CalenderViewDateCustomText">
+        <item name="android:textColor">@drawable/calendar_date_selector</item>
+        <item name="rippleColor">@null</item>
+        <item name="itemRippleColor">@null</item>
+    </style>
+
+    <style name="TimePicker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:background">@drawable/calendar_shape</item>
+        <item name="android:headerBackground">@color/collectionViewCellBackground</item>
+        <item name="android:textColor">@color/secondText</item>
+        <item name="android:colorAccent">@color/mainText</item>
+        <item name="android:textColorPrimary">@color/mainText</item>
+        <!-- NumberPicker divider color -->
+        <item name="colorControlNormal">@color/highlightBlue</item>
+    </style>
+    출처: https://goatlab.tistory.com/entry/Android-Studio-TimePicker-색상-커스텀 [GOATLAB:티스토리]
 
     <style name="Theme.Picly" parent="Base.Theme.Picly" />
 </resources>

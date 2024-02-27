@@ -43,4 +43,21 @@
     <string name="email_hint">이메일을 입력하세요</string>
     <string name="password_text">비밀번호</string>
     <string name="password_hint">비밀번호를 입력하세요</string>
+    <string name="floating_action_button">FAB</string>
+    <string name="upload_album_title">앨범 업로드</string>
+    <string name="success">완료</string>
+    <string name="tag">태그</string>
+    <string name="tag_hint">태그를 입력하세요</string>
+    <string name="close">Close</string>
+    <string name="image">사진</string>
+    <string name="image_add">ImageAdd</string>
+    <string name="gallery_cancel">취소</string>
+    <string name="gallery_add">추가</string>
+    <string name="no_items">갤러리에 사진이 없습니다.</string>
+    <string name="image_pick_state">사진 선택</string>
+    <string name="delete">삭제</string>
+    <string name="expireDate">만료 기한</string>
+    <string name="upload_warning">
+        다른 사용자의 창작물이나 지적 재산권을 존중해주세요. \n무단으로 타인의 작품을 사용하는 행위는 금지되어 있습니다. \n선정적이거나 모욕적인 이미지, 비속어 포함한 내용은 업로드하지 말아주세요. \n타인의 개인정보가 노출되지 않도록 주의해주세요.
+    </string>
 </resources>
