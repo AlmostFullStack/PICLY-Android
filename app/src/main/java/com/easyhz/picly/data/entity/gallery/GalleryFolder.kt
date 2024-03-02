@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import com.easyhz.picly.domain.model.album.upload.gallery.GalleryFolderItem
 import com.easyhz.picly.util.getLongColumnOrThrow
 import com.easyhz.picly.util.getStringColumnOrThrow
 
@@ -27,5 +28,13 @@ data class GalleryFolder(
                 count = 0
             )
         }
+
+        fun GalleryFolder.toGalleryFolderItem() : GalleryFolderItem =
+            GalleryFolderItem(
+                id = id,
+                folderName = folderName,
+                thumbnailUri = thumbnailUri,
+                count = count
+            )
     }
 }

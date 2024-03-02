@@ -5,39 +5,62 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAlignment="center"
-    >
+        >
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/gallery_toggle_button"
-            android:gravity="center"
+            android:padding="2dp"
+            android:textAlignment="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/imageToggleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+            <View
+                android:id="@+id/selectedView"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
                 android:background="@drawable/gallery_selected_toggle_button"
-                android:gravity="center"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:text="사진"
-                android:textColor="@color/mainText" />
+                app:layout_constraintBottom_toBottomOf="@+id/toggleButtonContainer"
+                app:layout_constraintStart_toStartOf="@+id/toggleButtonContainer"
+                app:layout_constraintTop_toTopOf="@+id/toggleButtonContainer"
+                app:layout_constraintWidth_percent="0.5" />
 
-            <TextView
-                android:id="@+id/albumToggleTextView"
+            <LinearLayout
+                android:id="@+id/toggleButtonContainer"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="32dp"
                 android:gravity="center"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp"
-                android:text="앨범"
-                android:textColor="@color/mainText" />
-        </LinearLayout>
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <TextView
+                    android:id="@+id/imageToggleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/image"
+                    android:textColor="@color/mainText" />
+
+                <TextView
+                    android:id="@+id/albumToggleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/album"
+                    android:textColor="@color/mainText" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

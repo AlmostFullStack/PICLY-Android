@@ -4,22 +4,23 @@
     <data>
         <variable
             name="data"
-            type="com.easyhz.picly.domain.model.album.upload.GalleryImageItem" />
+            type="com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem" />
     </data>
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/collectionViewCellBackground"
+        android:background="@color/mainBackground"
         android:layout_gravity="center_horizontal"
         android:layout_margin="0.5dp"
     >
         <ImageView
             android:id="@+id/galleryImageView"
-            android:src="@drawable/default_image"
+            android:src="@color/mainBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:contentDescription="@{data.name}"
             app:imageUrl="@{data.uri}"
         />

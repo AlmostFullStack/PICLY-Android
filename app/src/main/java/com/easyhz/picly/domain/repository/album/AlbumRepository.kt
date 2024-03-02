@@ -6,4 +6,6 @@ import kotlinx.coroutines.flow.Flow
 interface AlbumRepository {
     fun fetchAlbums() : Flow<List<Album>>
 
+//    fun writeAlbums() : Flow<>
+
 }

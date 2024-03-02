@@ -14,7 +14,10 @@
         >
         <action
             android:id="@+id/action_mainFragment_to_uploadFragment"
-            app:destination="@id/uploadFragment" />
+            app:destination="@id/uploadFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:popExitAnim="@anim/slide_out_up"
+        />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -28,11 +31,9 @@
         <action
             android:id="@+id/action_loginFragment_to_emailLoginFragment"
             app:destination="@id/emailLoginFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right">
-        </action>
+            app:enterAnim="@anim/slide_in_up"
+            app:popExitAnim="@anim/slide_out_up"
+        />
     </fragment>
 
     <fragment

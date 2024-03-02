@@ -1,82 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/gallery_bottom_sheet_shape"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="false"
         app:behavior_peekHeight="0dp"
-        android:orientation="vertical"
     >
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/mainToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingHorizontal="16dp"
-            android:background="@drawable/gallery_bottom_sheet_shape"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/cancelTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/sf_pro_bold"
-                android:gravity="center"
-                android:text="@string/gallery_cancel"
-                android:textColor="@color/highlightBlue"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <include layout="@layout/gallery_toggle_button" android:id="@+id/galleryToggleButton" />
-            <TextView
-                android:id="@+id/addTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/gallery_add"
-                android:textColor="@color/highlightBlue"
-                android:fontFamily="@font/sf_pro_bold"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/galleryRecyclerView"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/bottomsSheetFragmentContainerView"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@color/mainBackground"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="4"
-            tools:listitem="@layout/item_gallery_image"
-        />
-        <TextView
-            android:id="@+id/emptyView"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:text="@string/no_items"
-            android:textColor="@color/mainText"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:visibility="gone"
-        />
+            app:defaultNavHost="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navGraph="@navigation/nav_gallery_bottom_sheet" />
+
+
         <TextView
             android:id="@+id/pickStateTextView"
-            android:text="@string/image_pick_state"
-            android:textColor="@color/mainText"
-            android:textSize="20sp"
-            android:fontFamily="@font/sf_pro_bold"
-            android:textAlignment="center"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/mainBackground"
-        />
-    </LinearLayout>
+            android:fontFamily="@font/sf_pro_bold"
+            android:gravity="center"
+            android:text="@string/image_pick_state"
+            android:textAlignment="center"
+            android:textColor="@color/mainText"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -24,7 +24,6 @@ class UserRepositoryImpl
     override suspend fun login(user: UserForm, onSuccess: () -> Unit, onError: (String?) -> Unit) {
         try {
             val result = UserManager.login(user.email, user.password)
-            println(result.user?.email)
             onSuccess.invoke()
         } catch (e: FirebaseAuthException) {
             onError(e.errorCode)

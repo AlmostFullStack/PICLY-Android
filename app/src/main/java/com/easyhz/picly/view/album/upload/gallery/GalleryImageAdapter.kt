@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.easyhz.picly.data.entity.gallery.GalleryImage
 import com.easyhz.picly.data.entity.gallery.GalleryImage.Companion.toGalleryImageItem
 import com.easyhz.picly.databinding.ItemGalleryImageBinding
-import com.easyhz.picly.domain.model.album.upload.GalleryImageItem
+import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 
 class GalleryImageAdapter(
-    private val size: Int
 ): PagingDataAdapter<GalleryImage, GalleryImageAdapter.GalleryImageViewHolder>(differ) {
     val selectedImageList: MutableList<GalleryImageItem> = mutableListOf()
+
     inner class GalleryImageViewHolder(val binding: ItemGalleryImageBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryImageViewHolder = GalleryImageViewHolder(
@@ -25,13 +25,8 @@ class GalleryImageAdapter(
 
     override fun onBindViewHolder(holder: GalleryImageViewHolder, position: Int) {
         val currentItem = getItem(position)?.toGalleryImageItem(position)
-        val layoutParams = holder.itemView.layoutParams.apply {
-            width = size
-            height = size
-        }
         holder.binding.apply {
             data = currentItem
-            frameLayout.layoutParams = layoutParams
             val state = data?.isSelected
             val isSelectedInList = selectedImageList.any { it.position == position }
 

@@ -51,10 +51,32 @@
         <item name="android:textColor">@color/secondText</item>
         <item name="android:colorAccent">@color/mainText</item>
         <item name="android:textColorPrimary">@color/mainText</item>
-        <!-- NumberPicker divider color -->
         <item name="colorControlNormal">@color/highlightBlue</item>
     </style>
-    출처: https://goatlab.tistory.com/entry/Android-Studio-TimePicker-색상-커스텀 [GOATLAB:티스토리]
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@drawable/alert_dialog_shape</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="android:textColor">@color/mainText</item>
+        <item name="android:dialogMessage">@style/NegativeButtonStyle</item>
+        <item name="android:textColorPrimary">@color/mainText</item>
+    </style>
+
+    <style name="messageStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/mainText</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/mainText</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/highlightBlue</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
 
     <style name="Theme.Picly" parent="Base.Theme.Picly" />
 </resources>

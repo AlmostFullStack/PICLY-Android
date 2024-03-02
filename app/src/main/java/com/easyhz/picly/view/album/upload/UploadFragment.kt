@@ -27,6 +27,7 @@ import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetViewModel
+import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,14 +67,15 @@ class UploadFragment: Fragment() {
         setTagField()
         setTagRecyclerView()
         setUploadImageRecyclerView()
-        addImage()
-        observeSelectedImageList()
+        observeGallerySelectedImageList()
         setExpireButtonText(binding.expireDateButton, getNextWeek().toDateFormat())
         setExpireButtonText(binding.expireTimeButton, getTime().toTimeFormat24())
         setPeriod()
         onClickExpireDateButton()
         onClickExpireTimeButton()
         onClickRelativeLayout()
+        onClickUploadButton()
+        onClickBackButton()
     }
 
     private fun initCalendarView() {
@@ -120,8 +122,10 @@ class UploadFragment: Fragment() {
         }
     }
     private fun setUploadImageRecyclerView() {
-        uploadImageAdapter = UploadImageAdapter {
-            println(it)
+        uploadImageAdapter = UploadImageAdapter(
+            onClickAdd = ::onClickAddImage
+        ) {
+            galleryViewModel.deleteSelectedImageList(it)
         }
         binding.albumField.uploadImageRecyclerView.apply {
             adapter = uploadImageAdapter
@@ -135,13 +139,11 @@ class UploadFragment: Fragment() {
         }
     }
 
-    private fun addImage() {
-        binding.albumField.addImage.setOnClickListener {
-            val bottomSheetFragment = GalleryBottomSheetFragment()
-            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
-        }
+    private fun onClickAddImage() {
+        val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
+        bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
     }
-    private fun observeSelectedImageList() {
+    private fun observeGallerySelectedImageList() {
         galleryViewModel.selectedImageList.observe(viewLifecycleOwner) {
             uploadImageAdapter.setUploadImageList(it)
         }
@@ -221,6 +223,18 @@ class UploadFragment: Fragment() {
         binding.relativeLayout.setOnClickListener {
             setDoNotShowCalendarView()
             setDoNotShowTimePicker()
+        }
+    }
+
+    private fun onClickUploadButton() {
+        binding.toolbar.uploadTextView.setOnClickListener {
+            println("완료 제출이용")
+        }
+    }
+
+    private fun onClickBackButton() {
+        binding.toolbar.backButton.setOnClickListener {
+            NavControllerManager.navigateToBack()
         }
     }
 

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.mapper.toAlbumItem
 import com.easyhz.picly.domain.model.album.AlbumItem
-import com.easyhz.picly.domain.repository.gallery.GalleryRepository
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -17,15 +16,11 @@ import javax.inject.Inject
 class AlbumViewModel
 @Inject constructor(
     private val albumUseCase: AlbumUseCase,
-    private val galleryRepository: GalleryRepository
 ):ViewModel() {
     private val albumsLiveData = MutableLiveData<List<AlbumItem>>()
     val albums : LiveData<List<AlbumItem>>
         get() = albumsLiveData
-init {
-//    galleryRepository.fetchFolder(0, 10)
-//    galleryRepository.fetchImages(0, 50)
-}
+
     fun fetchAlbums() = viewModelScope.launch {
         albumUseCase().collectLatest {
             albumsLiveData.value = it.toAlbumItem()

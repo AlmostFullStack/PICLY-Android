@@ -3,7 +3,9 @@ package com.easyhz.picly.domain.usecase.album.upload
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.easyhz.picly.data.data_source.gallery.GalleryFolderPagingSource
 import com.easyhz.picly.data.data_source.gallery.GalleryImagePagingSource
+import com.easyhz.picly.data.entity.gallery.GalleryFolder
 import com.easyhz.picly.data.entity.gallery.GalleryImage
 import com.easyhz.picly.domain.repository.gallery.GalleryRepository
 import kotlinx.coroutines.flow.Flow
@@ -32,6 +34,24 @@ class GalleryUseCase
                 GalleryImagePagingSource(
                     galleryRepository = galleryRepository,
                     currentLocation = currentLocation
+                )
+            }
+        ).flow
+
+    /**
+     * 갤러리 폴더 페이징을 위한 Pager 생성.
+     *
+     * @return 페이징된 갤러리 폴더를 제공하는 Flow
+     */
+    fun getGalleryFolderPager(): Flow<PagingData<GalleryFolder>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = {
+                GalleryFolderPagingSource(
+                    galleryRepository = galleryRepository,
                 )
             }
         ).flow

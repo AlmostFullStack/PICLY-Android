@@ -60,4 +60,12 @@
     <string name="upload_warning">
         다른 사용자의 창작물이나 지적 재산권을 존중해주세요. \n무단으로 타인의 작품을 사용하는 행위는 금지되어 있습니다. \n선정적이거나 모욕적인 이미지, 비속어 포함한 내용은 업로드하지 말아주세요. \n타인의 개인정보가 노출되지 않도록 주의해주세요.
     </string>
+    <string name="album">앨범</string>
+    <string name="back">Back</string>
+    <string name="gallery_album_title">앨범 이름</string>
+
+    <string name="gallery_alert_title">이동 하시겠습니까?</string>
+    <string name="gallery_alert_message">선택 사항이 저장 되지 않습니다.</string>
+    <string name="gallery_alert_continue">계속</string>
+    <string name="gallery_alert_cancel">뒤로 가기</string>
 </resources>

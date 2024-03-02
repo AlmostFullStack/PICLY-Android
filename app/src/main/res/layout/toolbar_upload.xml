@@ -41,7 +41,7 @@
                 tools:layout_editor_absoluteX="24dp" />
 
             <TextView
-                android:id="@+id/signUpTextView"
+                android:id="@+id/uploadTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"

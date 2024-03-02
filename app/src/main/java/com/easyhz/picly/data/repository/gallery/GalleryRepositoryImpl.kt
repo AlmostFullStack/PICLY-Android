@@ -40,6 +40,8 @@ class GalleryRepositoryImpl
         MediaStore.Images.ImageColumns.DATE_TAKEN,
         MediaStore.Images.ImageColumns.ALBUM,
         MediaStore.Images.ImageColumns.SIZE,
+        MediaStore.Images.ImageColumns.WIDTH,
+        MediaStore.Images.ImageColumns.HEIGHT,
         MediaStore.Images.ImageColumns.BUCKET_ID,
         MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
     )

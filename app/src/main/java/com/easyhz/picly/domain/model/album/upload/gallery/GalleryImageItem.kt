@@ -1,4 +1,4 @@
-package com.easyhz.picly.domain.model.album.upload
+package com.easyhz.picly.domain.model.album.upload.gallery
 
 import android.net.Uri
 
@@ -8,7 +8,9 @@ data class GalleryImageItem(
     val uri: Uri,
     val name: String,
     val regDate: String,
-    val size: Int,
+    val size: Long,
+    val width: Long,
+    val height: Long,
     var isSelected: Boolean = false,
     var position: Int
 )

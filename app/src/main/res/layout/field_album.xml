@@ -27,36 +27,21 @@
             app:cardBackgroundColor="@color/textFieldBackground"
             app:cardCornerRadius="4dp"
         >
-            <HorizontalScrollView
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:overScrollMode="never"
+                android:orientation="horizontal"
                 android:padding="8dp"
             >
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/uploadImageRecyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                >
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/uploadImageRecyclerView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:overScrollMode="never"
-                        tools:listitem="@layout/item_image"
-                    />
-                    <ImageView
-                        android:id="@+id/addImage"
-                        android:layout_width="112dp"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/image_add_shape"
-                        android:src="@drawable/icon_add_32"
-                        android:scaleType="center"
-                        android:contentDescription="@string/image_add"
-                    />
-                </LinearLayout>
-            </HorizontalScrollView>
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_image"
+                />
+            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>

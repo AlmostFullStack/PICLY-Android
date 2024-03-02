@@ -4,7 +4,7 @@
     <data>
         <variable
             name="data"
-            type="com.easyhz.picly.domain.model.album.upload.GalleryImageItem" />
+            type="com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="112dp"

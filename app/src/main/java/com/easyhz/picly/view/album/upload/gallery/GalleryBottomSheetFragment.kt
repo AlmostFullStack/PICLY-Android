@@ -1,22 +1,36 @@
 package com.easyhz.picly.view.album.upload.gallery
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import com.easyhz.picly.databinding.GalleryBottomSheetBinding
-import com.easyhz.picly.util.getScreenWidth
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+
 
 class GalleryBottomSheetFragment:  BottomSheetDialogFragment() {
     private lateinit var binding: GalleryBottomSheetBinding
     private lateinit var viewModel: GalleryBottomSheetViewModel
-    private lateinit var galleryImageAdapter: GalleryImageAdapter
+
+    companion object {
+        private var instance: GalleryBottomSheetFragment? = null
+
+        fun getInstance(): GalleryBottomSheetFragment {
+            if (instance == null) {
+                instance = GalleryBottomSheetFragment()
+            }
+            return instance!!
+        }
+
+        fun releaseInstance() {
+            instance = null
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -26,53 +40,23 @@ class GalleryBottomSheetFragment:  BottomSheetDialogFragment() {
         viewModel = ViewModelProvider(requireActivity())[GalleryBottomSheetViewModel::class.java]
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUp()
+    override fun onStart() {
+        super.onStart()
+        val sheetContainer = requireView().parent as? ViewGroup ?: return
+        sheetContainer.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
     }
 
-    private fun setUp() {
-        setRecyclerView()
-        observeGalleryImageList()
-        onClickAdd()
-        onClickCancel()
-    }
-
-    private fun setRecyclerView() {
-        galleryImageAdapter = GalleryImageAdapter(
-            getScreenWidth(requireActivity()) / GRID_VIEW
-        )
-        binding.galleryRecyclerView.apply {
-            adapter = galleryImageAdapter
-            layoutManager = GridLayoutManager(activity, GRID_VIEW)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val dialog = BottomSheetDialog(requireContext(), theme).apply {
+            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            behavior.skipCollapsed = true
         }
+
+        return dialog
     }
 
-    private fun observeGalleryImageList() = lifecycleScope.launch {
-        viewModel.pager.collectLatest {
-            galleryImageAdapter.submitData(it)
-        }
-    }
-
-    private fun onClickAdd() {
-        binding.addTextView.setOnClickListener {
-            viewModel.setSelectedImageList(galleryImageAdapter.selectedImageList)
-            closeBottomSheet()
-        }
-    }
-
-    private fun onClickCancel() {
-        binding.cancelTextView.setOnClickListener {
-            closeBottomSheet()
-        }
-    }
-
-    private fun closeBottomSheet() {
-        dismiss()
-    }
-
-    companion object {
-        const val GRID_VIEW = 4
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.setIsSelectedAlbum(false)
     }
 }
