@@ -32,6 +32,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx"}
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx"}
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref="firebase-bom"}
 firebase-firestore = { module = "com.google.firebase:firebase-firestore-ktx"}
+firebase-storage = { module = "com.google.firebase:firebase-storage-ktx"}
 fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment-ktx" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 google-services = { module = "com.google.gms:google-services", version.ref = "google-services" }

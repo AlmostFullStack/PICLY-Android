@@ -1,9 +1,12 @@
 package com.easyhz.picly.util
 
 import android.database.Cursor
+import android.net.Uri
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import com.easyhz.picly.data.entity.album.ImageSize
 import com.easyhz.picly.data.firebase.AuthError
+import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.google.firebase.Timestamp
 import java.time.Duration
 import java.time.LocalDateTime
@@ -57,3 +60,16 @@ fun View.animateGrow(isShow: Boolean, duration: Long = 100, tx: Float = 0.5f, ty
         .start()
 }
 
+fun List<GalleryImageItem>.getImageSizes(): List<ImageSize> =
+    map { ImageSize(it.height, it.width) }
+
+fun List<GalleryImageItem>.getImageUri(): List<Uri> =
+    map { it.uri }
+
+/**
+ * 공유 url
+ */
+
+const val BASE_URL = "https://www.picly.app"
+const val ALBUM = "Album"
+fun String.toPICLY() = "$BASE_URL/$ALBUM/$this"

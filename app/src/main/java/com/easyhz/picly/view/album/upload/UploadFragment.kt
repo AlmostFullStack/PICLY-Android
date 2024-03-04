@@ -1,7 +1,9 @@
 package com.easyhz.picly.view.album.upload
 
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +61,7 @@ class UploadFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         initSelectedImageList()
+        initTagList()
     }
 
     private fun setUp() {
@@ -101,6 +104,7 @@ class UploadFragment: Fragment() {
             editText.inputType = InputType.TYPE_CLASS_TEXT
             editText.imeOptions = EditorInfo.IME_ACTION_DONE
             editText.setOnEditorActionListener { editText, action, _ ->
+
                 if (action == EditorInfo.IME_ACTION_DONE) {
                     viewModel.addTag(editText.text.toString())
                     resetTagList()
@@ -108,6 +112,17 @@ class UploadFragment: Fragment() {
                 }
                 true
             }
+            editText.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    if (s?.contains(" ") == true) {
+                        viewModel.addTag(editText.text.toString().replace(" ",""))
+                        resetTagList()
+                        editText.setText("")
+                    }
+                }
+                override fun afterTextChanged(s: Editable?) { }
+            })
         }
     }
 
@@ -151,6 +166,10 @@ class UploadFragment: Fragment() {
 
     private fun initSelectedImageList() {
         galleryViewModel.initSelectedImageList()
+    }
+
+    private fun initTagList() {
+        viewModel.initTagList()
     }
 
     private fun manageCalendarDialog() {
@@ -228,7 +247,14 @@ class UploadFragment: Fragment() {
 
     private fun onClickUploadButton() {
         binding.toolbar.uploadTextView.setOnClickListener {
-            println("완료 제출이용")
+            viewModel.writeAlbums(
+                galleryViewModel.selectedImageList.value.orEmpty(),
+                binding.expireDateButton.text.toString(),
+                binding.expireTimeButton.text.toString(),
+                { }
+            ) {
+
+            }
         }
     }
 

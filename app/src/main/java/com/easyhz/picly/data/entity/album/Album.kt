@@ -12,14 +12,17 @@ data class Album(
     val imageCount: Int = 0,
     @PropertyName("imageSizes")
     val imageSizes: List<ImageSize> = listOf(),
-    @PropertyName("imageURLs")
-    val imageUrls: List<String> = listOf(),
-    @PropertyName("ownerID")
-    val ownerId: String = "",
+    @get:PropertyName("imageURLs")
+    @set:PropertyName("imageURLs")
+    var imageUrls: List<String> = listOf(),
+    @get:PropertyName("ownerID")
+    @set:PropertyName("ownerID")
+    var ownerId: String = "",
     @PropertyName("tags")
     val tags: List<String> = listOf(),
-    @PropertyName("thumbnailURL")
-    val thumbnailUrl: String = "",
+    @get:PropertyName("thumbnailURL")
+    @set:PropertyName("thumbnailURL")
+    var thumbnailUrl: String = "",
     @PropertyName("viewCount")
     val viewCount: Int = 0
 )

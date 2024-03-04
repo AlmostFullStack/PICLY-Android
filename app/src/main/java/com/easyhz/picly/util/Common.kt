@@ -1,18 +1,20 @@
 package com.easyhz.picly.util
 
 import android.content.Context
+import com.google.firebase.Timestamp
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 
-const val PATTERN = "yyyy. M. d. HH:mm a"
+const val PATTERN = "yyyy. M. d. h:mm a"
 const val DATE_PATTERN = "yyyy. M. d."
 const val TIME_PATTERN = "HH:m"
-const val TIME_PATTERN_24 = "HH:mm a"
+const val TIME_PATTERN_24 = "h:mm a"
 
 fun getScreenWidth(context: Context): Int = context.resources.displayMetrics.widthPixels
 
@@ -36,6 +38,15 @@ fun calculatePeriod(date: String, time: String): String {
 
     return "$days 일 $hours 시간 후"
 }
+
+fun String.toFirebaseTimestamp(): Timestamp {
+    val dateFormat = DateTimeFormatter.ofPattern(PATTERN)
+    val instant = LocalDateTime.parse(this, dateFormat)
+        .atZone(ZoneId.systemDefault())
+        .toInstant()
+    return Timestamp(instant.epochSecond, instant.nano)
+}
+
 
 
 fun LocalDate.toMs(): Long = this.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
