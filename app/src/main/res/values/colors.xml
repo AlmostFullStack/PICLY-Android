@@ -13,6 +13,7 @@
     <color name="textFieldBackground80">#CC1C1C1E</color>
     <color name="textFieldBackground40">#661C1C1E</color>
     <color name="unselectedColor">#FF8C8C8E</color>
+    <color name="errorColor">#FFFF453A</color>
 
     <color name="googleColor">#FF4285F4</color>
     <color name="googleTextColor">#FFFFFFFF</color>
