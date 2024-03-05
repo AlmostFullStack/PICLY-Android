@@ -1,5 +1,6 @@
 package com.easyhz.picly.view.album
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -41,5 +42,11 @@ object AlbumBindingConversion {
 
         view.text = expirationText
         view.setTextColor(ContextCompat.getColor(view.context, textColorResId))
+    }
+
+    @JvmStatic
+    @BindingAdapter("multiplePicture")
+    fun setMultiplePicture(view: ImageView, imageCount: Int) {
+        view.visibility = if (imageCount > 1) View.VISIBLE else View.INVISIBLE
     }
 }

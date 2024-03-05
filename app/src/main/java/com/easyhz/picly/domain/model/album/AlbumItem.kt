@@ -5,4 +5,5 @@ data class AlbumItem(
     val tag: String,
     val expireDate: Double,
     val thumbnailUrl: String,
+    val imageCount: Int,
 )

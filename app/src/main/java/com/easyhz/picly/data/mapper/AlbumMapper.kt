@@ -10,6 +10,7 @@ fun List<Album>.toAlbumItem(): List<AlbumItem> =  this.map {
         regDate = it.creationTime.toDateFormat(),
         expireDate = it.expireTime.toDay(),
         tag = it.tags[0],
-        thumbnailUrl = it.thumbnailUrl
+        thumbnailUrl = it.thumbnailUrl,
+        imageCount = it.imageCount
     )
 }

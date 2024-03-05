@@ -43,11 +43,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/multiplePicture"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:contentDescription="@string/multiple_picture"
                     android:rotation="-270"
+                    app:multiplePicture="@{data.imageCount}"
                     android:src="@drawable/icon_filter_none_24"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
