@@ -24,7 +24,7 @@
             android:src="@drawable/default_image"
             android:adjustViewBounds="true"
             android:contentDescription="@{data}"
-            app:imageUrl="@{data}"
+            app:detailImageUrl="@{data}"
         />
 
     </androidx.cardview.widget.CardView>

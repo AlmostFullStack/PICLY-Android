@@ -13,7 +13,7 @@ import java.util.Locale
 object AlbumDetailBindingConversion {
 
     @JvmStatic
-    @BindingAdapter("imageUrl")
+    @BindingAdapter("detailImageUrl")
     fun setImage(view: ImageView, url: String) {
         Glide.with(view.context).load(url)
             .error(R.drawable.default_image)
