@@ -24,7 +24,7 @@
             android:orientation="vertical"
             android:background="@color/collectionViewCellBackground"
         >
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -42,36 +42,45 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/multiplePicture"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:contentDescription="@string/multiple_picture"
-                    android:rotation="-270"
-                    app:multiplePicture="@{data.imageCount}"
-                    android:src="@drawable/icon_filter_none_24"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:background="@drawable/gradient_album"
+                >
+                    <ImageView
+                        android:id="@+id/multiplePicture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:contentDescription="@string/multiple_picture"
+                        android:rotation="-270"
+                        app:multiplePicture="@{data.imageCount}"
+                        android:src="@drawable/icon_filter_none_24"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                    />
+                    <ImageView
+                        android:id="@+id/linkButton"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp"
+                        android:contentDescription="@string/link"
+                        android:src="@drawable/icon_link_24"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/linkButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
-                    android:contentDescription="@string/link"
-                    android:src="@drawable/icon_link_24"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </FrameLayout>
             <TextView
                 android:id="@+id/regDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{data.regDate}"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="8dp"
                 android:textStyle="bold"
@@ -90,7 +99,7 @@
                     android:id="@+id/tagTextView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:layout_weight="1"
                     android:maxLines="3"
                     android:ellipsize="end"
@@ -101,7 +110,7 @@
                     android:id="@+id/expireDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    android:textSize="12sp"
                     android:maxLines="3"
                     android:ellipsize="end"
                     android:textColor="@color/secondText"
