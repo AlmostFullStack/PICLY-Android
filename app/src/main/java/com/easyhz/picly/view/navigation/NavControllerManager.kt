@@ -4,6 +4,7 @@ import androidx.navigation.NavController
 import com.easyhz.picly.R
 import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.view.MainFragmentDirections
+import com.easyhz.picly.view.album.upload.UploadFragmentDirections
 import com.easyhz.picly.view.user.LoginFragmentDirections
 import com.easyhz.picly.view.user.email.EmailLoginFragmentDirections
 import java.lang.ref.WeakReference
@@ -52,7 +53,12 @@ object NavControllerManager {
         navControllerRef?.get()?.navigate(action)
     }
 
-        fun getNavController(): NavController {
+    fun navigateUploadToMain() {
+        val action = UploadFragmentDirections.actionUploadFragmentToMainFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
+
+    fun getNavController(): NavController {
         return checkNotNull(navControllerRef?.get()) { "NavController is not initialized" }
     }
 }

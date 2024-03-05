@@ -253,7 +253,7 @@ class UploadFragment: Fragment() {
                 binding.expireTimeButton.text.toString(),
                 { }
             ) {
-
+                NavControllerManager.navigateUploadToMain()
             }
         }
     }

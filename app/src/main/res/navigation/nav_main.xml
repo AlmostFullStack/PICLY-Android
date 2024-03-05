@@ -80,6 +80,12 @@
         <action
             android:id="@+id/action_uploadFragment_to_galleryBottomSheet"
             app:destination="@id/galleryBottomSheet" />
+        <action
+            android:id="@+id/action_uploadFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="true"
+        />
     </fragment>
     <fragment
         android:id="@+id/galleryBottomSheet"
