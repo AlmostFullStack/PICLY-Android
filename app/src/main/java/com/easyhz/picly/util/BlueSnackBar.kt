@@ -1,6 +1,5 @@
 package com.easyhz.picly.util
 
-import android.annotation.SuppressLint
 import android.content.res.Resources
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BlueSnackBarBinding
 import com.google.android.material.snackbar.Snackbar
 
-@SuppressLint("RestrictedApi")
 class BlueSnackBar(view: View, private val message: String) {
 
     companion object {
@@ -37,7 +35,7 @@ class BlueSnackBar(view: View, private val message: String) {
             removeAllViews()
             setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
             addView(binding.root, 0)
-            layoutParams = setLayoutParams()
+            snackBar.view.layoutParams = setLayoutParams()
         }
     }
 

@@ -18,6 +18,24 @@
             app:enterAnim="@anim/slide_in_up"
             app:popExitAnim="@anim/slide_out_up"
         />
+        <action
+            android:id="@+id/action_mainFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+        />
+    </fragment>
+    <fragment
+        android:id="@+id/albumDetailFragment"
+        android:name="com.easyhz.picly.view.album.detail.AlbumDetailFragment"
+        android:label="AlbumDetailFragment"
+        tools:layout="@layout/fragment_album_detail"
+        >
+        <argument
+            android:name="albumItem"
+            app:argType="com.easyhz.picly.domain.model.album.AlbumItem" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

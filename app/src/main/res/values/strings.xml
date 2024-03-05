@@ -68,4 +68,9 @@
     <string name="gallery_alert_message">선택 사항이 저장 되지 않습니다.</string>
     <string name="gallery_alert_continue">계속</string>
     <string name="gallery_alert_cancel">뒤로 가기</string>
+    <string name="detail_info_title">상세정보</string>
+    <string name="more">more</string>
+    <string name="viewCount">조회수</string>
+
+    <string name="link_copy">링크가 복사되었습니다.</string>
 </resources>

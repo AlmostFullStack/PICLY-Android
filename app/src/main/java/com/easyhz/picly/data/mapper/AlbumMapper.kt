@@ -9,8 +9,13 @@ fun List<Album>.toAlbumItem(): List<AlbumItem> =  this.map {
     AlbumItem(
         regDate = it.creationTime.toDateFormat(),
         expireDate = it.expireTime.toDay(),
-        tag = it.tags[0],
+        imageCount = it.imageCount,
+        imageSize = it.imageSizes,
+        imageUrls = it.imageUrls,
+        tags = it.tags.drop(1),
         thumbnailUrl = it.thumbnailUrl,
-        imageCount = it.imageCount
+        viewCount = it.viewCount,
+        mainTag = it.tags[0],
+        documentId = it.documentId
     )
 }

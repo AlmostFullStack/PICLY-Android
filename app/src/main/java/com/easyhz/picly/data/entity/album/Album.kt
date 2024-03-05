@@ -1,6 +1,7 @@
 package com.easyhz.picly.data.entity.album
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
 
 data class Album(
@@ -24,5 +25,7 @@ data class Album(
     @set:PropertyName("thumbnailURL")
     var thumbnailUrl: String = "",
     @PropertyName("viewCount")
-    val viewCount: Int = 0
+    val viewCount: Int = 0,
+    @DocumentId
+    val documentId: String = ""
 )

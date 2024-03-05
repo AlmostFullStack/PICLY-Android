@@ -27,6 +27,15 @@ fun Timestamp.toDay(): Double {
 
 fun Double.toDay(): Int = (this / 60 / 24).roundToInt()
 
+fun Double.toDetailDay(): String = if(this <= 0) {
+    "만료"
+} else {
+    val days = this / (60 * 24)
+    val hours = (this % (60 * 24)) / 60
+    val minutes = (this % 60)
+    "${days.toInt()}일 ${hours.toInt()}시간 ${minutes.toInt()}분 후 만료"
+}
+
 fun Exception.unknownErrorCode() : String {
     return AuthError.ERROR_UNKNOWN.name
 }

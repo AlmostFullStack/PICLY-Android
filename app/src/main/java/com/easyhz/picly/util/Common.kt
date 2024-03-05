@@ -15,6 +15,7 @@ const val PATTERN = "yyyy. M. d. h:mm a"
 const val DATE_PATTERN = "yyyy. M. d."
 const val TIME_PATTERN = "HH:m"
 const val TIME_PATTERN_24 = "h:mm a"
+const val PICLY = "PICLY"
 
 fun getScreenWidth(context: Context): Int = context.resources.displayMetrics.widthPixels
 

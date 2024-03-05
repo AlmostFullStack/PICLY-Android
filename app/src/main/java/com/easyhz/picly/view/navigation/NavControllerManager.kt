@@ -3,6 +3,7 @@ package com.easyhz.picly.view.navigation
 import androidx.navigation.NavController
 import com.easyhz.picly.R
 import com.easyhz.picly.data.repository.user.UserManager
+import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.view.MainFragmentDirections
 import com.easyhz.picly.view.album.upload.UploadFragmentDirections
 import com.easyhz.picly.view.user.LoginFragmentDirections
@@ -50,6 +51,11 @@ object NavControllerManager {
 
     fun navigateMainToUpload() {
         val action = MainFragmentDirections.actionMainFragmentToUploadFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
+
+    fun navigateMainToDetail(albumItem: AlbumItem) {
+        val action = MainFragmentDirections.actionMainFragmentToAlbumDetailFragment(albumItem = albumItem)
         navControllerRef?.get()?.navigate(action)
     }
 

@@ -7,6 +7,7 @@
             type="com.easyhz.picly.domain.model.album.AlbumItem" />
     </data>
     <androidx.cardview.widget.CardView
+        android:id="@+id/albumCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="6dp"
@@ -55,11 +56,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
+                    android:id="@+id/linkButton"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_margin="10dp"
                     android:contentDescription="@string/link"
-                    android:rotation="-45"
                     android:src="@drawable/icon_link_24"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -94,7 +95,7 @@
                     android:maxLines="3"
                     android:ellipsize="end"
                     android:textColor="@color/mainText"
-                    app:albumTag="@{data.tag}"
+                    app:albumTag="@{data.mainTag}"
                 />
                 <TextView
                     android:id="@+id/expireDateTextView"

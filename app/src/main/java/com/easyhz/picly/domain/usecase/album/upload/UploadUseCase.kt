@@ -54,7 +54,7 @@ class UploadUseCase
             imageSizes = selectedImageList.getImageSizes(),
             ownerId = ownerId,
             tags = tags,
-            viewCount = 0
+            viewCount = 0,
         )
     }
 }

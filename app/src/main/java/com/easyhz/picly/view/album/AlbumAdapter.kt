@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.easyhz.picly.databinding.ItemAlbumBinding
 import com.easyhz.picly.domain.model.album.AlbumItem
 
-class AlbumAdapter():RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
+class AlbumAdapter(
+    private val onClickLinkButton: (AlbumItem) -> Unit,
+    private val onClickListener: (AlbumItem) -> Unit,
+):RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
 
     inner class AlbumViewHolder(val binding: ItemAlbumBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -32,7 +35,16 @@ class AlbumAdapter():RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
     override fun getItemCount(): Int = differ.currentList.size
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
-        holder.binding.data = differ.currentList[position]
+        val currentItem = differ.currentList[position]
+        holder.binding.apply {
+            data = currentItem
+            albumCardView.setOnClickListener {
+                onClickListener(currentItem)
+            }
+            linkButton.setOnClickListener {
+                onClickLinkButton(currentItem)
+            }
+        }
     }
 
     fun setAlbumList(albumList: List<AlbumItem>) {
