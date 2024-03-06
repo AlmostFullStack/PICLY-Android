@@ -1,6 +1,9 @@
 package com.easyhz.picly.view.album.upload
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentUploadBinding
 import com.easyhz.picly.util.BlueSnackBar
+import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.animateGrow
 import com.easyhz.picly.util.calculatePeriod
 import com.easyhz.picly.util.convertToDateFormat
@@ -32,6 +36,7 @@ import com.easyhz.picly.util.getTime
 import com.easyhz.picly.util.getToday
 import com.easyhz.picly.util.toDateFormat
 import com.easyhz.picly.util.toMs
+import com.easyhz.picly.util.toPICLY
 import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
@@ -177,7 +182,7 @@ class UploadFragment: Fragment() {
             val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
             bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
         } else {
-            showDialog()
+            showGalleryPermissonDialog()
         }
     }
     private fun observeGallerySelectedImageList() {
@@ -279,7 +284,7 @@ class UploadFragment: Fragment() {
                 binding.expireTimeButton.text.toString(),
                 { }
             ) {
-                NavControllerManager.navigateUploadToMain()
+                showUrlDialog(it)
             }
         }
     }
@@ -316,7 +321,7 @@ class UploadFragment: Fragment() {
         }
     }
 
-    private fun showDialog() {
+    private fun showGalleryPermissonDialog() {
         val dialog = EitherDialog.instance(
             title = getString(R.string.dialog_gallery_permission_title),
             message = getString(R.string.dialog_gallery_permission_message),
@@ -328,6 +333,22 @@ class UploadFragment: Fragment() {
             startActivity(intent)
         }.setNegativeButton(getString(R.string.dialog_gallery_permission_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
 
+        }.show(requireActivity().supportFragmentManager)
+    }
+
+    private fun showUrlDialog(url: String) {
+        val dialog = EitherDialog.instance(
+            title = getString(R.string.dialog_upload_title),
+            message = getString(R.string.dialog_upload_message),
+            Orientation.VERTICAL
+        )
+        dialog.setPositiveButton(getString(R.string.dialog_upload_positive), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
+            val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText(PICLY, url)
+            clipboardManager.setPrimaryClip(clipData)
+            NavControllerManager.navigateUploadToMain()
+        }.setNegativeButton(getString(R.string.dialog_upload_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
+            NavControllerManager.navigateUploadToMain()
         }.show(requireActivity().supportFragmentManager)
     }
 }

@@ -84,4 +84,9 @@
     <string name="dialog_gallery_permission_message">파일 및 미디어 접근을 위해 앱 설정에서 권한을 설정해주세요.</string>
     <string name="dialog_gallery_permission_positive">앱 설정</string>
     <string name="dialog_gallery_permission_negative">창 닫기</string>
+
+    <string name="dialog_upload_title">업로드 완료</string>
+    <string name="dialog_upload_message">링크를 복사하시겠습니까?</string>
+    <string name="dialog_upload_positive">링크 복사하고 창 닫기</string>
+    <string name="dialog_upload_negative">창 닫기</string>
 </resources>
