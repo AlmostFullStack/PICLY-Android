@@ -81,12 +81,30 @@ class AlbumRepositoryImpl
         }
     }
 
+    override fun deleteAlbum(id: String): Flow<String> = flow {
+        try {
+            val documentResult = fireStore.collection(ALBUMS)
+                .document(id)
+                .delete()
+                .await()
+            val fileList = storage.reference.child(id).listAll().await()
+            fileList.items.forEach { file ->
+                file.delete().await()
+            }
+            emit(id)
+        } catch (e: Exception) {
+            Log.e(this.javaClass.simpleName,"Error deleting album: ${e.message}")
+            throw e
+        }
+    }
+
     private suspend fun uploadImage(id: String, imageName: String, uri: Uri): String {
         val imageRef = storage.reference.child(id).child(imageName)
         val updateFile = imageRef.putFile(uri).await()
         val result = updateFile.metadata?.reference?.downloadUrl?.await()
         return result.toString()
     }
+
 
     companion object {
         const val THUMBNAIL = "thumbnail.jpeg"

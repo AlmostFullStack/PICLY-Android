@@ -5,6 +5,7 @@ import com.easyhz.picly.R
 import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.view.MainFragmentDirections
+import com.easyhz.picly.view.album.detail.AlbumDetailFragmentDirections
 import com.easyhz.picly.view.album.upload.UploadFragmentDirections
 import com.easyhz.picly.view.user.LoginFragmentDirections
 import com.easyhz.picly.view.user.email.EmailLoginFragmentDirections
@@ -59,8 +60,18 @@ object NavControllerManager {
         navControllerRef?.get()?.navigate(action)
     }
 
+    fun navigateDetailToBottomMenu(url: String) {
+        val action = AlbumDetailFragmentDirections.actionAlbumDetailFragmentToDetailMenuBottomSheet(url)
+        navControllerRef?.get()?.navigate(action)
+    }
+
     fun navigateUploadToMain() {
         val action = UploadFragmentDirections.actionUploadFragmentToMainFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
+
+    fun navigateDetailBottomMenuToMain() {
+        val action = AlbumDetailFragmentDirections.actionAlbumDetailFragmentToMainFragment()
         navControllerRef?.get()?.navigate(action)
     }
 

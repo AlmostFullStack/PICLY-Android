@@ -4,6 +4,7 @@ import com.easyhz.picly.domain.repository.album.AlbumRepository
 import com.easyhz.picly.domain.repository.gallery.GalleryRepository
 import com.easyhz.picly.domain.repository.user.UserRepository
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
+import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import com.easyhz.picly.domain.usecase.album.upload.GalleryUseCase
 import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase
 import com.easyhz.picly.domain.usecase.user.LoginUseCase
@@ -23,6 +24,12 @@ object UseCaseModule {
     fun provideAlbumUseCase(
         albumRepository: AlbumRepository
     ): AlbumUseCase = AlbumUseCase(albumRepository)
+
+    @Provides
+    @Singleton
+    fun provideDeleteAlbumUseCase(
+        albumRepository: AlbumRepository
+    ): DeleteAlbumUseCase = DeleteAlbumUseCase(albumRepository)
 
     @Provides
     @Singleton

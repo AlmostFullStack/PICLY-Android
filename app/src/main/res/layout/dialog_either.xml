@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_shape_bottom_sheet_menu"
+        android:gravity="center"
+        android:minWidth="300dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="50dp"
+            android:textColor="@color/mainText"
+            android:textSize="20sp"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/sf_pro_bold"
+            android:text="@string/alert_delete_title" />
+        <TextView
+            android:id="@+id/messageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/mainText"
+            android:textSize="14sp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/alert_delete_message" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:background="@color/secondText"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:orientation="horizontal"
+        >
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@color/transparent"
+                android:id="@+id/negativeButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/cancel"
+                android:textSize="20sp"
+                android:textColor="@color/highlightBlue"
+            />
+            <View
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:background="@color/secondText"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:background="@color/transparent"
+                android:id="@+id/positiveButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/delete"
+                android:textColor="@color/errorColor"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

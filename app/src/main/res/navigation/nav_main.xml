@@ -26,6 +26,9 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
         />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_detailMenuBottomSheet"
+            app:destination="@id/detailMenuBottomSheet" />
     </fragment>
     <fragment
         android:id="@+id/albumDetailFragment"
@@ -36,6 +39,26 @@
         <argument
             android:name="albumItem"
             app:argType="com.easyhz.picly.domain.model.album.AlbumItem" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_detailMenuBottomSheet"
+            app:destination="@id/detailMenuBottomSheet" />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@+id/mainFragment"
+            app:popUpToInclusive="true"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailMenuBottomSheet"
+        android:name="com.easyhz.picly.view.album.detail.bottom_sheet.DetailMenuBottomSheet"
+        android:label="DetailMenuBottomSheet"
+        tools:layout="@layout/bottom_sheet_detail_menu"
+        >
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"

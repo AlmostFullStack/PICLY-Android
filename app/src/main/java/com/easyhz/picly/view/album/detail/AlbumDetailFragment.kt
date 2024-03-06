@@ -8,16 +8,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyhz.picly.R
-import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.databinding.FragmentAlbumDetailBinding
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.toPICLY
+import com.easyhz.picly.view.album.detail.bottom_sheet.DetailMenuBottomSheet
 import com.easyhz.picly.view.navigation.NavControllerManager
 
 
@@ -48,6 +47,7 @@ class AlbumDetailFragment : Fragment() {
         setImageRecyclerView()
         onClickBackButton()
         onClickLinkButton()
+        onClickMoreButton()
     }
 
     private fun setAlbumInfo() {
@@ -83,6 +83,16 @@ class AlbumDetailFragment : Fragment() {
             val clipData = ClipData.newPlainText(PICLY, args.albumItem.documentId.toPICLY())
             clipboardManager.setPrimaryClip(clipData)
             BlueSnackBar.make(binding.root, getString(R.string.link_copy)).show()
+        }
+    }
+
+    private fun onClickMoreButton() {
+        binding.toolbar.moreButton.setOnClickListener {
+            val bottomSheetFragment = DetailMenuBottomSheet.getInstance()
+            val bundle = Bundle()
+            bundle.putString("documentId", args.albumItem.documentId)
+            bottomSheetFragment.arguments = bundle
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
         }
     }
 

@@ -1,5 +1,7 @@
 package com.easyhz.picly.view.album.upload
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -9,12 +11,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentUploadBinding
+import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.animateGrow
 import com.easyhz.picly.util.calculatePeriod
 import com.easyhz.picly.util.convertToDateFormat
@@ -42,6 +46,10 @@ class UploadFragment: Fragment() {
     private lateinit var uploadImageAdapter: UploadImageAdapter
     private var isShowCalendar: Boolean = false
     private var isShowTimePicker: Boolean = false
+    private var isGranted: Boolean = false
+    private val cameraPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        this.isGranted = isGranted
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -50,6 +58,7 @@ class UploadFragment: Fragment() {
         binding = FragmentUploadBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[UploadViewModel::class.java]
         galleryViewModel = ViewModelProvider(requireActivity())[GalleryBottomSheetViewModel::class.java]
+        initViews()
         return binding.root
     }
 
@@ -76,7 +85,7 @@ class UploadFragment: Fragment() {
         setPeriod()
         onClickExpireDateButton()
         onClickExpireTimeButton()
-        onClickRelativeLayout()
+        onClickBackground()
         onClickUploadButton()
         onClickBackButton()
     }
@@ -155,8 +164,13 @@ class UploadFragment: Fragment() {
     }
 
     private fun onClickAddImage() {
-        val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
-        bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+        if (isGranted) {
+            val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
+            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+        } else {
+            println("여기여긱여기")
+            BlueSnackBar.make(binding.root, "권한이 필요합니다.")
+        }
     }
     private fun observeGallerySelectedImageList() {
         galleryViewModel.selectedImageList.observe(viewLifecycleOwner) {
@@ -238,7 +252,7 @@ class UploadFragment: Fragment() {
         button.setTextColor(ContextCompat.getColor(requireContext(), if (isShow) R.color.highlightBlue else R.color.mainText))
     }
 
-    private fun onClickRelativeLayout() {
+    private fun onClickBackground() {
         binding.relativeLayout.setOnClickListener {
             setDoNotShowCalendarView()
             setDoNotShowTimePicker()
@@ -247,6 +261,10 @@ class UploadFragment: Fragment() {
 
     private fun onClickUploadButton() {
         binding.toolbar.uploadTextView.setOnClickListener {
+            if (galleryViewModel.selectedImageList.value?.isEmpty() == true) {
+                BlueSnackBar.make(binding.root, getString(R.string.no_select_image)).show()
+                return@setOnClickListener
+            }
             viewModel.writeAlbums(
                 galleryViewModel.selectedImageList.value.orEmpty(),
                 binding.expireDateButton.text.toString(),
@@ -276,6 +294,17 @@ class UploadFragment: Fragment() {
             isShowTimePicker = false
             manageTimePicker()
             setButtonTextColor(binding.expireTimeButton, isShowTimePicker)
+        }
+    }
+    private fun initViews() = with(binding) {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            isGranted = true
+        } else {
+            cameraPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
     }
 }

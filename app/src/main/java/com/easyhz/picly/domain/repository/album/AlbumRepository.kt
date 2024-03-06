@@ -14,4 +14,6 @@ interface AlbumRepository {
     fun updateAlbums(id: String, album: Album) : Flow<String>
 
     fun writeAlbumImages(id: String, imageUris: List<Uri>): Flow<ImageUrl>
+
+    fun deleteAlbum(id: String): Flow<String>
 }
