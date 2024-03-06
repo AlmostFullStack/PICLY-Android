@@ -27,4 +27,5 @@
         android:label="UploadFragment"
         tools:layout="@layout/fragment_upload"
         />
+
 </navigation>

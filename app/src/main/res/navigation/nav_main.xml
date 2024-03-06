@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action_albumDetailFragment_to_detailMenuBottomSheet"
             app:destination="@id/detailMenuBottomSheet" />
+        <action
+            android:id="@+id/action_mainFragment_to_onboardingFragment"
+            app:destination="@id/onboardingFragment" />
     </fragment>
     <fragment
         android:id="@+id/albumDetailFragment"
@@ -133,5 +136,18 @@
         android:name="com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment"
         android:label="GalleryBottomSheetFragment"
         tools:layout="@layout/gallery_bottom_sheet"
+        />
+
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.easyhz.picly.view.onboarding.OnboardingFragment"
+        android:label="OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding"
+        />
+    <fragment
+        android:id="@+id/onboardingDetailFragment"
+        android:name="com.easyhz.picly.view.onboarding.OnboardingDetailFragment"
+        android:label="OnboardingDetailFragment"
+        tools:layout="@layout/fragment_onboarding_detail"
         />
 </navigation>

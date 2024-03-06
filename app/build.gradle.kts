@@ -84,4 +84,7 @@ dependencies {
     // Paging Source
     implementation(libs.paging.runtime.ktx)
 
+    // Pager2
+    implementation(libs.viewpager2)
+
 }

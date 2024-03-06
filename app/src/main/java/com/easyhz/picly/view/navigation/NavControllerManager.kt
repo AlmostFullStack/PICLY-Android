@@ -75,6 +75,11 @@ object NavControllerManager {
         navControllerRef?.get()?.navigate(action)
     }
 
+    fun navigateSettingToOnboarding() {
+        val action = MainFragmentDirections.actionMainFragmentToOnboardingFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
+
     fun getNavController(): NavController {
         return checkNotNull(navControllerRef?.get()) { "NavController is not initialized" }
     }

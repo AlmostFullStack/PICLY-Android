@@ -89,4 +89,39 @@
     <string name="dialog_upload_message">링크를 복사하시겠습니까?</string>
     <string name="dialog_upload_positive">링크 복사하고 창 닫기</string>
     <string name="dialog_upload_negative">창 닫기</string>
+
+    <string name="setting_account">계정 관리</string>
+    <string name="setting_tutorial">튜토리얼 보기</string>
+    <string name="setting_terms_of_service">이용약관</string>
+    <string name="setting_privacy_policy">개인정보 처리방침</string>
+    <string name="setting_opensource_license">오픈소스 라이센스</string>
+    <string name="setting_developer">개발자 정보</string>
+    <string name="setting_version">버전</string>
+
+    <string name="onboarding_skip"><u>건너뛰기</u></string>
+    <string name="onboarding">onboarding</string>
+    <string name="onboarding_title_share">손쉬운 익명 사진 공유</string>
+    <string name="onboarding_message_share">
+        PICLY는 사진을 빠르고 안전하게 공유하는
+        \n새로운 방법입니다.
+        \n익명으로 사진을 업로드하고,
+        \n링크를 통해 손쉽게 공유하세요.
+    </string>
+    <string name="onboarding_title_anonymity">보장되는 익명성</string>
+    <string name="onboarding_message_anonymity">
+        공유된 링크를 통해 앨범에 접속한 사용자는
+        \n작성자의 정보를 확인할 수 없습니다.\n
+        \n나를 밝히지 않고 사진을 전달하고 싶다면,
+        \nPICLY가 최적의 선택지입니다.
+    </string>
+    <string name="onboarding_title_expired_album">자동으로 만료되는 앨범</string>
+    <string name="expired_album">
+        앨범을 게시할 때는 만료시간을 설정하세요.\n
+        \n만료시간 이후에 링크는 자동으로 만료되며,
+        \n본인만 앨범을 확인할 수 있습니다.\n
+        \n이제는 더욱 편하게 앨범을 관리하세요.
+    </string>
+    <string name="onboarding_button_next">다음</string>
+    <string name="onboarding_button_start">시작하기</string>
+
 </resources>
