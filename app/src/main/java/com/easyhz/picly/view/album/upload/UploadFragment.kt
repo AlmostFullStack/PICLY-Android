@@ -1,8 +1,11 @@
 package com.easyhz.picly.view.album.upload
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -37,6 +40,7 @@ import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class UploadFragment: Fragment() {
     private lateinit var binding: FragmentUploadBinding
@@ -47,7 +51,7 @@ class UploadFragment: Fragment() {
     private var isShowCalendar: Boolean = false
     private var isShowTimePicker: Boolean = false
     private var isGranted: Boolean = false
-    private val cameraPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+    private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         this.isGranted = isGranted
     }
     override fun onCreateView(
@@ -168,8 +172,10 @@ class UploadFragment: Fragment() {
             val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
             bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
         } else {
-            println("여기여긱여기")
-            BlueSnackBar.make(binding.root, "권한이 필요합니다.")
+
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.parse("package:" + requireActivity().packageName)
+            startActivity(intent)
         }
     }
     private fun observeGallerySelectedImageList() {
@@ -304,7 +310,7 @@ class UploadFragment: Fragment() {
         ) {
             isGranted = true
         } else {
-            cameraPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
     }
 }

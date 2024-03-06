@@ -11,6 +11,7 @@ import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BottomSheetDetailMenuBinding
 import com.easyhz.picly.util.toPICLY
 import com.easyhz.picly.view.custom.EitherDialog
+import com.easyhz.picly.view.custom.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -76,15 +77,15 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
             val dialog = EitherDialog.instance(
                 title = getString(R.string.alert_delete_title),
                 message = getString(R.string.alert_delete_message),
+                Orientation.HORIZONTAL
             )
-            dialog.setPositiveButton(getString(R.string.delete) ) {
+            dialog.setPositiveButton(getString(R.string.delete)) {
                 viewModel.deleteAlbum(documentId, { }) {
                     NavControllerManager.navigateDetailBottomMenuToMain()
                 }
             }.setNegativeButton(getString(R.string.cancel)) {
 
             }.show(requireActivity().supportFragmentManager, dialog.tag)
-
 
         }
     }
