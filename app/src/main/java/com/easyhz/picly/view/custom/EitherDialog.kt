@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.DialogEitherBinding
 import com.easyhz.picly.util.toPx
@@ -16,12 +17,17 @@ class EitherDialog private constructor(
     private val orientationType: Orientation
 ) : DialogFragment() {
     private var binding: DialogEitherBinding? = null
+    private var mPositiveButtonText: String = ""
+    private var mPositiveButtonColor: Int? = null
     private var positiveButtonClickAction: (() -> Unit)? = null
+
+    private var mNegativeButtonColor: Int? = null
+    private var mNegativeButtonText: String = ""
     private var negativeButtonClickAction: (() -> Unit)? = null
 
     companion object {
-        fun instance(title: String, message: String, orientation: Orientation): EitherDialog {
-            return EitherDialog(title, message, orientation)
+        fun instance(title: String, message: String, orientation: Orientation): EitherDialogBuilder {
+            return EitherDialogBuilder(title, message, orientation)
         }
     }
 
@@ -36,12 +42,23 @@ class EitherDialog private constructor(
         binding?.apply {
             titleTextView.text = title
             messageTextView.text = message
-            positiveButton.text = getString(R.string.delete)
-            negativeButton.text = getString(R.string.cancel)
-        }
 
-        binding?.positiveButton?.let { setButtonClickListener(it, positiveButtonClickAction) }
-        binding?.negativeButton?.let { setButtonClickListener(it, negativeButtonClickAction) }
+            positiveButton.apply {
+                text = mPositiveButtonText
+                mPositiveButtonColor?.let {
+                    setTextColor(it)
+                }
+                setButtonClickListener(this, positiveButtonClickAction)
+            }
+
+            negativeButton.apply {
+                text = mNegativeButtonText
+                mNegativeButtonColor?.let {
+                    setTextColor(it)
+                }
+                setButtonClickListener(this, negativeButtonClickAction)
+            }
+        }
 
         return binding?.root
     }
@@ -51,32 +68,6 @@ class EitherDialog private constructor(
             onClick?.invoke()
             dismiss()
         }
-    }
-
-    fun setPositiveButton(
-        positiveButtonText: String,
-        color: Int? = null,
-        onClick: () -> Unit
-    ): EitherDialog {
-        this.positiveButtonClickAction = onClick
-        binding?.positiveButton?.text = positiveButtonText
-        color?.let { c ->
-            binding?.positiveButton?.setTextColor(c)
-        }
-        return this
-    }
-
-    fun setNegativeButton(
-        negativeButtonText: String,
-        color: Int? = null,
-        onClick: () -> Unit
-    ): EitherDialog {
-        this.negativeButtonClickAction = onClick
-        binding?.negativeButton?.text = negativeButtonText
-        color?.let { c ->
-            binding?.negativeButton?.setTextColor(c)
-        }
-        return this
     }
 
     private fun setDirection() {
@@ -101,6 +92,58 @@ class EitherDialog private constructor(
         this.removeAllViews()
         for (view in views) {
             this.addView(view)
+        }
+    }
+
+    class EitherDialogBuilder(
+        private val title: String,
+        private val message: String,
+        private val orientationType: Orientation
+    ) {
+        private var positiveButtonText: String = ""
+        private var positiveButtonColor: Int? = null
+        private var positiveButtonAction: (() -> Unit)? = null
+
+        private var negativeButtonText: String = ""
+        private var negativeButtonColor: Int? = null
+        private var negativeButtonAction: (() -> Unit)? = null
+
+        fun setPositiveButton(
+            text: String,
+            color: Int? = null,
+            onClick: () -> Unit
+        ): EitherDialogBuilder {
+            positiveButtonText = text
+            positiveButtonColor = color
+            positiveButtonAction = onClick
+            return this
+        }
+
+        fun setNegativeButton(
+            text: String,
+            color: Int? = null,
+            onClick: () -> Unit
+        ): EitherDialogBuilder {
+            negativeButtonText = text
+            negativeButtonColor = color
+            negativeButtonAction = onClick
+            return this
+        }
+
+        fun show(fragmentManager: FragmentManager): EitherDialog {
+            val dialog = EitherDialog(title, message, orientationType)
+            dialog.apply {
+                mPositiveButtonText = positiveButtonText
+                mPositiveButtonColor = positiveButtonColor
+                positiveButtonClickAction = positiveButtonAction
+
+                mNegativeButtonText = negativeButtonText
+                mNegativeButtonColor = negativeButtonColor
+                negativeButtonClickAction = negativeButtonAction
+            }
+
+            dialog.show(fragmentManager, dialog.tag)
+            return dialog
         }
     }
 }

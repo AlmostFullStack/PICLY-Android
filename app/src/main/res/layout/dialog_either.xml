@@ -18,7 +18,7 @@
             android:textSize="20sp"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/sf_pro_bold"
-            android:text="@string/alert_delete_title" />
+            android:text="@string/dialog_delete_title" />
         <TextView
             android:id="@+id/messageTextView"
             android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:textColor="@color/mainText"
             android:textSize="14sp"
             android:layout_marginBottom="20dp"
-            android:text="@string/alert_delete_message" />
+            android:text="@string/dialog_delete_message" />
 
         <View
             android:layout_width="match_parent"

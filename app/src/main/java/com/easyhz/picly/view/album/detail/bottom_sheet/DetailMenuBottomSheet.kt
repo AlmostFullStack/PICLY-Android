@@ -75,8 +75,8 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
         binding.deleteButton.setOnClickListener {
             dismiss()
             val dialog = EitherDialog.instance(
-                title = getString(R.string.alert_delete_title),
-                message = getString(R.string.alert_delete_message),
+                title = getString(R.string.dialog_delete_title),
+                message = getString(R.string.dialog_delete_message),
                 Orientation.HORIZONTAL
             )
             dialog.setPositiveButton(getString(R.string.delete)) {
@@ -85,7 +85,7 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
                 }
             }.setNegativeButton(getString(R.string.cancel)) {
 
-            }.show(requireActivity().supportFragmentManager, dialog.tag)
+            }.show(requireActivity().supportFragmentManager)
 
         }
     }

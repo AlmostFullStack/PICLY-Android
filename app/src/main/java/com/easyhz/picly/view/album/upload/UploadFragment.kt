@@ -36,6 +36,8 @@ import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetViewModel
+import com.easyhz.picly.view.custom.EitherDialog
+import com.easyhz.picly.view.custom.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -168,14 +170,14 @@ class UploadFragment: Fragment() {
     }
 
     private fun onClickAddImage() {
-        if (isGranted) {
+        if (isGranted || ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED) {
             val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
             bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
         } else {
-
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:" + requireActivity().packageName)
-            startActivity(intent)
+            showDialog()
         }
     }
     private fun observeGallerySelectedImageList() {
@@ -312,5 +314,20 @@ class UploadFragment: Fragment() {
         } else {
             galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
+    }
+
+    private fun showDialog() {
+        val dialog = EitherDialog.instance(
+            title = getString(R.string.dialog_gallery_permission_title),
+            message = getString(R.string.dialog_gallery_permission_message),
+            Orientation.VERTICAL
+        )
+        dialog.setPositiveButton(getString(R.string.dialog_gallery_permission_positive), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            intent.data = Uri.parse("package:" + requireActivity().packageName)
+            startActivity(intent)
+        }.setNegativeButton(getString(R.string.dialog_gallery_permission_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
+
+        }.show(requireActivity().supportFragmentManager)
     }
 }
