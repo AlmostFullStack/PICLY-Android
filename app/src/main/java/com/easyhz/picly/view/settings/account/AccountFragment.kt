@@ -40,6 +40,7 @@ class AccountFragment: Fragment() {
         observeUserInfo()
         onClickLogout()
         onClickDeleteUser()
+        onClickBackButton()
     }
 
     private fun fetchUserInfo() {
@@ -85,6 +86,12 @@ class AccountFragment: Fragment() {
             }.setNegativeButton(getString(R.string.cancel), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
 
             }.show(requireActivity().supportFragmentManager)
+        }
+    }
+
+    private fun onClickBackButton() {
+        binding.toolbar.backButton.setOnClickListener {
+            NavControllerManager.navigateToBack()
         }
     }
 }
