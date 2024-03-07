@@ -359,9 +359,9 @@ class UploadFragment: Fragment() {
             val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(PICLY, url)
             clipboardManager.setPrimaryClip(clipData)
-            NavControllerManager.navigateUploadToMain()
+            NavControllerManager.navigateToBack()
         }.setNegativeButton(getString(R.string.dialog_upload_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
-            NavControllerManager.navigateUploadToMain()
+            NavControllerManager.navigateToBack()
         }.show(requireActivity().supportFragmentManager)
     }
 }

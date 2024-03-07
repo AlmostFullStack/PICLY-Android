@@ -11,24 +11,35 @@
     >
 
         <include android:id="@+id/toolbar" layout="@layout/toolbar_detail" />
-        <include
-            layout="@layout/field_detail_info"
-            android:id="@+id/detailInfoField"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/imageRecyclerView"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="16dp"
-            tools:listitem="@layout/item_detail_image"
             android:overScrollMode="never"
-        />
+            android:fillViewport="true">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+            >
+                <include
+                    layout="@layout/field_detail_info"
+                    android:id="@+id/detailInfoField"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                />
 
-
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imageRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="16dp"
+                    tools:listitem="@layout/item_detail_image"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </layout>
