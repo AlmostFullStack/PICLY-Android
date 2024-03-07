@@ -87,4 +87,7 @@ dependencies {
     // Pager2
     implementation(libs.viewpager2)
 
+    // Lottie
+    implementation(libs.lottie)
+
 }

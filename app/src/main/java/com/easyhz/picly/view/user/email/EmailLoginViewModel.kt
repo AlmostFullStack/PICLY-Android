@@ -1,7 +1,5 @@
 package com.easyhz.picly.view.user.email
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.firebase.AuthError
@@ -16,12 +14,12 @@ class EmailLoginViewModel
 @Inject constructor(
     private val loginUseCase: LoginUseCase,
 ): ViewModel() {
-    val _onErrorEvent = MutableLiveData<String>()
-    val onErrorEvent: LiveData<String>
-        get() = _onErrorEvent
 
-    fun login(email: String, password: String, onSuccess: () -> Unit) = viewModelScope.launch {
-        if (isEmptyEmailAndPassword(email, password)) return@launch
+    fun login(email: String, password: String, onSuccess: () -> Unit, onError: (String) -> Unit) = viewModelScope.launch {
+        isEmptyEmailAndPassword(email, password)?.let {
+            onError(it)
+            return@launch
+        }
         loginUseCase.login(
             UserForm(email, password),
             onSuccess = { onSuccess() }
@@ -32,25 +30,10 @@ class EmailLoginViewModel
         }
     }
 
-    fun setOnErrorEvent() {
-        _onErrorEvent.postValue("")
-    }
-
-    private fun isEmptyEmailAndPassword(email: String, password: String): Boolean {
-        return when {
-            email.isEmpty() -> {
-                onError(AuthError.ERROR_EMAIL_EMPTY.name)
-                true
-            }
-            password.isEmpty() -> {
-                onError(AuthError.ERROR_PASSWORD_EMPTY.name)
-                true
-            }
-            else -> false
-        }
-    }
-    private fun onError(errorId: String) {
-        _onErrorEvent.postValue(errorId)
+    private fun isEmptyEmailAndPassword(email: String, password: String): String? = when {
+        email.isEmpty() -> AuthError.ERROR_EMAIL_EMPTY.name
+        password.isEmpty() -> AuthError.ERROR_PASSWORD_EMPTY.name
+        else -> null
     }
 
 }

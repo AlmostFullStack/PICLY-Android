@@ -12,6 +12,7 @@ glide = "4.12.0"
 google-services = "4.4.1"
 hilt = "2.48"
 junit = "4.13.2"
+lottie = "3.2.0"
 material = "1.11.0"
 kotlin = "1.9.10"
 navigation-fragment-ktx = "2.7.7"
@@ -40,6 +41,7 @@ google-services = { module = "com.google.gms:google-services", version.ref = "go
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 junit = { module = "junit:junit", version.ref = "junit" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
 navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle-plugin" }

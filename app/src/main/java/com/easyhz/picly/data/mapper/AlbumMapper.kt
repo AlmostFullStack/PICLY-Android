@@ -15,7 +15,7 @@ fun List<Album>.toAlbumItem(): List<AlbumItem> =  this.map {
         tags = it.tags.drop(1),
         thumbnailUrl = it.thumbnailUrl,
         viewCount = it.viewCount,
-        mainTag = it.tags[0],
+        mainTag = if (it.tags.isEmpty()) "" else it.tags[0],
         documentId = it.documentId
     )
 }

@@ -13,11 +13,13 @@ import com.easyhz.picly.databinding.FragmentEmailLoginBinding
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
 import com.easyhz.picly.util.user.setPasswordField
+import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.navigation.NavControllerManager
 
 class EmailLoginFragment :Fragment() {
     private lateinit var binding: FragmentEmailLoginBinding
     private lateinit var viewModel: EmailLoginViewModel
+    private lateinit var  loading: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,32 +28,18 @@ class EmailLoginFragment :Fragment() {
     ): View {
         binding = FragmentEmailLoginBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[EmailLoginViewModel::class.java]
-
+        loading = LoadingDialog(requireActivity())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observeErrorEvent()
         setToolbar()
         setEmailField(requireContext(), binding.userField)
         setPasswordField(requireContext(), binding.userField)
         setButton()
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        initOnErrorEvent()
-        viewModel.onErrorEvent.removeObservers(viewLifecycleOwner)
-    }
 
-
-    private fun observeErrorEvent() {
-        viewModel.onErrorEvent.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                BlueSnackBar.make(binding.root, getString(AuthError.valueOf(it).messageId)).show()
-            }
-        }
-    }
 
     private fun setToolbar() {
         binding.toolbar.apply {
@@ -75,18 +63,26 @@ class EmailLoginFragment :Fragment() {
         binding.loginButton.button.apply {
             text = getString(R.string.login_title)
             setOnClickListener {
+                loading.show(true)
+                val email = binding.userField.emailField.editText.text.toString()
+                val password = binding.userField.passwordField.editText.text.toString()
                 viewModel.login(
-                    binding.userField.emailField.editText.text.toString(),
-                    binding.userField.passwordField.editText.text.toString()
+                    email, password, { onSuccess() }
                 ) {
-                    NavControllerManager.navigateEmailLoginToAlbum()
+                    onError(it)
                 }
             }
         }
     }
 
-    private fun initOnErrorEvent() {
-        viewModel.setOnErrorEvent()
+    private fun onSuccess() {
+        NavControllerManager.navigateEmailLoginToAlbum()
+        loading.show(false)
+    }
+
+    private fun onError(message: String) {
+        BlueSnackBar.make(binding.root, getString(AuthError.valueOf(message).messageId)).show()
+        loading.show(false)
     }
 
 }

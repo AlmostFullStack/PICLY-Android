@@ -8,6 +8,7 @@
     <color name="iconColor">#FFD0D0D0</color>
     <color name="mainBackground">#FF2C2C35</color>
     <color name="collectionViewCellBackground">#FF383843</color>
+    <color name="collectionViewCellBackground50">#B3383843</color>
     <color name="floatButtonBackground">#FF62626D</color>
     <color name="highlightBlue">#FF83B4F9</color>
     <color name="textFieldBackground">#FF1C1C1E</color>

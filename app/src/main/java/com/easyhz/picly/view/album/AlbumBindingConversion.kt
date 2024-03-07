@@ -26,7 +26,7 @@ object AlbumBindingConversion {
     @JvmStatic
     @BindingAdapter("albumTag")
     fun setTags(view: TextView, tag: String) {
-       view.text = HASH_TAG.plus(tag)
+        if (tag.isNotBlank()) view.text = HASH_TAG.plus(tag)
     }
 
     @JvmStatic
