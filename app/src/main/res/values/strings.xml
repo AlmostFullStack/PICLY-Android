@@ -115,7 +115,7 @@
         \nPICLY가 최적의 선택지입니다.
     </string>
     <string name="onboarding_title_expired_album">자동으로 만료되는 앨범</string>
-    <string name="expired_album">
+    <string name="onboarding_expired_album">
         앨범을 게시할 때는 만료시간을 설정하세요.\n
         \n만료시간 이후에 링크는 자동으로 만료되며,
         \n본인만 앨범을 확인할 수 있습니다.\n
@@ -124,4 +124,15 @@
     <string name="onboarding_button_next">다음</string>
     <string name="onboarding_button_start">시작하기</string>
 
+    <string name="account_title">계정 관리</string>
+    <string name="account_logout">로그아웃</string>
+    <string name="account_delete">회원탈퇴</string>
+    <string name="account_email">이메일</string>
+    <string name="account_creation_time">가입일</string>
+    <string name="account_login_info">로그인 정보</string>
+    <string name="dialog_logout_title">로그아웃</string>
+    <string name="dialog_logout_message">로그아웃하시겠습니까?</string>
+    <string name="dialog_delete_user_title">재인증</string>
+    <string name="dialog_delete_user_message">계정 탈퇴를 위해서는 재인증이 필요합니다.\n재인증하시겠습니까?</string>
+    <string name="recertification">재인증</string>
 </resources>

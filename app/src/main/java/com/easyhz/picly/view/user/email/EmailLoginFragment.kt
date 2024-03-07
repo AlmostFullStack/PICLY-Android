@@ -36,7 +36,6 @@ class EmailLoginFragment :Fragment() {
         setToolbar()
         setEmailField(requireContext(), binding.userField)
         setPasswordField(requireContext(), binding.userField)
-        observeSuccessEvent()
         setButton()
     }
     override fun onDestroyView() {
@@ -45,11 +44,7 @@ class EmailLoginFragment :Fragment() {
         viewModel.onErrorEvent.removeObservers(viewLifecycleOwner)
     }
 
-    private fun observeSuccessEvent() {
-        viewModel.onSuccessEvent.observe(viewLifecycleOwner) {
-            NavControllerManager.navigateEmailLoginToAlbum()
-        }
-    }
+
     private fun observeErrorEvent() {
         viewModel.onErrorEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -83,7 +78,9 @@ class EmailLoginFragment :Fragment() {
                 viewModel.login(
                     binding.userField.emailField.editText.text.toString(),
                     binding.userField.passwordField.editText.text.toString()
-                )
+                ) {
+                    NavControllerManager.navigateEmailLoginToAlbum()
+                }
             }
         }
     }

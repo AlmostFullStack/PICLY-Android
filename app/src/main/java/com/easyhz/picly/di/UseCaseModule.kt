@@ -7,6 +7,7 @@ import com.easyhz.picly.domain.usecase.album.AlbumUseCase
 import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import com.easyhz.picly.domain.usecase.album.upload.GalleryUseCase
 import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase
+import com.easyhz.picly.domain.usecase.settings.AccountUseCase
 import com.easyhz.picly.domain.usecase.user.LoginUseCase
 import com.easyhz.picly.domain.usecase.user.SignUpUseCase
 import dagger.Module
@@ -54,4 +55,10 @@ object UseCaseModule {
     fun provideUploadUseCase(
         albumRepository: AlbumRepository
     ): UploadUseCase = UploadUseCase(albumRepository)
+
+    @Provides
+    @Singleton
+    fun provideAccountUseCase(
+        userRepository: UserRepository
+    ): AccountUseCase = AccountUseCase(userRepository)
 }

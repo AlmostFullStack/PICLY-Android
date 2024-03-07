@@ -47,15 +47,16 @@ class MainFragment:Fragment() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.page_album -> setToolbarTitle(R.string.app_title, R.font.bayon)
-                R.id.page_settings -> setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold)
+                R.id.page_settings -> setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold, 22F)
             }
         }
     }
 
-    private fun setToolbarTitle(titleResId: Int, fontResId: Int) {
+    private fun setToolbarTitle(titleResId: Int, fontResId: Int, fontSize: Float = 36F) {
         binding.toolbar.toolbarTitle.apply {
             text = getString(titleResId)
             typeface = resources.getFont(fontResId)
+            textSize = fontSize
         }
     }
 

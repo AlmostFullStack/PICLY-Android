@@ -16,15 +16,13 @@ class SignUpViewModel
 @Inject constructor(
     private val signUpUseCase: SignUpUseCase
 ): ViewModel() {
-    private val _onSuccessEvent = MutableLiveData<Unit>()
-    val onSuccessEvent: LiveData<Unit>
-        get() = _onSuccessEvent
+
 
     private val _onErrorEvent = MutableLiveData<String>()
     val onErrorEvent: LiveData<String>
         get() = _onErrorEvent
 
-    fun signUp(email: String, password: String) = viewModelScope.launch {
+    fun signUp(email: String, password: String, onSuccess: () -> Unit) = viewModelScope.launch {
         if (isEmptyEmailAndPassword(email, password)) return@launch
         signUpUseCase.signUp(
             UserForm(email, password),
@@ -34,10 +32,6 @@ class SignUpViewModel
                 onError(it)
             }
         }
-    }
-
-    private fun onSuccess() {
-        _onSuccessEvent.postValue(Unit)
     }
 
     private fun onError(errorId: String) {

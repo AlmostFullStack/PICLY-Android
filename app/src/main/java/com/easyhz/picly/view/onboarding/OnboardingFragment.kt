@@ -95,7 +95,7 @@ enum class OnboardingFragmentPage(
         image = R.drawable.image_onboarding_anonymity
     ), EXPIRED_ALBUM(
         title = R.string.onboarding_title_expired_album,
-        message = R.string.expired_album,
+        message = R.string.onboarding_expired_album,
         image = R.drawable.image_onboarding_expired_album
     )
 }

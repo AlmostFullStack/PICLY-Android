@@ -31,11 +31,11 @@ fun Int.toPx(context: Context): Int {
 /**
  *  firebase TimeStamp 를 page_album 의 item_album regDate에 들어갈 DateFormat으로 바꾸는 확장 함수
  *
- *  @return string : yyyy.MM.dd HH:mm 형식의 날짜
+ *  @return string : pattern(ex: yyyy.MM.dd HH:mm) 형식의 날짜
  */
-fun Timestamp.toDateFormat(): String =
+fun Timestamp.toDateFormat(pattern: String = "yyyy.MM.dd HH:mm"): String =
     LocalDateTime.ofInstant(this.toDate().toInstant(), ZoneId.systemDefault())
-        .format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm", Locale.getDefault()))
+        .format(DateTimeFormatter.ofPattern(pattern, Locale.getDefault()))
 
 /**
  *  firebase TimeStamp 와 현재의 차이를 분으로 계산하는 확장 함수

@@ -1,8 +1,6 @@
 package com.easyhz.picly.helper
 
 import android.app.Application
-import android.content.Intent
-import com.easyhz.picly.MainActivity
 import com.easyhz.picly.data.repository.user.UserManager
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp

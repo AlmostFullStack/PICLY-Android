@@ -16,15 +16,11 @@ class EmailLoginViewModel
 @Inject constructor(
     private val loginUseCase: LoginUseCase,
 ): ViewModel() {
-    val _onSuccessEvent = MutableLiveData<Unit>()
-    val onSuccessEvent: LiveData<Unit>
-        get() = _onSuccessEvent
-
     val _onErrorEvent = MutableLiveData<String>()
     val onErrorEvent: LiveData<String>
         get() = _onErrorEvent
 
-    fun login(email: String, password: String) = viewModelScope.launch {
+    fun login(email: String, password: String, onSuccess: () -> Unit) = viewModelScope.launch {
         if (isEmptyEmailAndPassword(email, password)) return@launch
         loginUseCase.login(
             UserForm(email, password),
@@ -53,11 +49,6 @@ class EmailLoginViewModel
             else -> false
         }
     }
-
-    private fun onSuccess() {
-        _onSuccessEvent.postValue(Unit)
-    }
-
     private fun onError(errorId: String) {
         _onErrorEvent.postValue(errorId)
     }

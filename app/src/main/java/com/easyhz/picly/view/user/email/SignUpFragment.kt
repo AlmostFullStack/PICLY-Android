@@ -52,12 +52,6 @@ class SignUpFragment :Fragment() {
         viewModel.setOnErrorEvent()
     }
 
-    private fun observeSuccessEvent() {
-        viewModel.onSuccessEvent.observe(viewLifecycleOwner) {
-
-        }
-    }
-
     private fun observeErrorEvent() {
         viewModel.onErrorEvent.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
@@ -85,7 +79,9 @@ class SignUpFragment :Fragment() {
                 viewModel.signUp(
                     binding.userField.emailField.editText.text.toString(),
                     binding.userField.passwordField.editText.text.toString()
-                )
+                ) {
+                    NavControllerManager.navigateEmailSignUpToSignUp()
+                }
             }
         }
     }

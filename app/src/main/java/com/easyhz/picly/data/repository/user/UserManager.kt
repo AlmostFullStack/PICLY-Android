@@ -23,4 +23,7 @@ object UserManager {
 
     suspend fun signUp(email: String, password: String): AuthResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
 
+    suspend fun delete() {
+        firebaseAuth.currentUser?.delete()?.await()
+    }
 }

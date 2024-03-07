@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="data"
+            type="com.easyhz.picly.data.entity.user.UserInfo" />
+    </data>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/mainBackground"
+        android:orientation="vertical"
+    >
+        <include layout="@layout/toolbar_account" android:id="@+id/toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+        >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account_login_info"
+                android:textColor="@color/secondText"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/loginInfoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:loginInfo="@{data.authProvider}"
+                android:fontFamily="@font/sf_pro_bold"
+                android:textColor="@color/mainText"
+                android:textSize="18sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/account_email"
+                android:textColor="@color/secondText"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/emailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@{data.email}"
+                android:fontFamily="@font/sf_pro_bold"
+                android:textColor="@color/mainText"
+                android:textSize="16sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/account_creation_time"
+                android:textColor="@color/secondText"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/creationTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:creationTime="@{data.creationTime}"
+                android:fontFamily="@font/sf_pro_bold"
+                android:textColor="@color/mainText"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/logoutButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="32dp"
+                android:text="@string/account_logout"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/sf_pro_bold"
+                android:textColor="@color/mainText"
+                android:textSize="18sp" />
+            <TextView
+                android:id="@+id/deleteUserButton"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:text="@string/account_delete"
+                android:gravity="center_vertical"
+                android:fontFamily="@font/sf_pro_bold"
+                android:textColor="@color/errorColor"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>

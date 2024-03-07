@@ -53,7 +53,7 @@ enum class Settings(val icon : Int? = null, val title: Int, val version: Float? 
         title = R.string.setting_account,
     ) {
         override fun onClick(fragmentManager: FragmentManager) {
-            println("계정 관리입니다 이제 여기서는 계정 정보를 들어갈 수 잇게 할거임")
+            NavControllerManager.navigateSettingToAccount()
         }
     }, TUTORIAL(
         icon = R.drawable.icon_setting_tutorial,

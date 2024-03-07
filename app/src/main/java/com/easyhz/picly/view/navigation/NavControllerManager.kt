@@ -7,8 +7,10 @@ import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.view.MainFragmentDirections
 import com.easyhz.picly.view.album.detail.AlbumDetailFragmentDirections
 import com.easyhz.picly.view.album.upload.UploadFragmentDirections
+import com.easyhz.picly.view.settings.account.AccountFragmentDirections
 import com.easyhz.picly.view.user.LoginFragmentDirections
 import com.easyhz.picly.view.user.email.EmailLoginFragmentDirections
+import com.easyhz.picly.view.user.email.SignUpFragmentDirections
 import java.lang.ref.WeakReference
 
 object NavControllerManager {
@@ -49,6 +51,10 @@ object NavControllerManager {
         val action = EmailLoginFragmentDirections.actionEmailLoginFragmentToSignUpFragment()
         navControllerRef?.get()?.navigate(action)
     }
+    fun navigateEmailSignUpToSignUp() {
+        val action = SignUpFragmentDirections.actionSignUpFragmentToAlbumFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
 
     fun navigateMainToUpload() {
         val action = MainFragmentDirections.actionMainFragmentToUploadFragment()
@@ -77,6 +83,16 @@ object NavControllerManager {
 
     fun navigateSettingToOnboarding() {
         val action = MainFragmentDirections.actionMainFragmentToOnboardingFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
+
+    fun navigateSettingToAccount() {
+        val action = MainFragmentDirections.actionMainFragmentToAccountFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
+
+    fun navigateAccountToLogin() {
+        val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
         navControllerRef?.get()?.navigate(action)
     }
 
