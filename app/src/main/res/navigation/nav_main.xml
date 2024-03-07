@@ -150,7 +150,11 @@
         android:name="com.easyhz.picly.view.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
         tools:layout="@layout/fragment_onboarding"
-        />
+        >
+        <action
+            android:id="@+id/action_onboardingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/onboardingDetailFragment"
         android:name="com.easyhz.picly.view.onboarding.OnboardingDetailFragment"

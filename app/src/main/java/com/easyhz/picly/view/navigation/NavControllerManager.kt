@@ -1,5 +1,6 @@
 package com.easyhz.picly.view.navigation
 
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.easyhz.picly.R
 import com.easyhz.picly.data.repository.user.UserManager
@@ -7,6 +8,7 @@ import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.view.MainFragmentDirections
 import com.easyhz.picly.view.album.detail.AlbumDetailFragmentDirections
 import com.easyhz.picly.view.album.upload.UploadFragmentDirections
+import com.easyhz.picly.view.onboarding.OnboardingFragmentDirections
 import com.easyhz.picly.view.settings.account.AccountFragmentDirections
 import com.easyhz.picly.view.user.LoginFragmentDirections
 import com.easyhz.picly.view.user.email.EmailLoginFragmentDirections
@@ -15,17 +17,22 @@ import java.lang.ref.WeakReference
 
 object NavControllerManager {
     private var navControllerRef: WeakReference<NavController>? = null
+    val backStack: NavBackStackEntry?
+        get() = navControllerRef?.get()?.previousBackStackEntry
 
-    fun init(navController: NavController) {
+    fun init(navController: NavController, isFirstRun: Boolean) {
         this.navControllerRef = WeakReference(navController)
-        setStartDestination()
+        setStartDestination(isFirstRun)
     }
 
     /* 로그인 여부에 따른 startDestination 설정 */
-    private fun setStartDestination() {
+    private fun setStartDestination(isFirstRun: Boolean) {
+        println("false >> $isFirstRun")
         val navController = navControllerRef?.get()
         val navGraph = navController?.navInflater?.inflate(R.navigation.nav_main)
-        val startDestination = if (UserManager.isLoggedIn()) {
+        val startDestination = if (isFirstRun) {
+            R.id.onboardingFragment
+        } else if (UserManager.isLoggedIn()) {
             R.id.mainFragment
         } else {
             R.id.loginFragment
@@ -37,6 +44,10 @@ object NavControllerManager {
         navControllerRef?.get()?.popBackStack()
     }
 
+    fun navigateOnboardingToLogin() {
+        val action = OnboardingFragmentDirections.actionOnboardingFragmentToLoginFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
     fun navigateLoginToLoginEmail() {
         val action = LoginFragmentDirections.actionLoginFragmentToEmailLoginFragment()
         navControllerRef?.get()?.navigate(action)

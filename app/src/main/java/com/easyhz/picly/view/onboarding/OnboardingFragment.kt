@@ -53,7 +53,7 @@ class OnboardingFragment: Fragment() {
 
     private fun setSkipButton() {
         binding.toolbar.skipTextView.setOnClickListener {
-            NavControllerManager.navigateToBack()
+            navigate()
         }
     }
 
@@ -73,9 +73,17 @@ class OnboardingFragment: Fragment() {
 
     private fun handleNextButtonClick(position: Int) {
         if (position == OnboardingFragmentPage.entries.size - 1) {
-            NavControllerManager.navigateToBack()
+            navigate()
         } else {
             binding.viewPager.setCurrentItem(position + 1, true)
+        }
+    }
+
+    private fun navigate() {
+        NavControllerManager.backStack?.let {
+            NavControllerManager.navigateToBack()
+        } ?: run {
+            NavControllerManager.navigateOnboardingToLogin()
         }
     }
 }
