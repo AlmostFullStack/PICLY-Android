@@ -10,8 +10,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BottomSheetDetailMenuBinding
 import com.easyhz.picly.util.toPICLY
-import com.easyhz.picly.view.custom.EitherDialog
-import com.easyhz.picly.view.custom.Orientation
+import com.easyhz.picly.view.dialog.EitherDialog
+import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

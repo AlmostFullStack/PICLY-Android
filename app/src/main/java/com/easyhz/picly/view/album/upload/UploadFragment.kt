@@ -36,13 +36,12 @@ import com.easyhz.picly.util.getTime
 import com.easyhz.picly.util.getToday
 import com.easyhz.picly.util.toDateFormat
 import com.easyhz.picly.util.toMs
-import com.easyhz.picly.util.toPICLY
 import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetViewModel
-import com.easyhz.picly.view.custom.EitherDialog
-import com.easyhz.picly.view.custom.Orientation
+import com.easyhz.picly.view.dialog.EitherDialog
+import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint

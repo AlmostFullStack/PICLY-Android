@@ -1,4 +1,4 @@
-package com.easyhz.picly.view.custom
+package com.easyhz.picly.view.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater

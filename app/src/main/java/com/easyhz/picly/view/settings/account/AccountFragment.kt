@@ -9,8 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentAccountBinding
-import com.easyhz.picly.view.custom.EitherDialog
-import com.easyhz.picly.view.custom.Orientation
+import com.easyhz.picly.view.dialog.EitherDialog
+import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 
 class AccountFragment: Fragment() {
