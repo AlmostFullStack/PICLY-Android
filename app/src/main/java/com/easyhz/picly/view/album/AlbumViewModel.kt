@@ -9,6 +9,7 @@ import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +23,12 @@ class AlbumViewModel
         get() = albumsLiveData
 
     fun fetchAlbums() = viewModelScope.launch {
-        albumUseCase().collectLatest {
+        albumUseCase().distinctUntilChanged().collectLatest {
             albumsLiveData.value = it.toAlbumItem()
         }
+//        albumUseCase().collectLatest {
+//            println(it)
+//            albumsLiveData = it.toAlbumItem()
+//        }
     }
 }

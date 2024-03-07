@@ -1,6 +1,10 @@
 package com.easyhz.picly.util
 
 import android.content.Context
+import androidx.core.content.ContextCompat
+import com.easyhz.picly.R
+import com.facebook.shimmer.Shimmer
+import com.facebook.shimmer.ShimmerDrawable
 import com.google.firebase.Timestamp
 import java.time.Duration
 import java.time.LocalDate
@@ -65,4 +69,19 @@ fun LocalTime.toTimeFormat(): String {
 fun LocalTime.toTimeFormat24(): String {
     val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern(TIME_PATTERN_24)
     return this.format(formatter)
+}
+
+fun getShimmerDrawable(context: Context): ShimmerDrawable {
+    val baseColor = ContextCompat.getColor(context, R.color.skeletonDark)
+    val highlightColor = ContextCompat.getColor(context, R.color.skeletonLight)
+
+    val shimmer = Shimmer.AlphaHighlightBuilder()
+        .setDuration(1800)
+        .setBaseAlpha(0.7f)
+        .setHighlightAlpha(1f)
+        .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
+        .setFixedHeight(700)
+        .setAutoStart(true)
+        .build()
+    return ShimmerDrawable().apply { setShimmer(shimmer) }
 }

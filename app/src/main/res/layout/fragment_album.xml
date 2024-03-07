@@ -12,7 +12,7 @@
             android:background="@color/mainBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="5dp"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
@@ -37,6 +37,5 @@
             app:rippleColor="@null"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Round"
             app:tint="@color/highlightBlue" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

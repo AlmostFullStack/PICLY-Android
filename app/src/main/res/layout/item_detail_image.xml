@@ -5,7 +5,7 @@
     <data>
         <variable
             name="data"
-            type="String" />
+            type="com.easyhz.picly.domain.model.album.DetailImageItem" />
     </data>
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -23,8 +23,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/default_image"
             android:adjustViewBounds="true"
-            android:contentDescription="@{data}"
-            app:detailImageUrl="@{data}"
+            android:contentDescription="@{data.url}"
+            app:detailImage="@{data}"
         />
 
     </androidx.cardview.widget.CardView>

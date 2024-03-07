@@ -71,7 +71,7 @@ class AlbumDetailFragment : Fragment() {
             adapter = imageAdapter
             layoutManager = LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false)
         }
-        imageAdapter.setList(args.albumItem.imageUrls)
+        imageAdapter.setList(args.albumItem.toDetailImageItem())
     }
 
     private fun onClickBackButton() {

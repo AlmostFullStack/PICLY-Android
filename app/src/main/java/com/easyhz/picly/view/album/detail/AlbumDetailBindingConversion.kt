@@ -5,18 +5,33 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.easyhz.picly.R
+import com.easyhz.picly.domain.model.album.DetailImageItem
+import com.easyhz.picly.util.getShimmerDrawable
 import com.easyhz.picly.util.toDetailDay
 import java.text.NumberFormat
 import java.util.Locale
 
 object AlbumDetailBindingConversion {
+    private var viewWidth = -1
 
     @JvmStatic
-    @BindingAdapter("detailImageUrl")
-    fun setImage(view: ImageView, url: String) {
-        Glide.with(view.context).load(url)
+    @BindingAdapter("detailImage")
+    fun setDetailImage(view: ImageView, image: DetailImageItem) {
+        val shimmerDrawable = getShimmerDrawable(view.context)
+        val imageWidth = image.size.width
+        val imageHeight = image.size.height
+        if (viewWidth == -1 && view.width != 0) {
+            viewWidth = view.width
+        }
+        val ratio = (imageWidth / viewWidth.toDouble())
+        view.layoutParams.height = (imageHeight / ratio).toInt()
+        Glide.with(view.context).load(image.url)
             .error(R.drawable.default_image)
+            .fallback(R.drawable.default_image)
+            .placeholder(shimmerDrawable)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }
 

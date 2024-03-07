@@ -135,4 +135,5 @@
     <string name="dialog_delete_user_title">재인증</string>
     <string name="dialog_delete_user_message">계정 탈퇴를 위해서는 재인증이 필요합니다.\n재인증하시겠습니까?</string>
     <string name="recertification">재인증</string>
+    <string name="shimmer">shimmer</string>
 </resources>

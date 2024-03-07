@@ -16,4 +16,9 @@ data class AlbumItem(
     val viewCount: Int,
     val mainTag: String,
     val documentId: String,
-): Parcelable
+): Parcelable {
+
+    fun toDetailImageItem(): List<DetailImageItem> = imageUrls.mapIndexed { index, url ->
+        DetailImageItem(url, imageSize[index])
+    }
+}

@@ -33,10 +33,17 @@ class AlbumFragment: Fragment() {
         binding = FragmentAlbumBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[AlbumViewModel::class.java]
         clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-        setUp()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUp()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.albums.removeObservers(viewLifecycleOwner)
     }
 
     private fun setUp() {
