@@ -47,7 +47,7 @@
                 android:gravity="center"
                 android:text="@string/success"
                 android:textColor="@color/highlightBlue"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

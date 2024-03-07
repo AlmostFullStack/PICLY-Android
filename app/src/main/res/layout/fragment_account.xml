@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:loginInfo="@{data.authProvider}"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:textColor="@color/mainText"
                 android:textSize="18sp" />
             <TextView
@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="@{data.email}"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:textColor="@color/mainText"
                 android:textSize="16sp" />
             <TextView
@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 app:creationTime="@{data.creationTime}"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:textColor="@color/mainText"
                 android:textSize="16sp" />
 
@@ -75,7 +75,7 @@
                 android:layout_marginTop="32dp"
                 android:text="@string/account_logout"
                 android:gravity="center_vertical"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:textColor="@color/mainText"
                 android:textSize="18sp" />
             <TextView
@@ -84,7 +84,7 @@
                 android:layout_height="48dp"
                 android:text="@string/account_delete"
                 android:gravity="center_vertical"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:textColor="@color/errorColor"
                 android:textSize="18sp" />
         </LinearLayout>

@@ -30,6 +30,13 @@ object AlbumBindingConversion {
     }
 
     @JvmStatic
+    @BindingAdapter("albumMainTag")
+    fun setMainTags(view: TextView, mainTag: String) {
+        if (mainTag.isNotBlank()) view.text = HASH_TAG.plus(mainTag)
+        else view.visibility = View.GONE
+    }
+
+    @JvmStatic
     @BindingAdapter("expireDate")
     fun setExpireDate(view: TextView, expireMinute: Double) {
         val textColorResId = if (expireMinute <= 0) { R.color.errorColor } else { R.color.mainText }

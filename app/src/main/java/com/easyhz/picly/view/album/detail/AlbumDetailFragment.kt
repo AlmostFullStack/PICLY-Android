@@ -18,8 +18,10 @@ import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.toPICLY
 import com.easyhz.picly.view.album.detail.bottom_sheet.DetailMenuBottomSheet
 import com.easyhz.picly.view.navigation.NavControllerManager
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class AlbumDetailFragment : Fragment() {
     private lateinit var binding: FragmentAlbumDetailBinding
     private lateinit var clipboardManager: ClipboardManager

@@ -47,7 +47,7 @@ class MainFragment:Fragment() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.page_album -> setToolbarTitle(R.string.app_title, R.font.bayon)
-                R.id.page_settings -> setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold, 22F)
+                R.id.page_settings -> setToolbarTitle(R.string.app_settings_title, R.font.sf_pro, 22F)
             }
         }
     }

@@ -13,11 +13,15 @@ import com.easyhz.picly.databinding.FragmentEmailLoginBinding
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
 import com.easyhz.picly.util.user.setPasswordField
+import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.navigation.NavControllerManager
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignUpFragment :Fragment() {
     private lateinit var binding: FragmentEmailLoginBinding
     private lateinit var viewModel: SignUpViewModel
+    private lateinit var loading: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +30,7 @@ class SignUpFragment :Fragment() {
     ): View {
         binding = FragmentEmailLoginBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[SignUpViewModel::class.java]
+        loading = LoadingDialog(requireActivity())
         return binding.root
     }
 
@@ -33,31 +38,11 @@ class SignUpFragment :Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUp()
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        initOnErrorEvent()
-        viewModel.onErrorEvent.removeObservers(viewLifecycleOwner)
-    }
-
     private fun setUp() {
         setToolbar()
         setEmailField(requireContext(), binding.userField)
         setPasswordField(requireContext(), binding.userField)
-        observeErrorEvent()
         setButton()
-    }
-
-    private fun initOnErrorEvent() {
-        viewModel.setOnErrorEvent()
-    }
-
-    private fun observeErrorEvent() {
-        viewModel.onErrorEvent.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) {
-                BlueSnackBar.make(binding.root, getString(AuthError.valueOf(it).messageId)).show()
-            }
-        }
     }
 
     private fun setToolbar() {
@@ -76,14 +61,25 @@ class SignUpFragment :Fragment() {
         binding.loginButton.button.apply {
             text = getString(R.string.sign_up)
             setOnClickListener {
+                loading.show(true)
                 viewModel.signUp(
                     binding.userField.emailField.editText.text.toString(),
-                    binding.userField.passwordField.editText.text.toString()
+                    binding.userField.passwordField.editText.text.toString(),
+                    {onSuccess()}
                 ) {
-                    NavControllerManager.navigateEmailSignUpToSignUp()
+                    onFailure(it)
                 }
             }
         }
     }
 
+    private fun onSuccess() {
+        NavControllerManager.navigateEmailSignUpToSignUp()
+        loading.show(false)
+    }
+
+    private fun onFailure(message: String) {
+        BlueSnackBar.make(binding.root, getString(AuthError.valueOf(message).messageId)).show()
+        loading.show(false)
+    }
 }

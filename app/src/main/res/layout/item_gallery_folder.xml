@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{data.folderName}"
                 android:textColor="@color/mainText"
-                android:fontFamily="@font/sf_pro_bold"
+                android:fontFamily="@font/sf_pro"
                 android:layout_marginBottom="4dp"
                 android:textSize="18sp"
             />

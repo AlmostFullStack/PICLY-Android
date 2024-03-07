@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@color/mainBackground"
-            android:fontFamily="@font/sf_pro_bold"
+            android:fontFamily="@font/sf_pro"
             android:gravity="center"
             android:text="@string/image_pick_state"
             android:textAlignment="center"

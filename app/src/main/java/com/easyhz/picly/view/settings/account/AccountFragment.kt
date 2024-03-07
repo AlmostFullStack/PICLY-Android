@@ -10,12 +10,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentAccountBinding
 import com.easyhz.picly.view.dialog.EitherDialog
+import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 
 class AccountFragment: Fragment() {
     private lateinit var binding: FragmentAccountBinding
     private lateinit var viewModel: AccountViewModel
+    private lateinit var loading: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +26,7 @@ class AccountFragment: Fragment() {
     ): View {
         binding = FragmentAccountBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[AccountViewModel::class.java]
+        loading = LoadingDialog(requireActivity())
         return binding.root
     }
 
@@ -57,8 +60,10 @@ class AccountFragment: Fragment() {
                 Orientation.HORIZONTAL
             )
             dialog.setPositiveButton(getString(R.string.account_logout), ContextCompat.getColor(requireActivity(), R.color.errorColor)) {
+                loading.show(true)
                 viewModel.logout {
                     NavControllerManager.navigateAccountToLogin()
+                    loading.show(false)
                 }
             }.setNegativeButton(getString(R.string.cancel), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
 

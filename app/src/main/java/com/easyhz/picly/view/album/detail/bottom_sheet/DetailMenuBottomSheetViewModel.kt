@@ -17,12 +17,12 @@ class DetailMenuBottomSheetViewModel
 
     fun deleteAlbum(
         id: String,
-        onFailure: () -> Unit,
-        onSuccess: (String) -> Unit
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit,
     ) = viewModelScope.launch {
         deleteAlbumUseCase(id)
-            .catch {
-                onFailure()
+            .catch { e->
+                e.localizedMessage?.let { onFailure(it) }
             }.collectLatest {
                 onSuccess(it)
             }

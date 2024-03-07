@@ -41,6 +41,7 @@ import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetViewModel
 import com.easyhz.picly.view.dialog.EitherDialog
+import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
@@ -54,6 +55,7 @@ class UploadFragment: Fragment() {
     private lateinit var galleryViewModel: GalleryBottomSheetViewModel
     private lateinit var tagAdapter: TagAdapter
     private lateinit var uploadImageAdapter: UploadImageAdapter
+    private lateinit var loading: LoadingDialog
     private var isShowCalendar: Boolean = false
     private var isShowTimePicker: Boolean = false
     private var isGranted: Boolean = false
@@ -68,6 +70,7 @@ class UploadFragment: Fragment() {
         binding = FragmentUploadBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[UploadViewModel::class.java]
         galleryViewModel = ViewModelProvider(requireActivity())[GalleryBottomSheetViewModel::class.java]
+        loading = LoadingDialog(requireActivity())
         initViews()
         return binding.root
     }
@@ -181,7 +184,7 @@ class UploadFragment: Fragment() {
             val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
             bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
         } else {
-            showGalleryPermissonDialog()
+            showGalleryPermissionDialog()
         }
     }
     private fun observeGallerySelectedImageList() {
@@ -277,15 +280,26 @@ class UploadFragment: Fragment() {
                 BlueSnackBar.make(binding.root, getString(R.string.no_select_image)).show()
                 return@setOnClickListener
             }
+            loading.show(true)
             viewModel.writeAlbums(
                 galleryViewModel.selectedImageList.value.orEmpty(),
                 binding.expireDateButton.text.toString(),
                 binding.expireTimeButton.text.toString(),
-                { }
+                { onFailure(it) }
             ) {
-                showUrlDialog(it)
+                onSuccess(it)
             }
         }
+    }
+
+    private fun onSuccess(message: String) {
+        showUrlDialog(message)
+        loading.show(false)
+    }
+
+    private fun onFailure(message: String) {
+        BlueSnackBar.make(binding.root, message).show()
+        loading.show(false)
     }
 
     private fun onClickBackButton() {
@@ -320,7 +334,7 @@ class UploadFragment: Fragment() {
         }
     }
 
-    private fun showGalleryPermissonDialog() {
+    private fun showGalleryPermissionDialog() {
         val dialog = EitherDialog.instance(
             title = getString(R.string.dialog_gallery_permission_title),
             message = getString(R.string.dialog_gallery_permission_message),

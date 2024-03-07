@@ -31,7 +31,7 @@ class UploadViewModel
         selectedImageList: List<GalleryImageItem>,
         expiredDate: String,
         expiredTime: String,
-        onFailure: () -> Unit,
+        onFailure: (String) -> Unit,
         onSuccess: (String) -> Unit,
     ) = viewModelScope.launch {
         UserManager.currentUser?.uid?.let { ownerId ->
@@ -40,8 +40,8 @@ class UploadViewModel
                 tags = tags.value.orEmpty(),
                 selectedImageList = selectedImageList,
                 expireTime = "$expiredDate $expiredTime".toFirebaseTimestamp()
-            ).catch {
-                onFailure()
+            ).catch { e ->
+                e.localizedMessage?.let { onFailure(it) }
             }.collectLatest {
                 onSuccess(it)
             }

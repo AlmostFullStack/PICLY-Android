@@ -31,7 +31,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:fontFamily="@font/sf_pro_bold"
+                    android:fontFamily="@font/sf_pro"
+                    android:textStyle="bold"
                     android:text="@{data.regDate}"
                     android:textAlignment="center"
                     android:textColor="@color/mainText"
@@ -52,8 +53,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="@font/sf_pro_bold"
-                app:albumTag="@{data.mainTag}"
+                android:fontFamily="@font/sf_pro"
+                app:albumMainTag="@{data.mainTag}"
                 android:textColor="@color/mainText"
                 android:textSize="20sp" />
 

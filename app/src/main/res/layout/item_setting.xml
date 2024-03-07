@@ -36,7 +36,7 @@
             android:text="계정 관리"
             android:textSize="18sp"
             android:textColor="@color/mainText"
-            android:fontFamily="@font/sf_pro_bold"
+            android:fontFamily="@font/sf_pro"
             android:gravity="center_vertical"
         />
         <View

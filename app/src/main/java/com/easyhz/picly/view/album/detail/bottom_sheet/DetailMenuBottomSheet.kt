@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BottomSheetDetailMenuBinding
+import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.toPICLY
 import com.easyhz.picly.view.dialog.EitherDialog
+import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -20,6 +22,7 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetDetailMenuBinding
     private lateinit var documentId: String
     private lateinit var viewModel: DetailMenuBottomSheetViewModel
+    private lateinit var loading: LoadingDialog
     companion object {
         private var instance: DetailMenuBottomSheet? = null
 
@@ -42,6 +45,7 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
         binding = BottomSheetDetailMenuBinding.inflate(layoutInflater)
         documentId = arguments?.getString("documentId").toString()
         viewModel = ViewModelProvider(requireActivity())[DetailMenuBottomSheetViewModel::class.java]
+        loading = LoadingDialog(requireActivity())
         return binding.root
     }
 
@@ -80,16 +84,25 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
                 Orientation.HORIZONTAL
             )
             dialog.setPositiveButton(getString(R.string.delete)) {
-                viewModel.deleteAlbum(documentId, { }) {
-                    NavControllerManager.navigateDetailBottomMenuToMain()
+                loading.show(true)
+                viewModel.deleteAlbum(documentId, onSuccess = { onSuccess() }) {
+                    onFailure(it)
                 }
             }.setNegativeButton(getString(R.string.cancel)) {
 
             }.show(requireActivity().supportFragmentManager)
-
         }
     }
 
+    private fun onSuccess() {
+        NavControllerManager.navigateDetailBottomMenuToMain()
+        loading.show(false)
+    }
+
+    private fun onFailure(message: String) {
+        BlueSnackBar.make(binding.root, message).show()
+        loading.show(false)
+    }
     private fun onClickCancel() {
         binding.cancelButton.setOnClickListener {
             dismiss()

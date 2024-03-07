@@ -15,9 +15,9 @@ class EmailLoginViewModel
     private val loginUseCase: LoginUseCase,
 ): ViewModel() {
 
-    fun login(email: String, password: String, onSuccess: () -> Unit, onError: (String) -> Unit) = viewModelScope.launch {
+    fun login(email: String, password: String, onSuccess: () -> Unit, onFailure: (String) -> Unit) = viewModelScope.launch {
         isEmptyEmailAndPassword(email, password)?.let {
-            onError(it)
+            onFailure(it)
             return@launch
         }
         loginUseCase.login(
@@ -25,7 +25,7 @@ class EmailLoginViewModel
             onSuccess = { onSuccess() }
         ) {
             if (it != null) {
-                onError(it)
+                onFailure(it)
             }
         }
     }
