@@ -1,11 +1,17 @@
 package com.easyhz.picly.util
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Environment
 import androidx.core.content.ContextCompat
 import com.easyhz.picly.R
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerDrawable
 import com.google.firebase.Timestamp
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -84,4 +90,19 @@ fun getShimmerDrawable(context: Context): ShimmerDrawable {
         .setAutoStart(true)
         .build()
     return ShimmerDrawable().apply { setShimmer(shimmer) }
+}
+
+fun getDefaultImage(context: Context): File? = try {
+    val bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.default_image)
+
+    val filePath = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    val file = File(filePath, "default_image.png")
+    FileOutputStream(file).use { fos ->
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+        fos.flush()
+    }
+    file
+} catch (e: IOException) {
+    e.printStackTrace()
+    null
 }

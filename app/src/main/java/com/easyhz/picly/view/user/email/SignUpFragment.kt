@@ -63,6 +63,7 @@ class SignUpFragment :Fragment() {
             setOnClickListener {
                 loading.show(true)
                 viewModel.signUp(
+                    requireContext(),
                     binding.userField.emailField.editText.text.toString(),
                     binding.userField.passwordField.editText.text.toString(),
                     {onSuccess()}
