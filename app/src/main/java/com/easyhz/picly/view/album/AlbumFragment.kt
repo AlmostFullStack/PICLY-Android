@@ -93,7 +93,7 @@ class AlbumFragment: Fragment() {
     }
 
     private fun setNoResult(isEmpty: Boolean, s: String) {
-        if (s.isEmpty()) updateNoResultMessage(true, getString(R.string.no_data_text))
+        if (s.isEmpty() && albumAdapter.originalList.isEmpty()) updateNoResultMessage(true, getString(R.string.no_data_text))
         else updateNoResultMessage(isEmpty, getString(R.string.no_search_text))
     }
 

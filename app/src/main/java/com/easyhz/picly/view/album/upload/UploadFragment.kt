@@ -212,6 +212,7 @@ class UploadFragment: Fragment() {
             setOnDateChangeListener { _, year, month, dayOfMonth ->
                 setExpireButtonText(binding.expireDateButton, convertToDateFormat(year, month + 1, dayOfMonth))
                 setPeriod()
+                setExpireTimeAtDate()
             }
         }
     }
@@ -225,13 +226,14 @@ class UploadFragment: Fragment() {
                     this.hour = minHour.toInt()
                     this.minute = minMinute.toInt()
                 }
-                setExpireButtonText(binding.expireTimeButton, convertToTimeFormat(hourOfDay, minute))
+                setExpireButtonText(binding.expireTimeButton, convertToTimeFormat(this.hour, this.minute))
                 setPeriod()
             }
         }
     }
 
     private fun setExpireButtonText(button: Button, newText: String) {
+        println("dksldho $newText")
         button.text = newText
     }
 
@@ -289,6 +291,25 @@ class UploadFragment: Fragment() {
             ) {
                 onSuccess(it)
             }
+        }
+    }
+
+    private fun setExpireTimeAtDate() {
+        val (minHour, minMinute) = getTime().toTimeFormat().split(":")
+        val expireTimeParts = binding.expireTimeButton.text.split(":", " ")
+
+        var hour = expireTimeParts[0].toInt()
+        val min = expireTimeParts[1].toInt()
+        if (expireTimeParts[2] == "오후") {
+            hour += 12
+        }
+
+        val isSameDay = binding.expireDateButton.text == getToday().toDateFormat()
+        val isBeforeMinTime = hour < minHour.toInt() || (hour == minHour.toInt() && min < minMinute.toInt())
+
+        if (isSameDay && isBeforeMinTime) {
+            binding.timePicker.hour = minHour.toInt()
+            binding.timePicker.minute = minMinute.toInt()
         }
     }
 
