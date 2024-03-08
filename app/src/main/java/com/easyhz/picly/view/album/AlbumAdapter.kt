@@ -2,6 +2,8 @@ package com.easyhz.picly.view.album
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -9,10 +11,12 @@ import com.easyhz.picly.databinding.ItemAlbumBinding
 import com.easyhz.picly.domain.model.album.AlbumItem
 
 class AlbumAdapter(
+    private val noResult: (Boolean , String) -> Unit,
     private val onClickLinkButton: (AlbumItem) -> Unit,
     private val onClickListener: (AlbumItem) -> Unit,
-):RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
-
+):RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>(), Filterable {
+    var originalList: List<AlbumItem> = listOf()
+    private val postFiler = PostFilter()
     inner class AlbumViewHolder(val binding: ItemAlbumBinding) : RecyclerView.ViewHolder(binding.root)
 
 
@@ -51,4 +55,32 @@ class AlbumAdapter(
         differ.submitList(albumList)
     }
 
+    override fun getFilter(): Filter = postFiler
+
+    inner class  PostFilter: Filter() {
+
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+            val filterString = constraint.toString().trim()
+            val results = FilterResults()
+
+            if (filterString.isEmpty()) {
+                results.values = originalList
+            } else {
+                val filterList = originalList.filter { album ->
+                    val tags = listOf(album.mainTag) + album.tags
+                    tags.any { tag -> tag.contains(filterString) }
+                }
+                results.values = filterList
+            }
+
+            results.count = (results.values as List<AlbumItem>).size
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            val filteredList = results?.values as? List<AlbumItem> ?: emptyList()
+            noResult(filteredList.isEmpty(), constraint.toString())
+            differ.submitList(filteredList)
+        }
+    }
 }

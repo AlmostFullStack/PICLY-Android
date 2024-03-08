@@ -1,9 +1,16 @@
 package com.easyhz.picly.view
 
+import android.app.ActionBar.LayoutParams
+import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -11,7 +18,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentMainBinding
+import com.easyhz.picly.util.toPx
 import com.easyhz.picly.view.album.AlbumViewModel
+
 
 class MainFragment:Fragment() {
 
@@ -27,6 +36,7 @@ class MainFragment:Fragment() {
         binding = FragmentMainBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[AlbumViewModel::class.java]
         setNavigation()
+        setSearchBar()
 
         return binding.root
     }
@@ -45,6 +55,7 @@ class MainFragment:Fragment() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
+            setSearchBarVisibility(destination.id)
             when (destination.id) {
                 R.id.page_album -> setToolbarTitle(R.string.app_title, R.font.bayon)
                 R.id.page_settings -> setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold, 22F)
@@ -60,7 +71,74 @@ class MainFragment:Fragment() {
         }
     }
 
+    private fun setSearchBarVisibility(id: Int) {
+        binding.toolbar.searchField.visibility = when(id) {
+            R.id.page_album -> View.VISIBLE
+            else -> View.GONE
+        }
+    }
+
     private fun fetchAlbums() {
         viewModel.fetchAlbums()
+    }
+
+    private fun setSearchBar() {
+        binding.toolbar.apply {
+            searchCancelButton.setOnClickListener {
+                resetSearchBar()
+            }
+
+            searchEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) expandSearchBar()
+                else collapseSearchBar()
+            }
+
+            searchEditText.addTextChangedListener (object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) { }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+
+                override fun afterTextChanged(s: Editable?) {
+                    viewModel.setSearchText(s.toString())
+                }
+            })
+        }
+    }
+
+    private fun resetSearchBar() {
+        binding.toolbar.apply {
+            searchEditText.setText("")
+            searchEditText.clearFocus()
+            val layoutParams = ConstraintLayout.LayoutParams(112.toPx(requireContext()), searchEditText.height)
+            layoutParams.apply {
+                bottomToBottom = ConstraintSet.PARENT_ID
+                topToTop = ConstraintSet.PARENT_ID
+                endToEnd = ConstraintSet.PARENT_ID
+            }
+            searchField.layoutParams = layoutParams
+            searchCancelButton.visibility = View.GONE
+        }
+    }
+
+    private fun expandSearchBar() {
+        binding.toolbar.apply {
+            val layoutParams = ConstraintLayout.LayoutParams(LayoutParams.MATCH_PARENT, searchEditText.height)
+            layoutParams.apply {
+                bottomToBottom = ConstraintSet.PARENT_ID
+                topToTop = ConstraintSet.PARENT_ID
+            }
+            searchField.layoutParams = layoutParams
+            searchCancelButton.visibility = View.VISIBLE
+        }
+    }
+
+    private fun collapseSearchBar() {
+        val inputManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+        inputManager?.hideSoftInputFromWindow(binding.toolbar.searchEditText.windowToken, 0)
     }
 }

@@ -22,13 +22,17 @@ class AlbumViewModel
     val albums : LiveData<List<AlbumItem>>
         get() = albumsLiveData
 
+    private val _searchText = MutableLiveData<String>()
+    val searchText : LiveData<String>
+        get() = _searchText
+
     fun fetchAlbums() = viewModelScope.launch {
         albumUseCase().distinctUntilChanged().collectLatest {
             albumsLiveData.value = it.toAlbumItem()
         }
-//        albumUseCase().collectLatest {
-//            println(it)
-//            albumsLiveData = it.toAlbumItem()
-//        }
+    }
+
+    fun setSearchText(value: String) {
+        _searchText.value = value
     }
 }

@@ -39,6 +39,55 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="24dp" />
 
+            <LinearLayout
+                android:id="@+id/searchField"
+                android:layout_width="112dp"
+                android:layout_height="40dp"
+                android:orientation="horizontal"
+                android:background="@drawable/text_field_shape"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/searchEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/text_field_shape"
+                    android:textColor="@color/mainText"
+                    android:textColorHint="@color/secondText"
+                    android:paddingStart="8dp"
+                    android:hint="@string/search_tag"
+                    android:textSize="14sp"
+                    android:autofillHints="no"
+                    android:gravity="center_vertical"
+                    android:drawableStart="@drawable/icon_search_24"
+                    android:drawablePadding="8dp"
+                    android:maxLines="1"
+                    android:padding="8dp"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:textCursorDrawable="@drawable/cursor_shape"
+                    tools:ignore="RtlSymmetry"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    android:id="@+id/searchCancelButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="8"
+                    android:gravity="center_vertical"
+                    android:text="@string/cancel"
+                    android:textSize="14sp"
+                    android:textColor="@color/secondText"
+                    android:visibility="gone"
+                />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/signUpTextView"
                 android:layout_width="wrap_content"

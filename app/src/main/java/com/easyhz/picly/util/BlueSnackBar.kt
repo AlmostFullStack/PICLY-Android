@@ -36,6 +36,7 @@ class BlueSnackBar(view: View, private val message: String) {
             setBackgroundColor(ContextCompat.getColor(context, R.color.transparent))
             addView(binding.root, 0)
             snackBar.view.layoutParams = setLayoutParams()
+            snackBar.view.setPadding(1.toPx(), 0, 1.toPx(), 0)
         }
     }
 
@@ -50,7 +51,7 @@ class BlueSnackBar(view: View, private val message: String) {
 
     private fun setLayoutParams(): FrameLayout.LayoutParams {
         val layoutParams = FrameLayout.LayoutParams(
-            message.length * TEXT_SIZE.toPx(),
+            FrameLayout.LayoutParams.WRAP_CONTENT,
             FrameLayout.LayoutParams.WRAP_CONTENT
         )
         layoutParams.apply {

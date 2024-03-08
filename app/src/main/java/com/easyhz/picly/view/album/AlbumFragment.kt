@@ -50,10 +50,14 @@ class AlbumFragment: Fragment() {
         setRecyclerView()
         observeAlbums()
         onclickFab()
+        observeSearchText()
     }
 
     private fun setRecyclerView() {
-        albumAdapter = AlbumAdapter(onClickLinkButton = { onClickLinkButton(it) }) {
+        albumAdapter = AlbumAdapter(
+            noResult = { isEmpty, s -> setNoResult(isEmpty, s) },
+            onClickLinkButton = { onClickLinkButton(it) }
+        ) {
             NavControllerManager.navigateMainToDetail(it)
         }
         binding.albumRecyclerView.apply {
@@ -63,8 +67,16 @@ class AlbumFragment: Fragment() {
     }
 
     private fun observeAlbums() {
-        viewModel.albums.observe(viewLifecycleOwner) {
-            albumAdapter.setAlbumList(it)
+        viewModel.albums.observe(viewLifecycleOwner) { albums ->
+            updateNoResultMessage(albums.isEmpty(), getString(R.string.no_data_text))
+            albumAdapter.setAlbumList(albums)
+            albumAdapter.originalList = albums
+        }
+    }
+
+    private fun observeSearchText() {
+        viewModel.searchText.observe(viewLifecycleOwner) {
+            albumAdapter.filter.filter(it)
         }
     }
 
@@ -78,5 +90,17 @@ class AlbumFragment: Fragment() {
         val clipData = ClipData.newPlainText(PICLY, albumItem.documentId.toPICLY())
         clipboardManager.setPrimaryClip(clipData)
         BlueSnackBar.make(binding.root, getString(R.string.link_copy)).show()
+    }
+
+    private fun setNoResult(isEmpty: Boolean, s: String) {
+        if (s.isEmpty()) updateNoResultMessage(true, getString(R.string.no_data_text))
+        else updateNoResultMessage(isEmpty, getString(R.string.no_search_text))
+    }
+
+    private fun updateNoResultMessage(isEmpty: Boolean, message: String) {
+        binding.noResultMessage.apply {
+            text = message
+            visibility = if (isEmpty) View.VISIBLE else View.GONE
+        }
     }
 }
