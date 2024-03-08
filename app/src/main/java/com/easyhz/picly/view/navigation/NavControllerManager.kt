@@ -52,6 +52,10 @@ object NavControllerManager {
         val action = LoginFragmentDirections.actionLoginFragmentToEmailLoginFragment()
         navControllerRef?.get()?.navigate(action)
     }
+    fun navigateLoginToMain() {
+        val action = LoginFragmentDirections.actionLoginFragmentToMainFragment()
+        navControllerRef?.get()?.navigate(action)
+    }
 
     fun navigateEmailLoginToAlbum() {
         val action = EmailLoginFragmentDirections.actionEmailLoginFragmentToMainFragment()

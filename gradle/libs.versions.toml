@@ -20,6 +20,7 @@ navigation-fragment-ktx = "2.7.7"
 navigation-safe-args-gradle-plugin = "2.7.7"
 navigation-ui-ktx = "2.7.7"
 paging-runtime-ktx = "3.2.1"
+play-services-auth = "21.0.0"
 shimmer = "0.5.0"
 viewpager2 = "1.0.0"
 
@@ -50,6 +51,7 @@ navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-kt
 navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle-plugin" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
 paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging-runtime-ktx" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
 shimmer = { module = "com.facebook.shimmer:shimmer", version.ref = "shimmer" }
 viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 

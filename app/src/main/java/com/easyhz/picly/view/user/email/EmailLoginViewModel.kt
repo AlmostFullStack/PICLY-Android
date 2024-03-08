@@ -3,6 +3,7 @@ package com.easyhz.picly.view.user.email
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.firebase.AuthError
+import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_EMAIL
 import com.easyhz.picly.domain.model.user.UserForm
 import com.easyhz.picly.domain.usecase.user.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +22,7 @@ class EmailLoginViewModel
             return@launch
         }
         loginUseCase.login(
-            UserForm(email, password),
+            UserForm(email, password, AUTH_PROVIDER_EMAIL),
             onSuccess = { onSuccess() }
         ) {
             if (it != null) {

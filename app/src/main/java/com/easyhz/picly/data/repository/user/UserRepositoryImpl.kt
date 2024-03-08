@@ -42,7 +42,6 @@ class UserRepositoryImpl
                 .get()
                 .await()
             val userInfo = result.toObject<UserInfo>()
-            println("--- 32 $userInfo")
             if (userInfo != null) {
                 emit(userInfo)
             }
@@ -53,16 +52,20 @@ class UserRepositoryImpl
 
     override fun logout(onSuccess: () -> Unit) {
         UserManager.logout()
-        println("로그아웃이 왜 안되냐 ${UserManager.currentUser?.uid}")
         onSuccess.invoke()
     }
 
     override suspend fun signUp(user: UserForm, onSuccess: () -> Unit, onError: (String?) -> Unit) {
         try {
-            val result = UserManager.signUp(user.email, user.password).user
-            val email = result?.email ?: throw IllegalArgumentException("Email should not be null.")
+            var uid = user.uid
+            var email = user.email
+            if(user.authProvider == AUTH_PROVIDER_EMAIL) {
+                val result = UserManager.signUp(user.email, user.password).user
+                email = result?.email ?: throw IllegalArgumentException("Email should not be null.")
+                uid = result.uid
+            }
 
-            saveUser(result.uid, email)
+            saveUser(uid, email, user.authProvider)
             onSuccess.invoke()
         } catch (e: FirebaseAuthException) {
             onError(e.errorCode)
@@ -87,9 +90,9 @@ class UserRepositoryImpl
     }
 
 
-    private suspend fun saveUser(documentId: String, email: String) {
+    private suspend fun saveUser(documentId: String, email: String, authProvider: String) {
         val user = UserInfo(
-            authProvider = AUTH_PROVIDER_EMAIL,
+            authProvider = authProvider,
             creationTime = Timestamp.now(),
             email = email
         )

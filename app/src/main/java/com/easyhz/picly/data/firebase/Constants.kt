@@ -8,4 +8,5 @@ object Constants {
     const val CREATION_TIME = "creationTime"
 
     const val AUTH_PROVIDER_EMAIL = "Email"
+    const val AUTH_PROVIDER_GOOGLE = "Google"
 }

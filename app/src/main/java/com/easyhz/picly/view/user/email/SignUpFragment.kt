@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.data.firebase.AuthError
+import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_EMAIL
 import com.easyhz.picly.databinding.FragmentEmailLoginBinding
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
@@ -64,9 +65,10 @@ class SignUpFragment :Fragment() {
                 loading.show(true)
                 viewModel.signUp(
                     requireContext(),
-                    binding.userField.emailField.editText.text.toString(),
-                    binding.userField.passwordField.editText.text.toString(),
-                    {onSuccess()}
+                    email = binding.userField.emailField.editText.text.toString(),
+                    password = binding.userField.passwordField.editText.text.toString(),
+                    authProvider = AUTH_PROVIDER_EMAIL,
+                    onSuccess ={onSuccess()}
                 ) {
                     onFailure(it)
                 }

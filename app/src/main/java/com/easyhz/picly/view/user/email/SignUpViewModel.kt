@@ -26,13 +26,21 @@ class SignUpViewModel
     private val uploadUseCase: UploadUseCase
 ): ViewModel() {
 
-    fun signUp(context: Context, email: String, password: String, onSuccess: (String) -> Unit, onFailure: (String) -> Unit) = viewModelScope.launch {
+    fun signUp(
+        context: Context,
+        email: String,
+        password: String,
+        authProvider: String,
+        uid: String = "",
+        onSuccess: (String) -> Unit,
+        onFailure: (String) -> Unit
+    ) = viewModelScope.launch {
         isEmptyEmailAndPassword(email, password)?.let {
             onFailure(it)
             return@launch
         }
         signUpUseCase.signUp(
-            UserForm(email, password),
+            UserForm(email, password, authProvider, uid),
             onSuccess = { initAlbum(context, onSuccess, onFailure) }
         ) {
             if (it != null) {
