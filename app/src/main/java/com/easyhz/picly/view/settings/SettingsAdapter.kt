@@ -36,7 +36,7 @@ class SettingsAdapter(
             }
             currentItem.version?.let {
                 versionLayout.visibility = View.VISIBLE
-                currentVersionTextView.text = it.toString()
+                currentVersionTextView.text = context.packageManager.getPackageInfo(context.packageName, 0).versionName
             }
 
             linearLayout.setOnClickListener {

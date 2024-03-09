@@ -9,6 +9,8 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
     id("com.google.firebase.crashlytics")
+    id("com.google.android.gms.oss-licenses-plugin")
+    id("com.jaredsburrows.license") version "0.9.7"
 }
 
 val localProperties = Properties()
@@ -110,4 +112,23 @@ dependencies {
     // Datastore
     implementation(libs.datastore.preferences)
 
+    // Open Source license
+    implementation(libs.play.services.oss.licenses)
+
+    implementation(libs.android.gif.drawable)
+    implementation(libs.wsdl4j)
+}
+
+licenseReport {
+    generateCsvReport = false
+    generateHtmlReport = true
+    generateJsonReport = false
+    generateTextReport = true
+
+    // These options are ignored for Java projects
+    copyCsvReportToAssets = false
+    copyHtmlReportToAssets = true
+    copyJsonReportToAssets = false
+    copyTextReportToAssets = true
+    useVariantSpecificAssetDirs = false
 }

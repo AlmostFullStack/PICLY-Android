@@ -47,7 +47,7 @@ class SettingsFragment: Fragment() {
     }
 }
 
-enum class Settings(val icon : Int? = null, val title: Int, val version: Float? = null) {
+enum class Settings(val icon : Int? = null, val title: Int, var version: Float? = null) {
     ACCOUNT(
         icon = R.drawable.icon_setting_person,
         title = R.string.setting_account,

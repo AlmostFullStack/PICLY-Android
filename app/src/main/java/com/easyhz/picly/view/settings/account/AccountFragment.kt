@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentAccountBinding
+import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.view.dialog.EitherDialog
 import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.dialog.Orientation
@@ -74,18 +75,19 @@ class AccountFragment: Fragment() {
 
     private fun onClickDeleteUser() {
         binding.deleteUserButton.setOnClickListener {
-            val dialog = EitherDialog.instance(
-                title = getString(R.string.dialog_delete_user_title),
-                message = getString(R.string.dialog_delete_user_message),
-                Orientation.HORIZONTAL
-            )
-            dialog.setPositiveButton(getString(R.string.recertification), ContextCompat.getColor(requireActivity(), R.color.errorColor)) {
-                viewModel.deleteUser {
-                    NavControllerManager.navigateAccountToLogin()
-                }
-            }.setNegativeButton(getString(R.string.cancel), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
-
-            }.show(requireActivity().supportFragmentManager)
+            BlueSnackBar.make(binding.root, getString(R.string.ready)).show()
+//            val dialog = EitherDialog.instance(
+//                title = getString(R.string.dialog_delete_user_title),
+//                message = getString(R.string.dialog_delete_user_message),
+//                Orientation.HORIZONTAL
+//            )
+//            dialog.setPositiveButton(getString(R.string.recertification), ContextCompat.getColor(requireActivity(), R.color.errorColor)) {
+//                viewModel.deleteUser {
+//                    NavControllerManager.navigateAccountToLogin()
+//                }
+//            }.setNegativeButton(getString(R.string.cancel), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
+//
+//            }.show(requireActivity().supportFragmentManager)
         }
     }
 
