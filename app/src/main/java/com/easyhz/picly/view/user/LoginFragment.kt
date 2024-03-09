@@ -93,8 +93,7 @@ class LoginFragment : Fragment() {
 
     private fun onClickGoogleLogin() {
         binding.googleButton.setOnClickListener {
-            startActivity(Intent(requireActivity(), OssLicensesMenuActivity::class.java))
-//            signIntWithGoogle()
+            signIntWithGoogle()
         }
     }
     private fun signIntWithGoogle() {
