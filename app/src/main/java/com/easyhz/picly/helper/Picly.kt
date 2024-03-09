@@ -1,6 +1,7 @@
 package com.easyhz.picly.helper
 
 import android.app.Application
+import com.easyhz.picly.data.firebase.AnalyticsManager
 import com.easyhz.picly.data.repository.user.UserManager
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
@@ -15,6 +16,7 @@ class Picly: Application() {
     override fun onCreate() {
         super.onCreate()
         FirebaseApp.initializeApp(this)
+        AnalyticsManager.init(this)
         if (UserManager.isLoggedIn()) {
             println("picly 로그인")
 //            UserManager.logout()

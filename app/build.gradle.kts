@@ -8,6 +8,7 @@ plugins {
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
+    id("com.google.firebase.crashlytics")
 }
 
 val localProperties = Properties()
@@ -81,6 +82,8 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.crashlytics.ktx)
 
     // Google
     implementation(libs.play.services.auth)

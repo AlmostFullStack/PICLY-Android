@@ -104,15 +104,13 @@ class LoginFragment : Fragment() {
                 } catch (e: ApiException) {
                     e.printStackTrace()
                 }
-            } else if (result.resultCode == RESULT_FIRST_USER) {
-                println("첫번째 유저입니까?")
             }
         }
     }
 
     private fun onFirebaseAuthTask(task: Task<AuthResult>) {
         if (!task.isSuccessful) {
-            onFailure()
+            onFailure("${task.exception?.localizedMessage}")
             return
         }
         if (task.result?.additionalUserInfo?.isNewUser == true) {
@@ -127,7 +125,7 @@ class LoginFragment : Fragment() {
                         authProvider = AUTH_PROVIDER_GOOGLE,
                         onSuccess = { onSuccess() }
                     ) {
-                        onFailure()
+                        onFailure(it)
                     }
                 }
             }
@@ -141,7 +139,7 @@ class LoginFragment : Fragment() {
         loading.show(false)
     }
 
-    private fun onFailure() {
+    private fun onFailure(e: String) {
         BlueSnackBar.make(binding.root, getString(R.string.error_unknown)).show()
         loading.show(false)
     }
