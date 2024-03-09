@@ -40,6 +40,7 @@ import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetViewModel
+import com.easyhz.picly.view.album.upload.gallery.GalleryImageAdapter.Companion.MAX_SELECTED
 import com.easyhz.picly.view.dialog.EitherDialog
 import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.dialog.Orientation
@@ -190,6 +191,7 @@ class UploadFragment: Fragment() {
     private fun observeGallerySelectedImageList() {
         galleryViewModel.selectedImageList.observe(viewLifecycleOwner) {
             uploadImageAdapter.setUploadImageList(it)
+            binding.albumField.subTextView.text = it.size.toSelected()
         }
     }
 
@@ -233,7 +235,6 @@ class UploadFragment: Fragment() {
     }
 
     private fun setExpireButtonText(button: Button, newText: String) {
-        println("dksldho $newText")
         button.text = newText
     }
 
@@ -386,3 +387,5 @@ class UploadFragment: Fragment() {
         }.show(requireActivity().supportFragmentManager)
     }
 }
+
+private fun Int.toSelected(): String = "$this/$MAX_SELECTED"

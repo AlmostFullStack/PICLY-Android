@@ -27,7 +27,6 @@ object NavControllerManager {
 
     /* 로그인 여부에 따른 startDestination 설정 */
     private fun setStartDestination(isFirstRun: Boolean) {
-        println("false >> $isFirstRun")
         val navController = navControllerRef?.get()
         val navGraph = navController?.navInflater?.inflate(R.navigation.nav_main)
         val startDestination = if (isFirstRun) {

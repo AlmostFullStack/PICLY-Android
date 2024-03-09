@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentGalleryBinding
+import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.showGalleryAlertDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collectLatest
@@ -68,7 +70,7 @@ class GalleryFragment:  BottomSheetDialogFragment() {
     }
 
     private fun setGalleryImageAdapter() {
-        galleryImageAdapter = GalleryImageAdapter()
+        galleryImageAdapter = GalleryImageAdapter { overSelected() }
         setGalleryImageRecyclerView()
     }
     private fun setGalleryFolderAdapter() {
@@ -180,6 +182,10 @@ class GalleryFragment:  BottomSheetDialogFragment() {
                 }
             )
         }
+    }
+
+    private fun overSelected() {
+        BlueSnackBar.make(binding.root.rootView, getString(R.string.over_selected)).show()
     }
 
     private fun navigateToFolder(folderName: String) {

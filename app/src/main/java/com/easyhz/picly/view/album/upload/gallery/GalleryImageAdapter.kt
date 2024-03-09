@@ -12,6 +12,7 @@ import com.easyhz.picly.databinding.ItemGalleryImageBinding
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 
 class GalleryImageAdapter(
+    private val overSelected: () -> Unit
 ): PagingDataAdapter<GalleryImage, GalleryImageAdapter.GalleryImageViewHolder>(differ) {
     val selectedImageList: MutableList<GalleryImageItem> = mutableListOf()
 
@@ -38,12 +39,16 @@ class GalleryImageAdapter(
 
             galleryImageView.setOnClickListener {
                 data?.let { galleryImage ->
-                    updateSelectionViews(galleryImage.isSelected)
-
-                    if (galleryImage.isSelected) {
-                        handleSelectedImage(galleryImage)
+                    if (!galleryImage.isSelected && selectedImageList.size >= MAX_SELECTED) {
+                        overSelected()
                     } else {
-                        handleDeselectedImage(galleryImage, position)
+                        updateSelectionViews(galleryImage.isSelected)
+
+                        if (galleryImage.isSelected) {
+                            handleSelectedImage(galleryImage)
+                        } else {
+                            handleDeselectedImage(galleryImage, position)
+                        }
                     }
                 }
             }
@@ -74,6 +79,7 @@ class GalleryImageAdapter(
     }
 
     companion object {
+        const val MAX_SELECTED = 10
         private val differ = object: DiffUtil.ItemCallback<GalleryImage>() {
             override fun areItemsTheSame(oldItem: GalleryImage, newItem: GalleryImage): Boolean {
                 return oldItem.id == newItem.id

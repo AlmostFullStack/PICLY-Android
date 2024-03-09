@@ -9,7 +9,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentGalleryFolderImageBinding
+import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.showGalleryAlertDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.flow.collectLatest
@@ -53,12 +55,18 @@ class FolderImageFragment: BottomSheetDialogFragment() {
     }
 
     private fun setGalleryImageRecyclerView() {
-        galleryImageAdapter = GalleryImageAdapter()
+        galleryImageAdapter = GalleryImageAdapter {
+            overSelected()
+        }
         binding.galleryRecyclerView.apply {
             adapter = galleryImageAdapter
             layoutManager = GridLayoutManager(activity, GalleryFragment.GALLERY_IMAGE_GRID_VIEW)
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
         }
+    }
+
+    private fun overSelected() {
+        BlueSnackBar.make(binding.root.rootView, getString(R.string.over_selected)).show()
     }
 
     private fun observeGalleryImageList() = lifecycleScope.launch {
