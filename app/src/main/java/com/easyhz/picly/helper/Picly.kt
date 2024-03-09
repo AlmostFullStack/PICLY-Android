@@ -28,5 +28,5 @@ class Picly: Application() {
  */
 const val TERMS_OF_SERVICE_URL = "https://jdeoks.notion.site/5cc8688a9432444eaad7a8fdc4e4e38a"
 const val PRIVACY_POLICY_URL = "https://jdeoks.notion.site/bace573d0a294bdeae4a92464448bcac"
-const val OPENSOURCE_LICENSE_URL = "https://easyhz.notion.site/PICLY-Android-OpenSource-License-b99c3ffe548f4247b62e9211ec94ca31"
+const val OPENSOURCE_LICENSE_URL = "https://jdeoks.notion.site/Android-c196bf1e4bf649d79473061000ebd4cf"
 const val DEVELOPER_URL ="https://jdeoks.notion.site/a747b302e36f4c369496e7372768d685"
