@@ -59,11 +59,11 @@
             <TextView
                 android:id="@+id/emailTextView"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="80dp"
                 android:text="@string/login_email_text"
                 android:textColor="@color/secondText"
                 android:layout_marginHorizontal="24dp"
-                android:layout_marginVertical="28dp"
+                android:paddingVertical="12dp"
             />
 
         </LinearLayout>

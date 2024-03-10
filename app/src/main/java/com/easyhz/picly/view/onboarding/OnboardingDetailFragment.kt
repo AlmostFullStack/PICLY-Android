@@ -8,9 +8,9 @@ import androidx.fragment.app.Fragment
 import com.easyhz.picly.databinding.FragmentOnboardingDetailBinding
 
 class OnboardingDetailFragment(
-    private val title: Int,
-    private val message: Int,
-    private val image: Int
+    private val title: Int = OnboardingFragmentPage.SHARE.title,
+    private val message: Int = OnboardingFragmentPage.SHARE.message,
+    private val image: Int = OnboardingFragmentPage.SHARE.image
 ) : Fragment() {
     private lateinit var binding: FragmentOnboardingDetailBinding
 
