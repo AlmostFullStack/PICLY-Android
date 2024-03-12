@@ -117,6 +117,9 @@ dependencies {
 
     implementation(libs.android.gif.drawable)
     implementation(libs.wsdl4j)
+
+    // Swipe
+    implementation(libs.swiperefreshlayout)
 }
 
 licenseReport {

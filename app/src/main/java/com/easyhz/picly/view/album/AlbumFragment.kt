@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,6 +19,11 @@ import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.toPICLY
 import com.easyhz.picly.view.navigation.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
 
 @AndroidEntryPoint
 class AlbumFragment: Fragment() {
@@ -51,6 +57,8 @@ class AlbumFragment: Fragment() {
         observeAlbums()
         onclickFab()
         observeSearchText()
+        setRefresh()
+        refresh()
     }
 
     private fun setRecyclerView() {
@@ -71,6 +79,11 @@ class AlbumFragment: Fragment() {
             updateNoResultMessage(albums.isEmpty(), getString(R.string.no_data_text))
             albumAdapter.setAlbumList(albums)
             albumAdapter.originalList = albums
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(500)
+                binding.swipeRefresh.isRefreshing = false
+                binding.albumRecyclerView.smoothScrollToPosition(0)
+            }
         }
     }
 
@@ -101,6 +114,20 @@ class AlbumFragment: Fragment() {
         binding.noResultMessage.apply {
             text = message
             visibility = if (isEmpty) View.VISIBLE else View.GONE
+        }
+    }
+
+    private fun setRefresh() {
+        binding.swipeRefresh.apply {
+            setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(), R.color.collectionViewCellBackground))
+            setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.highlightBlue))
+        }
+
+    }
+
+    private fun refresh() {
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.fetchAlbums()
         }
     }
 }

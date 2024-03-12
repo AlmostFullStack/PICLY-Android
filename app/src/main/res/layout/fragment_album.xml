@@ -7,33 +7,37 @@
         android:layout_height="match_parent"
         android:background="@color/mainBackground"
     >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/albumRecyclerView"
-            android:background="@color/mainBackground"
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="5dp"
-            android:overScrollMode="never"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="2"
-            tools:listitem="@layout/item_album"
-        />
-
-        <TextView
-            android:id="@+id/noResultMessage"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/no_search_text"
-            android:textColor="@color/secondText"
-            android:gravity="center"
-            android:visibility="gone"
-            android:background="@color/mainBackground"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="match_parent">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/albumRecyclerView"
+                android:background="@color/mainBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_album"
             />
 
+            <TextView
+                android:id="@+id/noResultMessage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/no_search_text"
+                android:textColor="@color/secondText"
+                android:gravity="center"
+                android:visibility="gone"
+                android:background="@color/mainBackground"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addFab"
