@@ -18,6 +18,8 @@
         android:layout_marginBottom="16dp"
     >
         <ImageView
+            android:background="@color/mainBackground"
+            android:backgroundTint="@color/mainBackground"
             android:id="@+id/detailImageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

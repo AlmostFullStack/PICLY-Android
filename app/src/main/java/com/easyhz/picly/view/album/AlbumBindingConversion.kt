@@ -24,7 +24,7 @@ object AlbumBindingConversion {
         Glide.with(view.context).load(url)
             .error(R.drawable.default_image)
             .fallback(R.drawable.default_image)
-            .placeholder(shimmerDrawable)
+            .placeholder(R.color.collectionViewCellBackground)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }

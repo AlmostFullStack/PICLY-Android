@@ -78,13 +78,13 @@ fun LocalTime.toTimeFormat24(): String {
 }
 
 fun getShimmerDrawable(context: Context): ShimmerDrawable {
-    val baseColor = ContextCompat.getColor(context, R.color.skeletonDark)
-    val highlightColor = ContextCompat.getColor(context, R.color.skeletonLight)
+    val baseColor = ContextCompat.getColor(context, R.color.collectionViewCellBackground)
+    val highlightColor = ContextCompat.getColor(context, R.color.skeletonDark)
 
-    val shimmer = Shimmer.AlphaHighlightBuilder()
+    val shimmer = Shimmer.ColorHighlightBuilder()
         .setDuration(1800)
-        .setBaseAlpha(0.7f)
-        .setHighlightAlpha(1f)
+        .setHighlightColor(highlightColor)
+        .setBaseColor(baseColor)
         .setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
         .setFixedHeight(700)
         .setAutoStart(true)
