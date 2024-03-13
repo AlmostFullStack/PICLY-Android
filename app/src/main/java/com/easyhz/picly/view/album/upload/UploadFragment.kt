@@ -63,6 +63,8 @@ class UploadFragment: Fragment() {
     private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
         this.isGranted = isGranted
     }
+    private var bottomSheetFragment: GalleryBottomSheetFragment? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -178,15 +180,25 @@ class UploadFragment: Fragment() {
     }
 
     private fun onClickAddImage() {
-        if (isGranted || ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED) {
-            val bottomSheetFragment = GalleryBottomSheetFragment.getInstance()
-            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+        if (isStoragePermissionGranted()) {
+            showGalleryBottomSheet()
         } else {
             showGalleryPermissionDialog()
         }
+    }
+
+
+    private fun isStoragePermissionGranted(): Boolean {
+        return isGranted || ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun showGalleryBottomSheet() {
+        if (bottomSheetFragment != null && bottomSheetFragment!!.isAdded) return
+        bottomSheetFragment = GalleryBottomSheetFragment()
+        bottomSheetFragment!!.show(requireActivity().supportFragmentManager, "Gallery_Bottom_Sheet")
     }
     private fun observeGallerySelectedImageList() {
         galleryViewModel.selectedImageList.observe(viewLifecycleOwner) {
