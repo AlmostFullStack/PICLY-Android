@@ -28,7 +28,7 @@ class AlbumDetailFragment : Fragment() {
     private val tagAdapter = DetailTagAdapter()
     private val imageAdapter = DetailImageAdapter()
     private val args: AlbumDetailFragmentArgs by navArgs()
-
+    private var bottomSheetFragment: DetailMenuBottomSheet? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,11 +90,12 @@ class AlbumDetailFragment : Fragment() {
 
     private fun onClickMoreButton() {
         binding.toolbar.moreButton.setOnClickListener {
-            val bottomSheetFragment = DetailMenuBottomSheet.getInstance()
+            if (bottomSheetFragment != null && bottomSheetFragment!!.isAdded) return@setOnClickListener
+            bottomSheetFragment = DetailMenuBottomSheet()
             val bundle = Bundle()
             bundle.putString("documentId", args.albumItem.documentId)
-            bottomSheetFragment.arguments = bundle
-            bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+            bottomSheetFragment!!.arguments = bundle
+            bottomSheetFragment!!.show(requireActivity().supportFragmentManager, bottomSheetFragment!!.tag)
         }
     }
 

@@ -23,20 +23,6 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
     private lateinit var documentId: String
     private lateinit var viewModel: DetailMenuBottomSheetViewModel
     private lateinit var loading: LoadingDialog
-    companion object {
-        private var instance: DetailMenuBottomSheet? = null
-
-        fun getInstance(): DetailMenuBottomSheet {
-            if (instance == null) {
-                instance = DetailMenuBottomSheet()
-            }
-            return instance!!
-        }
-
-        fun releaseInstance() {
-            instance = null
-        }
-    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

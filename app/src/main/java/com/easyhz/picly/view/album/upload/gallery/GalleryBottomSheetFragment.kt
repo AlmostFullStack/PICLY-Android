@@ -16,21 +16,6 @@ class GalleryBottomSheetFragment:  BottomSheetDialogFragment() {
     private lateinit var binding: GalleryBottomSheetBinding
     private lateinit var viewModel: GalleryBottomSheetViewModel
 
-    companion object {
-        private var instance: GalleryBottomSheetFragment? = null
-
-        fun getInstance(): GalleryBottomSheetFragment {
-            if (instance == null) {
-                instance = GalleryBottomSheetFragment()
-            }
-            return instance!!
-        }
-
-        fun releaseInstance() {
-            instance = null
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
