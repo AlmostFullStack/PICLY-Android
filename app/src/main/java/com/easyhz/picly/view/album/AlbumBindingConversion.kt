@@ -33,6 +33,7 @@ object AlbumBindingConversion {
     @BindingAdapter("albumTag")
     fun setTags(view: TextView, tag: String) {
         if (tag.isNotBlank()) view.text = HASH_TAG.plus(tag)
+        else view.text = ""
     }
 
     @JvmStatic
