@@ -58,7 +58,6 @@ class GalleryBottomSheetViewModel
 
     fun deleteSelectedImageList(value: GalleryImageItem) {
         _selectedImageList.value = _selectedImageList.value.orEmpty().toMutableList().apply { remove(value) }
-        _selectedImageList.value?.remove(value)
     }
     fun initSelectedImageList() {
         _selectedImageList.value = mutableListOf()
