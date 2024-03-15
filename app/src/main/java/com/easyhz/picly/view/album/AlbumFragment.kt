@@ -79,6 +79,7 @@ class AlbumFragment: Fragment() {
             updateNoResultMessage(albums.isEmpty(), getString(R.string.no_data_text))
             albumAdapter.setAlbumList(albums)
             albumAdapter.originalList = albums
+            if (!binding.swipeRefresh.isRefreshing) return@observe
             CoroutineScope(Dispatchers.Main).launch {
                 delay(500)
                 binding.swipeRefresh.isRefreshing = false
