@@ -47,7 +47,7 @@ class AlbumRepositoryImpl
                 .await()
             emit(result)
         } catch (e: Exception) {
-            Log.e(this.javaClass.simpleName, "Error writing albums: ${e.message}")
+            Log.e(this.javaClass.simpleName, "AlbumRepository: Error writing albums: ${e.message}")
             throw e
         }
     }

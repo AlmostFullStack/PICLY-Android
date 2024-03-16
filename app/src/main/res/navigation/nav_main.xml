@@ -176,7 +176,7 @@
         <action
             android:id="@+id/action_accountFragment_to_loginFragment"
             app:destination="@id/loginFragment"
-            app:popUpTo="@+id/accountFragment"
+            app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true"
         />
     </fragment>

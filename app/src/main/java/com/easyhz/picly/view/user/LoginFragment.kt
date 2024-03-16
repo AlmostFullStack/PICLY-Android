@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -104,6 +105,7 @@ class LoginFragment : Fragment() {
     private fun callBack() {
         getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             loading.show(true)
+            Log.d("LoginFragment", "result $result -> ${result.resultCode}")
             if (result.resultCode == RESULT_OK) {
                 val signInTask = GoogleSignIn.getSignedInAccountFromIntent(result.data)
 
@@ -113,6 +115,9 @@ class LoginFragment : Fragment() {
                 } catch (e: ApiException) {
                     e.printStackTrace()
                 }
+            } else {
+                onFailure("login")
+                return@registerForActivityResult
             }
         }
     }

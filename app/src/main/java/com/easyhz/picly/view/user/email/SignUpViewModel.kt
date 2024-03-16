@@ -77,7 +77,7 @@ class SignUpViewModel
                 width = 938,
                 height = 938,
                 isSelected = false,
-                position = 1
+                position = 0
             )
         }
     }

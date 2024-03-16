@@ -20,8 +20,8 @@ object AlbumDetailBindingConversion {
     @BindingAdapter("detailImage")
     fun setDetailImage(view: ImageView, image: DetailImageItem) {
         val shimmerDrawable = getShimmerDrawable(view.context)
-        val imageWidth = image.size.width
-        val imageHeight = image.size.height
+        val imageWidth = if (image.url.isNotBlank()) image.size.width else 938
+        val imageHeight = if (image.url.isNotBlank()) image.size.height else 938
         if (viewWidth == -1 && view.width != 0) {
             viewWidth = view.width
         }

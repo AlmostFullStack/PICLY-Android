@@ -16,11 +16,11 @@ class MainViewModel
     private val appSettingDataStoreUseCase: AppSettingDataStoreUseCase
 ): ViewModel() {
     private val _isFirstRun = MutableLiveData<Boolean>()
-    val isFirstRun: LiveData<Boolean> get() = _isFirstRun
+    val isFirstRun: MutableLiveData<Boolean> get() = _isFirstRun
 
     init {
         viewModelScope.launch {
-            _isFirstRun.value = appSettingDataStoreUseCase.getIsFirstRun().first()
+            _isFirstRun.value = appSettingDataStoreUseCase.getIsFirstRun().first() ?: true
         }
     }
 

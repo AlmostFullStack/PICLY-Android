@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.distinctUntilChanged
 import com.easyhz.picly.MainActivity
 import com.easyhz.picly.databinding.ActivityStartBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,7 +26,7 @@ class StartActivity : AppCompatActivity() {
     }
 
     private fun observeIsFirstRun() {
-        viewModel.isFirstRun.observe(this) { isFirstRun ->
+        viewModel.isFirstRun.distinctUntilChanged().observe(this) { isFirstRun ->
             if (isFirstRun) {
                 viewModel.updateFirstRunStatus()
             }
