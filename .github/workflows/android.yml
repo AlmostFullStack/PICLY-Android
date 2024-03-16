@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       LOCAL_PROPERTIES_CONTENTS: ${{ secrets.LOCAL_PROPERTIES_CONTENTS }} # scerets에서 로컬 프로퍼티 값 변수(LOCAL_PROPERTIES_CONTENTS)로 설정
+      KEY_STORE_PROPERTIES_CONTENTS: ${{ secrets.KEY_STORE_PROPERTIES_CONTENTS }} # scerets에서 로컬 프로퍼티 값 변수(KEY_STORE_PROPERTIES_CONTENTS)로 설정
       GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }} # scerets에서 구글 제이슨 값 변수(GOOGLE_SERVICES_JSON)로 설정
 
     steps:
@@ -30,6 +31,11 @@ jobs:
     - name: Create local.properties
       run: |
         echo "$LOCAL_PROPERTIES_CONTENTS" > local.properties
+
+    
+    - name: Create keystore.properties
+      run: |
+        echo "$KEY_STORE_PROPERTIES_CONTENTS" > keystore.properties
         
     - name: Build debug 
       run: ./gradlew assembleDebug
