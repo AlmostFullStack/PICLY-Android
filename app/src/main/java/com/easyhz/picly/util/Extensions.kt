@@ -3,6 +3,7 @@ package com.easyhz.picly.util
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
+import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import com.easyhz.picly.data.entity.album.ImageSize
@@ -81,8 +82,12 @@ fun Exception.unknownErrorCode() : String {
  *
  * @return Long
  */
-fun Cursor.getLongColumnOrThrow(columnName: String): Long =
+fun Cursor.getLongColumnOrThrow(columnName: String): Long? = try {
     getLong(getColumnIndexOrThrow(columnName))
+} catch (e: Exception) {
+    Log.d("getLongColumnOrThrow", "error > $e")
+    null
+}
 
 /**
  * ContentResolver cursor 에서 String 을 가져오는 확장 함수

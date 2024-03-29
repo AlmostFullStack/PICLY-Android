@@ -16,7 +16,7 @@ data class GalleryFolder(
 ) {
     companion object {
         fun createFromCursor(cursor: Cursor, uri: Uri): GalleryFolder {
-            val id = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns._ID)
+            val id = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns._ID) ?: -1
             val folderName = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME)
             val bucketId = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.BUCKET_ID)
             val contentUri = ContentUris.withAppendedId(uri, id)

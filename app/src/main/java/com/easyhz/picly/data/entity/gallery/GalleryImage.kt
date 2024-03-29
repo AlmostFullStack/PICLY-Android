@@ -19,20 +19,20 @@ data class GalleryImage(
     val height: Long,
 ) {
     companion object {
-        fun createFromCursor(cursor: Cursor, uri: Uri): GalleryImage {
-            val id = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns._ID)
+        fun createFromCursor(cursor: Cursor, uri: Uri, type: Int = 1): GalleryImage {
+            val id = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns._ID) ?: -1
             val name = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
             val path = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DATA)
             val regDate = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN)
-            val size = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.SIZE)
-            val width = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.WIDTH)
-            val height = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.HEIGHT)
+            val size = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.SIZE) ?: 100
+            val width = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.WIDTH) ?: 938
+            val height = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.HEIGHT) ?: 938
             val contentUri = ContentUris.withAppendedId(uri, id)
 
             return GalleryImage(
                 id = id,
                 path = path ?: "",
-                uri = contentUri,
+                uri = if (type == 1) contentUri else uri,
                 name = name ?: "",
                 regDate = regDate ?: "" ,
                 size = size,
