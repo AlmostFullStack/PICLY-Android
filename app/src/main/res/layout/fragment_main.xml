@@ -40,8 +40,11 @@
             app:itemTextColor="@color/bottom_color"
             app:itemRippleColor="@android:color/transparent"
             app:itemActiveIndicatorStyle="@android:color/transparent"
-            app:itemIconSize="16dp"
-            />
+            app:itemIconSize="28dp"
+            app:itemPaddingTop="8dp"
+            app:itemPaddingBottom="8dp"
+            app:itemTextAppearanceActive="@style/BottomNavigationView.Active"
+            app:itemTextAppearanceInactive="@style/BottomNavigationView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
