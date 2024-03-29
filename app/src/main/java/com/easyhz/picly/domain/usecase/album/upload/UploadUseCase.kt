@@ -9,6 +9,7 @@ import com.easyhz.picly.util.getImageUri
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -26,13 +27,17 @@ class UploadUseCase
     ): Flow<String> = flow {
         val album = createAlbum(ownerId, tags, selectedImageList, expireTime)
         try {
-            val documentId = repository.writeAlbums(album).first().id
+            var documentId = ""
+            repository.writeAlbums(album).collectLatest {
+                documentId = it.id
+            }
+            if (documentId.isBlank()) throw Exception()
             val imageUrls = repository.writeAlbumImages(documentId, selectedImageList.getImageUri()).first()
             updateAlbum(documentId, album.copy(imageUrls = imageUrls.imageUrls, thumbnailUrl = imageUrls.thumbnailUrl))
 
         } catch (e: Exception) {
             Log.e(this.javaClass.simpleName, "Error writing albums and images: ${e.message}")
-            emit("")
+            throw e
         }
     }
 
