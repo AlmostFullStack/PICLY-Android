@@ -8,6 +8,7 @@ PICLY와 함께 새로운 방식의 공유를 경험하세요.
 
 
 *PlayStore 테스터 모집 중*
+
 *[테스터 모집 오픈 카톡 바로 가기](https://open.kakao.com/o/sKCmtbjg)*
 
 <img src = "https://github.com/AlmostFullStack/PICLY-Android/assets/65584699/84d2c8ad-0383-493d-b104-5a4c890bf791" width="20%"> 
