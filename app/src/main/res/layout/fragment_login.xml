@@ -41,6 +41,21 @@
                 android:textAllCaps="false"
                 tools:ignore="RtlSymmetry" />
 
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/emailButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/button_shape"
+                android:backgroundTint="@color/mainText"
+                android:drawableStart="@drawable/logo_email"
+                android:gravity="center"
+                android:paddingHorizontal="2dp"
+                android:layout_marginHorizontal="24dp"
+                android:paddingEnd="52dp"
+                android:text="@string/email_login"
+                android:textColor="@color/collectionViewCellBackground"
+                android:textAllCaps="false"
+                tools:ignore="RtlSymmetry" />
 <!--            <androidx.appcompat.widget.AppCompatButton-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="56dp"-->
@@ -56,15 +71,15 @@
 <!--                android:textAllCaps="false"-->
 <!--                tools:ignore="RtlSymmetry" />-->
 
-            <TextView
-                android:id="@+id/emailTextView"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:text="@string/login_email_text"
-                android:textColor="@color/secondText"
-                android:layout_marginHorizontal="24dp"
-                android:paddingVertical="12dp"
-            />
+<!--            <TextView-->
+<!--                android:id="@+id/emailTextView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="80dp"-->
+<!--                android:text="@string/login_email_text"-->
+<!--                android:textColor="@color/secondText"-->
+<!--                android:layout_marginHorizontal="24dp"-->
+<!--                android:paddingVertical="12dp"-->
+<!--            />-->
 
         </LinearLayout>
 

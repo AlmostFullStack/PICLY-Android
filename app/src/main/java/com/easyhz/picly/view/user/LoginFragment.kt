@@ -70,7 +70,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun onClickEmailLogin() {
-        binding.emailTextView.setOnClickListener {
+        binding.emailButton.setOnClickListener {
             NavControllerManager.navigateLoginToLoginEmail()
         }
     }
