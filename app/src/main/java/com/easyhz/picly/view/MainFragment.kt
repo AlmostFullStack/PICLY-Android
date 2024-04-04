@@ -55,12 +55,22 @@ class MainFragment:Fragment() {
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            setSearchBarVisibility(destination.id)
             when (destination.id) {
-                R.id.page_album -> setToolbarTitle(R.string.app_title, R.font.bayon)
-                R.id.page_settings -> setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold, 22F)
+                R.id.page_album -> handlePageAlbum()
+                R.id.page_settings -> handlePageSettings()
             }
         }
+    }
+
+    private fun handlePageAlbum() {
+        binding.toolbar.searchField.visibility = View.VISIBLE
+        setToolbarTitle(R.string.app_title, R.font.bayon)
+    }
+
+    private fun handlePageSettings() {
+        resetSearchBar()
+        binding.toolbar.searchField.visibility = View.GONE
+        setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold, 22F)
     }
 
     private fun setToolbarTitle(titleResId: Int, fontResId: Int, fontSize: Float = 36F) {
@@ -68,13 +78,6 @@ class MainFragment:Fragment() {
             text = getString(titleResId)
             typeface = resources.getFont(fontResId)
             textSize = fontSize
-        }
-    }
-
-    private fun setSearchBarVisibility(id: Int) {
-        binding.toolbar.searchField.visibility = when(id) {
-            R.id.page_album -> View.VISIBLE
-            else -> View.GONE
         }
     }
 
