@@ -33,6 +33,7 @@
 
     <string name="google_login">Google로 로그인</string>
     <string name="apple_login">Apple로 로그인</string>
+    <string name="email_login">이메일로 로그인</string>
     <string name="login_email_text"><u>이메일로 로그인</u></string>
     <string name="login_warning">위의 “Google/Apple/이메일로 로그인”을 클릭하면 \n이용약관 및 개인정보처리방침을 읽고 이해했으며, \n그에 동의하는 것으로 간주됩니다.\n</string>
     <string name="terms_of_service">이용약관</string>

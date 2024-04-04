@@ -23,7 +23,7 @@
                 android:id="@+id/uploadImage"
                 android:src="@drawable/default_image"
                 android:layout_width="match_parent"
-                app:imageUrl="@{data.uri}"
+                app:galleryUrl="@{data.uri}"
                 android:scaleType="centerCrop"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/image" />

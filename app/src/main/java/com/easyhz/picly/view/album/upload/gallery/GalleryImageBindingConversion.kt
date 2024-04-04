@@ -9,7 +9,7 @@ import com.easyhz.picly.R
 
 object GalleryImageBindingConversion {
     @JvmStatic
-    @BindingAdapter("imageUrl")
+    @BindingAdapter("galleryUrl")
     fun setImage(view: ImageView, uri: Uri) {
         Glide.with(view.context).load(uri)
             .error(R.drawable.default_image)

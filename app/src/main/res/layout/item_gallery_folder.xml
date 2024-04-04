@@ -40,7 +40,7 @@
                     android:background="@color/mainBackground"
                     android:adjustViewBounds="true"
                     android:contentDescription="@{data.id.toString()}"
-                    imageUrl="@{data.thumbnailUri}"
+                    app:galleryUrl="@{data.thumbnailUri}"
                     />
             </androidx.cardview.widget.CardView>
             <TextView

@@ -22,7 +22,7 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"
             android:contentDescription="@{data.name}"
-            app:imageUrl="@{data.uri}"
+            app:galleryUrl="@{data.uri}"
         />
         <View
             android:id="@+id/selectedView"
