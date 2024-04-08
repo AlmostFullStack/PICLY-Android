@@ -9,14 +9,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.easyhz.picly.databinding.ItemAlbumBinding
 import com.easyhz.picly.domain.model.album.AlbumItem
+import com.easyhz.picly.domain.model.album.SearchData
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class AlbumAdapter(
-    private val noResult: (Boolean , String) -> Unit,
     private val onClickLinkButton: (AlbumItem) -> Unit,
     private val onClickListener: (AlbumItem) -> Unit,
 ):RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>(), Filterable {
     var originalList: List<AlbumItem> = listOf()
     private val postFiler = PostFilter()
+    private var searchData = SearchData()
+
     inner class AlbumViewHolder(val binding: ItemAlbumBinding) : RecyclerView.ViewHolder(binding.root)
 
 
@@ -56,7 +60,6 @@ class AlbumAdapter(
     }
 
     override fun getFilter(): Filter = postFiler
-
     inner class  PostFilter: Filter() {
 
         override fun performFiltering(constraint: CharSequence?): FilterResults {
@@ -79,8 +82,16 @@ class AlbumAdapter(
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
             val filteredList = results?.values as? List<AlbumItem> ?: emptyList()
-            noResult(filteredList.isEmpty(), constraint.toString())
+            searchData.apply {
+                this.isEmpty = filteredList.isEmpty()
+                this.string = constraint.toString()
+            }
             differ.submitList(filteredList)
+        }
+    }
+    suspend fun getSearchData(): SearchData {
+        return suspendCoroutine<SearchData> { continuation ->
+            continuation.resume(searchData)
         }
     }
 }
