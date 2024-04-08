@@ -14,16 +14,13 @@
             android:background="@color/mainBackground"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
+            <include
+                layout="@layout/button_back_arrow"
                 android:id="@+id/backButton"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:contentDescription="@string/back_button"
-                android:src="@drawable/arrow_back_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/toolbarTitle"
                 app:layout_constraintTop_toTopOf="parent"
-                />
+            />
 
             <TextView
                 android:id="@+id/toolbarTitle"
