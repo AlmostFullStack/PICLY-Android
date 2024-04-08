@@ -116,6 +116,7 @@ class MainFragment:Fragment() {
     private fun resetSearchBar() {
         binding.toolbar.apply {
             searchEditText.setText("")
+            viewModel.setSearchText("")
             searchEditText.clearFocus()
             val layoutParams = ConstraintLayout.LayoutParams(112.toPx(requireContext()), searchEditText.height)
             layoutParams.apply {
