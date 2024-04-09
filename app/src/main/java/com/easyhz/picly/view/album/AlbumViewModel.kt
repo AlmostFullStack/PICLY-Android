@@ -26,6 +26,10 @@ class AlbumViewModel
     val searchText : LiveData<String>
         get() = _searchText
 
+    private val _isSwipe = MutableLiveData<Boolean>(false)
+    val isSwipe : LiveData<Boolean>
+        get() = _isSwipe
+
     fun fetchAlbums() = viewModelScope.launch {
         albumUseCase().distinctUntilChanged().collectLatest {
             albumsLiveData.value = it.toAlbumItem()
@@ -34,5 +38,9 @@ class AlbumViewModel
 
     fun setSearchText(value: String) {
         _searchText.value = value
+    }
+
+    fun setSwipe(value: Boolean) {
+        _isSwipe.value = value
     }
 }

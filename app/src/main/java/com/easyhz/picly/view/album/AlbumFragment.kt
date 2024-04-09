@@ -128,6 +128,7 @@ class AlbumFragment: Fragment() {
     private fun refresh() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.fetchAlbums()
+            viewModel.setSwipe(true)
         }
     }
 }

@@ -45,8 +45,15 @@ class MainFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setUp()
     }
+
+    override fun onPause() {
+        super.onPause()
+        resetSearchBar()
+    }
+
     private fun setUp() {
         fetchAlbums()
+        observeIsSwipe()
     }
 
     private fun setNavigation() {
@@ -85,6 +92,14 @@ class MainFragment:Fragment() {
         viewModel.fetchAlbums()
     }
 
+    private fun observeIsSwipe() {
+        viewModel.isSwipe.observe(viewLifecycleOwner) {
+            if (it) {
+                resetSearchBar()
+                viewModel.setSwipe(false)
+            }
+        }
+    }
     private fun setSearchBar() {
         binding.toolbar.apply {
             searchCancelButton.setOnClickListener {
