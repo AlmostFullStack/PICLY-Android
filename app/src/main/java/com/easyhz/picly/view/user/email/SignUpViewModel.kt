@@ -3,7 +3,6 @@ package com.easyhz.picly.view.user.email
 import android.content.Context
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
@@ -13,9 +12,6 @@ import com.easyhz.picly.domain.usecase.user.SignUpUseCase
 import com.easyhz.picly.util.getDefaultImage
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import java.util.Calendar
 import javax.inject.Inject
 
@@ -26,43 +22,38 @@ class SignUpViewModel
     private val uploadUseCase: UploadUseCase
 ): ViewModel() {
 
-    fun signUp(
+    suspend fun signUp(
         context: Context,
         email: String,
         password: String,
         authProvider: String,
-        uid: String = "",
-        onSuccess: (String) -> Unit,
-        onFailure: (String) -> Unit
-    ) = viewModelScope.launch {
+        uid: String = ""
+    ): SignUpUseCase.SignUpResult {
         isEmptyEmailAndPassword(email, password)?.let {
-            onFailure(it)
-            return@launch
+            return SignUpUseCase.SignUpResult.Error(it)
         }
-        signUpUseCase.signUp(
-            UserForm(email, password, authProvider, uid),
-            onSuccess = { initAlbum(context, onSuccess, onFailure) }
-        ) {
-            if (it != null) {
-                onFailure(it)
-            }
+        val signUpResult = signUpUseCase.signUp(UserForm(email, password, authProvider, uid))
+        if (signUpResult is SignUpUseCase.SignUpResult.Error) {
+            return SignUpUseCase.SignUpResult.Error(signUpResult.errorMessage)
         }
+
+        val initAlbumResult = initAlbum(context)
+        if (initAlbumResult is UploadUseCase.UploadAlbumResult.Error) {
+            return SignUpUseCase.SignUpResult.Error(initAlbumResult.errorMessage)
+        }
+        return SignUpUseCase.SignUpResult.Success
     }
 
-    private fun initAlbum(context: Context, onSuccess: (String) -> Unit, onFailure: (String) -> Unit) = viewModelScope.launch {
+    private suspend fun initAlbum(context: Context): UploadUseCase.UploadAlbumResult {
         UserManager.currentUser?.uid?.let { id ->
             val defaultGalleryItem = getDefaultGalleryItem(context)
-            uploadUseCase.writeAlbums(
+            return uploadUseCase.writeAlbums(
                 ownerId = id,
                 tags = TAGS,
                 selectedImageList = listOf(defaultGalleryItem!!),
                 expireTime = getExpireTime()
-            ).catch { e ->
-                e.localizedMessage?.let { onFailure(it) }
-            }.collectLatest {
-                onSuccess(it)
-            }
-        }
+            )
+        } ?: return UploadUseCase.UploadAlbumResult.Error("알 수 없는 오류가 발생했습니다")
     }
 
     private fun getDefaultGalleryItem(context: Context): GalleryImageItem? {

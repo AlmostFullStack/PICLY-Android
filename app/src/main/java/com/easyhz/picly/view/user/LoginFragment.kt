@@ -20,6 +20,7 @@ import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_GOOGLE
 import com.easyhz.picly.data.repository.user.UserManager.initGoogle
 import com.easyhz.picly.data.repository.user.UserManager.onGoogleSignInAccount
 import com.easyhz.picly.databinding.FragmentLoginBinding
+import com.easyhz.picly.domain.usecase.user.SignUpUseCase
 import com.easyhz.picly.helper.PRIVACY_POLICY_URL
 import com.easyhz.picly.helper.TERMS_OF_SERVICE_URL
 import com.easyhz.picly.util.BlueSnackBar
@@ -29,9 +30,11 @@ import com.easyhz.picly.view.user.email.SignUpViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.oss.licenses.OssLicensesMenuActivity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -127,24 +130,24 @@ class LoginFragment : Fragment() {
             onFailure("${task.exception?.localizedMessage}")
             return
         }
-        if (task.result?.additionalUserInfo?.isNewUser == true) {
-            val user = task.result.user
-            user?.let { u ->
-                u.email?.let {
-                    signUpViewModel.signUp(
-                        requireActivity(),
-                        email = it,
-                        password = u.uid,
-                        uid = u.uid,
-                        authProvider = AUTH_PROVIDER_GOOGLE,
-                        onSuccess = { onSuccess() }
-                    ) {
-                        onFailure(it)
-                    }
-                }
-            }
-        } else {
+        if (task.result?.additionalUserInfo?.isNewUser == false) {
             onSuccess()
+            return
+        }
+        val user = task.result?.user ?: return
+        val email = user.email ?: return
+        CoroutineScope(Dispatchers.Main).launch {
+            val result = signUpViewModel.signUp(
+                requireActivity(),
+                email = email,
+                password = user.uid,
+                uid = user.uid,
+                authProvider = AUTH_PROVIDER_GOOGLE
+            )
+            when(result) {
+                is SignUpUseCase.SignUpResult.Success -> onSuccess()
+                is SignUpUseCase.SignUpResult.Error -> onFailure(result.errorMessage)
+            }
         }
     }
 

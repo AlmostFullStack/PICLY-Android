@@ -29,6 +29,7 @@ import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentUploadBinding
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem.Companion.toGalleryImageItem
+import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase.UploadAlbumResult
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.animateGrow
@@ -53,6 +54,9 @@ import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -232,7 +236,6 @@ class UploadFragment: Fragment() {
                 }
                 for (i in 0 until clipData.itemCount) {
                     val item = clipData.getItemAt(i).uri.toGalleryImageItem(requireActivity())
-                    println("item> $item")
                     item?.let {
                         selectedImages.add(it)
                     }
@@ -354,13 +357,16 @@ class UploadFragment: Fragment() {
             }
             viewModel.selectedImageList.value?.let { imageList ->
                 loading.show(true)
-                viewModel.writeAlbums(
-                    imageList,
-                    binding.expireDateButton.text.toString(),
-                    binding.expireTimeButton.text.toString(),
-                    { onFailure(it) }
-                ) {
-                    onSuccess(it)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val result = viewModel.writeAlbums(
+                        imageList,
+                        binding.expireDateButton.text.toString(),
+                        binding.expireTimeButton.text.toString(),
+                    )
+                    when(result) {
+                        is UploadAlbumResult.Success -> onSuccess(result.message)
+                        is UploadAlbumResult.Error -> onFailure(result.errorMessage)
+                    }
                 }
             }
         }

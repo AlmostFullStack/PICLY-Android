@@ -55,7 +55,7 @@ class UserRepositoryImpl
         onSuccess.invoke()
     }
 
-    override suspend fun signUp(user: UserForm, onSuccess: () -> Unit, onError: (String?) -> Unit) {
+    override suspend fun signUp(user: UserForm) {
         try {
             var uid = user.uid
             var email = user.email
@@ -66,12 +66,11 @@ class UserRepositoryImpl
             }
 
             saveUser(uid, email, user.authProvider)
-            onSuccess.invoke()
         } catch (e: FirebaseAuthException) {
-            onError(e.errorCode)
+            throw e
         } catch (e: Exception) {
             Log.e(this.javaClass.simpleName, "Sign Up Error: ${e.message}")
-            onError(e.unknownErrorCode())
+            throw e
         }
     }
 

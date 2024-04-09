@@ -13,7 +13,7 @@ interface UserRepository {
     fun fetchLoginInfo(id: String) : Flow<UserInfo>
     fun logout(onSuccess: () -> Unit)
 
-    suspend fun signUp(user: UserForm, onSuccess: () -> Unit, onError: (String?) -> Unit)
+    suspend fun signUp(user: UserForm)
 
     suspend fun deleteUser(id: String, onSuccess: () -> Unit)
 }

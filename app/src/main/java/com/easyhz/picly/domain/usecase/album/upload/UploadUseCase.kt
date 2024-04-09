@@ -7,43 +7,36 @@ import com.easyhz.picly.domain.repository.album.AlbumRepository
 import com.easyhz.picly.util.getImageSizes
 import com.easyhz.picly.util.getImageUri
 import com.google.firebase.Timestamp
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UploadUseCase
 @Inject constructor(
     private val repository: AlbumRepository
 ) {
-
-    fun writeAlbums(
+    sealed class UploadAlbumResult{
+        data class Success(val message: String): UploadAlbumResult()
+        data class Error(val errorMessage: String): UploadAlbumResult()
+    }
+    suspend fun writeAlbums(
         ownerId: String,
         tags: List<String>,
         selectedImageList: List<GalleryImageItem>,
         expireTime: Timestamp
-    ): Flow<String> = flow {
+    ): UploadAlbumResult = withContext(Dispatchers.IO) {
         val album = createAlbum(ownerId, tags, selectedImageList, expireTime)
         try {
-            var documentId = ""
-            repository.writeAlbums(album).collectLatest {
-                documentId = it.id
-            }
-            if (documentId.isBlank()) throw Exception()
+            val documentId = repository.writeAlbums(album).first().id
+            if (documentId.isBlank()) return@withContext UploadAlbumResult.Error("잠시 후 다시 시도해주세요.")
             val imageUrls = repository.writeAlbumImages(documentId, selectedImageList.getImageUri()).first()
-            updateAlbum(documentId, album.copy(imageUrls = imageUrls.imageUrls, thumbnailUrl = imageUrls.thumbnailUrl))
-
+            val result = repository.updateAlbums(documentId, album.copy(imageUrls = imageUrls.imageUrls, thumbnailUrl = imageUrls.thumbnailUrl)).first()
+            return@withContext UploadAlbumResult.Success(result)
         } catch (e: Exception) {
             Log.e(this.javaClass.simpleName, "Error writing albums and images: ${e.message}")
-            throw e
+            UploadAlbumResult.Error("알 수 없는 오류가 발생하였습니다.")
         }
-    }
-
-    private suspend fun FlowCollector<String>.updateAlbum(documentId: String, album: Album) {
-        val result = repository.updateAlbums(documentId, album).first()
-        emit(result)
     }
 
     private fun createAlbum(

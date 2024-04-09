@@ -11,12 +11,16 @@ import com.easyhz.picly.R
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_EMAIL
 import com.easyhz.picly.databinding.FragmentEmailLoginBinding
+import com.easyhz.picly.domain.usecase.user.SignUpUseCase
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
 import com.easyhz.picly.util.user.setPasswordField
 import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.navigation.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SignUpFragment :Fragment() {
@@ -63,14 +67,17 @@ class SignUpFragment :Fragment() {
             text = getString(R.string.sign_up)
             setOnClickListener {
                 loading.show(true)
-                viewModel.signUp(
-                    requireContext(),
-                    email = binding.userField.emailField.editText.text.toString(),
-                    password = binding.userField.passwordField.editText.text.toString(),
-                    authProvider = AUTH_PROVIDER_EMAIL,
-                    onSuccess ={onSuccess()}
-                ) {
-                    onFailure(it)
+                CoroutineScope(Dispatchers.Main).launch {
+                    val result = viewModel.signUp(
+                        requireContext(),
+                        email = binding.userField.emailField.editText.text.toString(),
+                        password = binding.userField.passwordField.editText.text.toString(),
+                        authProvider = AUTH_PROVIDER_EMAIL,
+                    )
+                    when(result) {
+                        is SignUpUseCase.SignUpResult.Success -> onSuccess()
+                        is SignUpUseCase.SignUpResult.Error -> onFailure(result.errorMessage)
+                    }
                 }
             }
         }

@@ -3,17 +3,11 @@ package com.easyhz.picly.view.album.upload
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase
 import com.easyhz.picly.util.toFirebaseTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,29 +28,18 @@ class UploadViewModel
         _tags.value = emptyList()
     }
 
-    fun writeAlbums(
+    suspend fun writeAlbums(
         selectedImageList: List<GalleryImageItem>,
         expiredDate: String,
-        expiredTime: String,
-        onFailure: (String) -> Unit,
-        onSuccess: (String) -> Unit,
-    ) = viewModelScope.launch(Dispatchers.IO) {
-        val ownerId = UserManager.currentUser?.uid ?: run {
-            return@launch
-        }
-        uploadUseCase.writeAlbums(
+        expiredTime: String
+    ): UploadUseCase.UploadAlbumResult {
+        val ownerId = UserManager.currentUser?.uid ?: return UploadUseCase.UploadAlbumResult.Error("")
+        return uploadUseCase.writeAlbums(
             ownerId = ownerId,
             tags = tags.value.orEmpty(),
             selectedImageList = selectedImageList,
             expireTime = "$expiredDate $expiredTime".toFirebaseTimestamp()
-        ).catch { e ->
-            e.localizedMessage?.let { onFailure(it) }
-        }.collectLatest {
-            withContext(Dispatchers.Main) {
-                onSuccess(it)
-            }
-        }
-
+        )
     }
 
     fun addTag(tag: String) {
