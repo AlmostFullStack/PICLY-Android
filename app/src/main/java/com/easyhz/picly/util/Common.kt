@@ -1,9 +1,14 @@
 package com.easyhz.picly.util
 
 import android.content.Context
+import android.content.Context.VIBRATOR_SERVICE
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Environment
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.core.content.ContextCompat
 import com.easyhz.picly.R
 import com.facebook.shimmer.Shimmer
@@ -105,4 +110,17 @@ fun getDefaultImage(context: Context): File? = try {
 } catch (e: IOException) {
     e.printStackTrace()
     null
+}
+
+fun haptic(context: Context, durationMillis: Long) {
+    val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        val vibratorManager =
+            context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+        vibratorManager.defaultVibrator
+    } else {
+        @Suppress("DEPRECATION")
+        context.getSystemService(VIBRATOR_SERVICE) as Vibrator
+    }
+
+    vibrator.vibrate(VibrationEffect.createOneShot(durationMillis, 30))
 }

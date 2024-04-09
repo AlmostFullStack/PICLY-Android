@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.mapper.toAlbumItem
 import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
+import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class AlbumViewModel
 @Inject constructor(
     private val albumUseCase: AlbumUseCase,
+    private val deleteAlbumUseCase: DeleteAlbumUseCase
 ):ViewModel() {
     private val albumsLiveData = MutableLiveData<List<AlbumItem>>()
     val albums : LiveData<List<AlbumItem>>
@@ -35,6 +37,8 @@ class AlbumViewModel
             albumsLiveData.value = it.toAlbumItem()
         }
     }
+
+    suspend fun deleteAlbum(id: String): DeleteAlbumUseCase.DeleteAlbumResult = deleteAlbumUseCase(id)
 
     fun setSearchText(value: String) {
         _searchText.value = value

@@ -14,9 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentAlbumBinding
 import com.easyhz.picly.domain.model.album.AlbumItem
+import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
+import com.easyhz.picly.util.haptic
+import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toPICLY
+import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.navigation.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -31,6 +35,7 @@ class AlbumFragment: Fragment() {
     private lateinit var albumAdapter: AlbumAdapter
     private lateinit var viewModel: AlbumViewModel
     private lateinit var clipboardManager: ClipboardManager
+    private lateinit var loading: LoadingDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,6 +44,8 @@ class AlbumFragment: Fragment() {
         binding = FragmentAlbumBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[AlbumViewModel::class.java]
         clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        loading = LoadingDialog(requireActivity())
+
         return binding.root
     }
 
@@ -64,7 +71,8 @@ class AlbumFragment: Fragment() {
     private fun setRecyclerView() {
         albumAdapter = AlbumAdapter(
             noResult = { isEmpty, s -> setNoResult(isEmpty, s) },
-            onClickLinkButton = { onClickLinkButton(it) }
+            onClickLinkButton = { onClickLinkButton(it) },
+            onLongClick = { albumItem, view ->  onLongClick(albumItem, view) }
         ) {
             NavControllerManager.navigateMainToDetail(it)
         }
@@ -105,6 +113,28 @@ class AlbumFragment: Fragment() {
         clipboardManager.setPrimaryClip(clipData)
         BlueSnackBar.make(binding.root, getString(R.string.link_copy)).show()
     }
+
+    private fun onLongClick(albumItem: AlbumItem, view: View) {
+        CoroutineScope(Dispatchers.Main).launch {
+            haptic(requireContext(), 50)
+            delay(500)
+            showAlertDialog(
+                context = requireContext(),
+                title= R.string.dialog_delete_title,
+                message = R.string.dialog_delete_message,
+                positiveButtonText = R.string.delete,
+                onContinue = {
+                    loading.show(true)
+                    deleteAlbum(albumItem.documentId)
+                },
+                negativeButtonText = R.string.cancel,
+                onCancel = { },
+                style = R.style.DialogDeleteTheme
+            )
+            view.visibility = View.GONE
+        }
+    }
+
     private fun setNoResult(isEmpty: Boolean, s: String) {
         if (s.isEmpty() && albumAdapter.originalList.isEmpty()) updateNoResultMessage(true, getString(R.string.no_data_text))
         else updateNoResultMessage(isEmpty, getString(R.string.no_search_text))
@@ -130,5 +160,19 @@ class AlbumFragment: Fragment() {
             viewModel.fetchAlbums()
             viewModel.setSwipe(true)
         }
+    }
+
+    private fun deleteAlbum(id: String) {
+        CoroutineScope(Dispatchers.Main).launch {
+            when(val result = viewModel.deleteAlbum(id)) {
+                is DeleteAlbumUseCase.DeleteAlbumResult.Success -> { viewModel.fetchAlbums() }
+                is DeleteAlbumUseCase.DeleteAlbumResult.Error -> onFailure(result.errorMessage)
+            }
+            loading.show(false)
+        }
+    }
+
+    private fun onFailure(message: String) {
+        BlueSnackBar.make(binding.root, message).show()
     }
 }

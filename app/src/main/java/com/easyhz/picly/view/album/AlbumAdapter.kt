@@ -1,6 +1,7 @@
 package com.easyhz.picly.view.album
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
@@ -13,6 +14,7 @@ import com.easyhz.picly.domain.model.album.AlbumItem
 class AlbumAdapter(
     private val noResult: (Boolean , String) -> Unit,
     private val onClickLinkButton: (AlbumItem) -> Unit,
+    private val onLongClick: (AlbumItem, View) -> Unit,
     private val onClickListener: (AlbumItem) -> Unit,
 ):RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>(), Filterable {
     var originalList: List<AlbumItem> = listOf()
@@ -45,6 +47,13 @@ class AlbumAdapter(
             data = currentItem
             albumCardView.setOnClickListener {
                 onClickListener(currentItem)
+            }
+            albumCardView.setOnLongClickListener {
+                fade.apply {
+                    visibility = View.VISIBLE
+                    onLongClick(currentItem, this)
+                }
+                true
             }
             linkButton.setOnClickListener {
                 onClickLinkButton(currentItem)
