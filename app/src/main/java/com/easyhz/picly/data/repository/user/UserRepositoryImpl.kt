@@ -6,7 +6,6 @@ import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_EMAIL
 import com.easyhz.picly.data.firebase.Constants.USERS
 import com.easyhz.picly.domain.model.user.UserForm
 import com.easyhz.picly.domain.repository.user.UserRepository
-import com.easyhz.picly.util.unknownErrorCode
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
@@ -24,14 +23,11 @@ class UserRepositoryImpl
 
     override fun getCurrentUser(): FirebaseUser? = UserManager.currentUser
 
-    override suspend fun login(user: UserForm, onSuccess: () -> Unit, onError: (String?) -> Unit) {
+    override suspend fun login(user: UserForm) {
         try {
             val result = UserManager.login(user.email, user.password)
-            onSuccess.invoke()
-        } catch (e: FirebaseAuthException) {
-            onError(e.errorCode)
         } catch (e: Exception) {
-            onError(e.unknownErrorCode())
+           throw e
         }
     }
 
@@ -50,9 +46,8 @@ class UserRepositoryImpl
         }
     }
 
-    override fun logout(onSuccess: () -> Unit) {
+    override fun logout() {
         UserManager.logout()
-        onSuccess.invoke()
     }
 
     override suspend fun signUp(user: UserForm) {

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BottomSheetDetailMenuBinding
+import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toPICLY
@@ -16,6 +17,9 @@ import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class DetailMenuBottomSheet: BottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetDetailMenuBinding
@@ -69,10 +73,7 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
                 message = R.string.dialog_delete_message,
                 positiveButtonText = R.string.delete,
                 onContinue = {
-                    loading.show(true)
-                    viewModel.deleteAlbum(documentId, onSuccess = { onSuccess() }) {
-                        onFailure(it)
-                    }
+                    onContinue()
                 },
                 negativeButtonText = R.string.cancel,
                 onCancel = { },
@@ -94,14 +95,22 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
         }
     }
 
+    private fun onContinue() {
+        loading.show(true)
+        CoroutineScope(Dispatchers.Main).launch {
+            when(val result = viewModel.deleteAlbum(documentId)) {
+                is DeleteAlbumUseCase.DeleteAlbumResult.Success -> onSuccess()
+                is DeleteAlbumUseCase.DeleteAlbumResult.Error -> onFailure(result.errorMessage)
+            }
+            loading.show(false)
+        }
+    }
     private fun onSuccess() {
         NavControllerManager.navigateDetailBottomMenuToMain()
-        loading.show(false)
     }
 
     private fun onFailure(message: String) {
         BlueSnackBar.make(binding.root, message).show()
-        loading.show(false)
     }
     private fun onClickCancel() {
 //        binding.cancelButton.setOnClickListener {

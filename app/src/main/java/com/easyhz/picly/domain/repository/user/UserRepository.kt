@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface UserRepository {
     fun getCurrentUser(): FirebaseUser?
 
-    suspend fun login(user: UserForm, onSuccess: () -> Unit, onError: (String?) -> Unit)
+    suspend fun login(user: UserForm)
 
     fun fetchLoginInfo(id: String) : Flow<UserInfo>
-    fun logout(onSuccess: () -> Unit)
+    fun logout()
 
     suspend fun signUp(user: UserForm)
 

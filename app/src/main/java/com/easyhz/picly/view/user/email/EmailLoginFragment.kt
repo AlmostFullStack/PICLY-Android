@@ -10,13 +10,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.databinding.FragmentEmailLoginBinding
+import com.easyhz.picly.domain.usecase.user.LoginUseCase
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
 import com.easyhz.picly.util.user.setPasswordField
 import com.easyhz.picly.view.dialog.LoadingDialog
 import com.easyhz.picly.view.navigation.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EmailLoginFragment :Fragment() {
@@ -69,10 +72,11 @@ class EmailLoginFragment :Fragment() {
                 loading.show(true)
                 val email = binding.userField.emailField.editText.text.toString()
                 val password = binding.userField.passwordField.editText.text.toString()
-                viewModel.login(
-                    email, password, onSuccess = { onSuccess() }
-                ) {
-                    onFailure(it)
+                CoroutineScope(Dispatchers.Main).launch {
+                    when(val result = viewModel.login(email, password)) {
+                        is LoginUseCase.LoginResult.Success -> onSuccess()
+                        is LoginUseCase.LoginResult.Error -> onFailure(result.errorMessage)
+                    }
                 }
             }
         }

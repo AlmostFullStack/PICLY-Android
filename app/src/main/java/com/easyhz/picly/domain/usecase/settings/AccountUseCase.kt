@@ -10,7 +10,7 @@ class AccountUseCase
 ){
     fun fetchLoginInfo(id: String) = repository.fetchLoginInfo(id)
 
-    fun logout(onSuccess: () -> Unit) = repository.logout(onSuccess)
+    fun logout() = repository.logout()
 
     suspend fun deleteUser(onSuccess: () -> Unit) =
         UserManager.currentUser?.uid?.let {

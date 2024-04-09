@@ -29,8 +29,8 @@ class AccountViewModel
         }
     }
 
-    fun logout(onSuccess: () -> Unit) = viewModelScope.launch {
-        accountUseCase.logout (onSuccess)
+    fun logout() = viewModelScope.launch {
+        accountUseCase.logout()
     }
 
     fun deleteUser(onSuccess: () -> Unit) = viewModelScope.launch {

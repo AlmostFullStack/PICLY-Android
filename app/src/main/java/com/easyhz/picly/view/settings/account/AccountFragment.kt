@@ -83,10 +83,9 @@ class AccountFragment: Fragment() {
 
     private fun onContinueLogOut() {
         loading.show(true)
-        viewModel.logout {
-            NavControllerManager.navigateAccountToLogin()
-            loading.show(false)
-        }
+        viewModel.logout()
+        NavControllerManager.navigateAccountToLogin()
+        loading.show(false)
     }
     private fun onClickDeleteUser() {
         binding.deleteUserButton.setOnClickListener {
