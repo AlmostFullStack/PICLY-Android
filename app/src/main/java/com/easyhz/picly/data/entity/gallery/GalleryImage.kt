@@ -54,5 +54,17 @@ data class GalleryImage(
                 isSelected = false,
                 position = position
             )
+
+        fun GalleryImage.toGalleryImageItem() : GalleryImageItem =
+            GalleryImageItem(
+                id = id,
+                path = path,
+                uri = uri,
+                name = name,
+                regDate = regDate,
+                size = size,
+                width = width,
+                height = height
+            )
     }
 }

@@ -10,10 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BottomSheetDetailMenuBinding
 import com.easyhz.picly.util.BlueSnackBar
+import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toPICLY
-import com.easyhz.picly.view.dialog.EitherDialog
 import com.easyhz.picly.view.dialog.LoadingDialog
-import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -64,19 +63,34 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
     private fun onClickDelete() {
         binding.deleteButton.setOnClickListener {
             dismiss()
-            val dialog = EitherDialog.instance(
-                title = getString(R.string.dialog_delete_title),
-                message = getString(R.string.dialog_delete_message),
-                Orientation.HORIZONTAL
+            showAlertDialog(
+                context = requireContext(),
+                title= R.string.dialog_delete_title,
+                message = R.string.dialog_delete_message,
+                positiveButtonText = R.string.delete,
+                onContinue = {
+                    loading.show(true)
+                    viewModel.deleteAlbum(documentId, onSuccess = { onSuccess() }) {
+                        onFailure(it)
+                    }
+                },
+                negativeButtonText = R.string.cancel,
+                onCancel = { },
+                style = R.style.DialogDeleteTheme
             )
-            dialog.setPositiveButton(getString(R.string.delete)) {
-                loading.show(true)
-                viewModel.deleteAlbum(documentId, onSuccess = { onSuccess() }) {
-                    onFailure(it)
-                }
-            }.setNegativeButton(getString(R.string.cancel)) {
-
-            }.show(requireActivity().supportFragmentManager)
+//            val dialog = EitherDialog.instance(
+//                title = getString(R.string.dialog_delete_title),
+//                message = getString(R.string.dialog_delete_message),
+//                Orientation.HORIZONTAL
+//            )
+//            dialog.setPositiveButton(getString(R.string.delete)) {
+//                loading.show(true)
+//                viewModel.deleteAlbum(documentId, onSuccess = { onSuccess() }) {
+//                    onFailure(it)
+//                }
+//            }.setNegativeButton(getString(R.string.cancel)) {
+//
+//            }.show(requireActivity().supportFragmentManager)
         }
     }
 
@@ -90,9 +104,9 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
         loading.show(false)
     }
     private fun onClickCancel() {
-        binding.cancelButton.setOnClickListener {
-            dismiss()
-        }
+//        binding.cancelButton.setOnClickListener {
+//            dismiss()
+//        }
     }
 
 }

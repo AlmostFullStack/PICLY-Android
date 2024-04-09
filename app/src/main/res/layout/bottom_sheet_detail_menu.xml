@@ -11,79 +11,66 @@
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         app:behavior_hideable="false"
         app:behavior_peekHeight="0dp"
-        >
+    >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/button_shape_bottom_sheet_menu"
-            app:layout_constraintBottom_toTopOf="@+id/cancelButton"
             android:layout_margin="8dp"
+            android:background="@drawable/button_shape_bottom_sheet_menu"
             android:orientation="vertical"
-        >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textSize="16sp"
-                android:text="@string/menu"
-                android:layout_margin="8dp"
-                android:textAlignment="center"
-                android:stateListAnimator="@null"
-                android:elevation="0dp"
-                android:textColor="@color/secondText"
-            />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.4dp"
-                android:background="@color/secondText"
-            />
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:layout_editor_absoluteX="8dp">
+            <!--            <TextView-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:textSize="16sp"-->
+            <!--                android:text="@string/menu"-->
+            <!--                android:layout_margin="8dp"-->
+            <!--                android:textAlignment="center"-->
+            <!--                android:stateListAnimator="@null"-->
+            <!--                android:elevation="0dp"-->
+            <!--                android:textColor="@color/secondText"-->
+            <!--            />-->
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.4dp"-->
+            <!--                android:background="@color/secondText"-->
+            <!--            />-->
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/shareButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
+                android:padding="8dp"
                 android:background="@android:color/transparent"
-                android:text="@string/share"
-                android:textColor="@color/highlightBlue"
-                android:textSize="20sp"
+                android:drawableStart="@drawable/icon_share_24"
+                android:drawablePadding="20dp"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-             />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.4dp"
-                android:background="@color/secondText"
-                />
+                android:text="@string/share"
+                android:textAlignment="textStart"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent" />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/deleteButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
+                android:padding="8dp"
                 android:background="@color/collectionViewCellBackground"
-                android:text="@string/delete"
-                android:textColor="@color/errorColor"
-                android:textSize="20sp"
+                android:drawableStart="@drawable/icon_delete_24"
+                android:drawablePadding="20dp"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
+                android:text="@string/delete"
+                android:textAlignment="textStart"
+                android:textColor="@color/mainText"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </LinearLayout>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/cancelButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@drawable/button_shape_bottom_sheet_menu"
-            android:text="@string/cancel"
-            android:textColor="@color/highlightBlue"
-            android:textSize="20sp"
-            android:elevation="0dp"
-            android:stateListAnimator="@null"
-            android:shadowColor="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

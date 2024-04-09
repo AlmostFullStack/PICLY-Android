@@ -2,6 +2,11 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.easyhz.picly.view.album.upload.UploadViewModel" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -100,31 +105,50 @@
             </FrameLayout>
         </RelativeLayout>
 
-        <CalendarView
-            android:id="@+id/calendarView"
-            android:layout_width="320dp"
-            android:layout_height="348dp"
-            android:background="@drawable/calendar_shape"
-            android:dateTextAppearance="@style/CalenderViewDateCustomText"
-            android:theme="@style/CalenderViewCustom"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/relativeLayout"
-            app:rippleColor="@null" />
-
-        <TimePicker
-            android:id="@+id/timePicker"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/calendar_shape"
-            android:numbersTextColor="@color/mainText"
+            android:orientation="vertical"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="148dp"
-            android:theme="@style/TimePicker"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/relativeLayout"
+            >
+            <View
+                android:id="@+id/calendarViewTop"
+                android:layout_width="wrap_content"
+                android:layout_height="12dp"
+                />
+            <CalendarView
+                android:id="@+id/calendarView"
+                android:layout_width="320dp"
+                android:layout_height="348dp"
+                android:background="@drawable/calendar_shape"
+                android:dateTextAppearance="@style/CalenderViewDateCustomText"
+                android:theme="@style/CalenderViewCustom"
+                android:weekDayTextAppearance="@style/CalenderViewWeekCustomText"
+                app:rippleColor="@null" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
             app:layout_constraintStart_toStartOf="@id/relativeLayout"
             app:layout_constraintTop_toTopOf="@+id/relativeLayout"
-            android:timePickerMode="spinner"/>
+        >
+            <View
+                android:id="@+id/timePickerTop"
+                android:layout_width="wrap_content"
+                android:layout_height="148dp"
+                />
+            <TimePicker
+                android:id="@+id/timePicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/calendar_shape"
+                android:numbersTextColor="@color/mainText"
+                android:theme="@style/TimePicker"
+                android:timePickerMode="spinner"/>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

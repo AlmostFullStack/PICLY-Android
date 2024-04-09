@@ -1,6 +1,7 @@
 package com.easyhz.picly.view.album.upload
 
 import android.Manifest
+import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -8,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.provider.Settings
 import android.text.Editable
 import android.text.InputType
@@ -17,6 +19,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,6 +27,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentUploadBinding
+import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
+import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem.Companion.toGalleryImageItem
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.animateGrow
@@ -34,12 +39,13 @@ import com.easyhz.picly.util.getNextWeek
 import com.easyhz.picly.util.getNextYear
 import com.easyhz.picly.util.getTime
 import com.easyhz.picly.util.getToday
+import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toDateFormat
 import com.easyhz.picly.util.toMs
+import com.easyhz.picly.util.toPx
 import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
-import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetViewModel
 import com.easyhz.picly.view.album.upload.gallery.GalleryImageAdapter.Companion.MAX_SELECTED
 import com.easyhz.picly.view.dialog.EitherDialog
 import com.easyhz.picly.view.dialog.LoadingDialog
@@ -53,17 +59,17 @@ import dagger.hilt.android.AndroidEntryPoint
 class UploadFragment: Fragment() {
     private lateinit var binding: FragmentUploadBinding
     private lateinit var viewModel: UploadViewModel
-    private lateinit var galleryViewModel: GalleryBottomSheetViewModel
     private lateinit var tagAdapter: TagAdapter
     private lateinit var uploadImageAdapter: UploadImageAdapter
     private lateinit var loading: LoadingDialog
     private var isShowCalendar: Boolean = false
     private var isShowTimePicker: Boolean = false
     private var isGranted: Boolean = false
-    private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-        this.isGranted = isGranted
-    }
+//    private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+//        this.isGranted = isGranted
+//    }
     private var bottomSheetFragment: GalleryBottomSheetFragment? = null
+    private lateinit var getResult: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,9 +78,8 @@ class UploadFragment: Fragment() {
     ): View {
         binding = FragmentUploadBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[UploadViewModel::class.java]
-        galleryViewModel = ViewModelProvider(requireActivity())[GalleryBottomSheetViewModel::class.java]
         loading = LoadingDialog(requireActivity())
-        initViews()
+//        initViews()
         return binding.root
     }
 
@@ -104,6 +109,7 @@ class UploadFragment: Fragment() {
         onClickBackground()
         onClickUploadButton()
         onClickBackButton()
+        setActivityResultLauncher()
     }
 
     private fun initCalendarView() {
@@ -131,9 +137,7 @@ class UploadFragment: Fragment() {
             editText.setOnEditorActionListener { editText, action, _ ->
 
                 if (action == EditorInfo.IME_ACTION_DONE) {
-                    viewModel.addTag(editText.text.toString())
-                    resetTagList()
-                    editText.text = ""
+                    addTag(editText.text.toString())
                 }
                 true
             }
@@ -141,15 +145,20 @@ class UploadFragment: Fragment() {
                 override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (s?.contains(" ") == true) {
-                        viewModel.addTag(editText.text.toString().replace(" ",""))
-                        resetTagList()
-                        editText.setText("")
+                        addTag(editText.text.toString().replace(" ",""))
                     }
                 }
                 override fun afterTextChanged(s: Editable?) { }
             })
         }
     }
+
+    private fun addTag(text: String) {
+        viewModel.addTag(text)
+        resetTagList()
+        binding.tagField.editText.setText("")
+    }
+
 
     private fun setTagRecyclerView() {
         tagAdapter = TagAdapter { tag ->
@@ -165,7 +174,7 @@ class UploadFragment: Fragment() {
         uploadImageAdapter = UploadImageAdapter(
             onClickAdd = ::onClickAddImage
         ) {
-            galleryViewModel.deleteSelectedImageList(it)
+            viewModel.deleteSelectedImageList(it)
         }
         binding.albumField.uploadImageRecyclerView.apply {
             adapter = uploadImageAdapter
@@ -180,11 +189,12 @@ class UploadFragment: Fragment() {
     }
 
     private fun onClickAddImage() {
-        if (isStoragePermissionGranted()) {
-            showGalleryBottomSheet()
-        } else {
-            showGalleryPermissionDialog()
-        }
+        showGallery()
+//        if (isStoragePermissionGranted()) {
+//        showGalleryBottomSheet()
+//        } else {
+//            showGalleryPermissionDialog()
+//        }
     }
 
 
@@ -200,15 +210,48 @@ class UploadFragment: Fragment() {
         bottomSheetFragment = GalleryBottomSheetFragment()
         bottomSheetFragment!!.show(requireActivity().supportFragmentManager, "Gallery_Bottom_Sheet")
     }
+
+    private fun showGallery() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.apply {
+            type = "image/**"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        }
+        getResult.launch(intent)
+    }
+
+    private fun setActivityResultLauncher() {
+        getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode != Activity.RESULT_OK) return@registerForActivityResult
+            val data: Intent? = result.data
+            val selectedImages: ArrayList<GalleryImageItem> = arrayListOf()
+            data?.clipData?.let { clipData ->
+                if (clipData.itemCount + (viewModel.selectedImageList.value?.size ?: 0) > MAX_SELECTED) {
+                    BlueSnackBar.make(binding.root, getString(R.string.over_selected)).show()
+                    return@registerForActivityResult
+                }
+                for (i in 0 until clipData.itemCount) {
+                    val item = clipData.getItemAt(i).uri.toGalleryImageItem(requireActivity())
+                    println("item> $item")
+                    item?.let {
+                        selectedImages.add(it)
+                    }
+                }
+            }
+            viewModel.addSelectedImageList(selectedImages)
+        }
+    }
+
+
     private fun observeGallerySelectedImageList() {
-        galleryViewModel.selectedImageList.observe(viewLifecycleOwner) {
+        viewModel.selectedImageList.observe(viewLifecycleOwner) {
             uploadImageAdapter.setUploadImageList(it)
             binding.albumField.subTextView.text = it.size.toSelected()
         }
     }
 
     private fun initSelectedImageList() {
-        galleryViewModel.initSelectedImageList()
+        viewModel.initSelectedImageList()
     }
 
     private fun initTagList() {
@@ -217,6 +260,7 @@ class UploadFragment: Fragment() {
 
     private fun manageCalendarDialog() {
         binding.calendarView.apply {
+            setMarginTop()
             animateGrow(isShowCalendar)
             minDate = getToday().toMs()
             maxDate = getNextYear().toMs()
@@ -233,6 +277,7 @@ class UploadFragment: Fragment() {
 
     private fun manageTimePicker() {
         binding.timePicker.apply {
+            setMarginTop()
             animateGrow(isShowTimePicker, tx = -0.2f)
             setOnTimeChangedListener { _, hourOfDay, minute ->
                 val (minHour, minMinute) = getTime().toTimeFormat().split(":")
@@ -243,6 +288,16 @@ class UploadFragment: Fragment() {
                 setExpireButtonText(binding.expireTimeButton, convertToTimeFormat(this.hour, this.minute))
                 setPeriod()
             }
+        }
+    }
+
+    private fun setMarginTop(){
+        if (viewModel.tags.value.isNullOrEmpty()) {
+            binding.calendarViewTop.layoutParams.height = SubView.CALENDAR.defaultMargin.toPx(requireContext())
+            binding.timePickerTop.layoutParams.height = SubView.TIME.defaultMargin.toPx(requireContext())
+        } else {
+            binding.calendarViewTop.layoutParams.height = SubView.CALENDAR.secondMarin.toPx(requireContext())
+            binding.timePickerTop.layoutParams.height = SubView.TIME.secondMarin.toPx(requireContext())
         }
     }
 
@@ -286,23 +341,27 @@ class UploadFragment: Fragment() {
         binding.relativeLayout.setOnClickListener {
             setDoNotShowCalendarView()
             setDoNotShowTimePicker()
+            if (binding.tagField.editText.text.isNullOrBlank()) return@setOnClickListener
+            addTag(binding.tagField.editText.text.toString())
         }
     }
 
     private fun onClickUploadButton() {
         binding.toolbar.uploadTextView.setOnClickListener {
-            if (galleryViewModel.selectedImageList.value?.isEmpty() == true) {
+            if (viewModel.selectedImageList.value.isNullOrEmpty()) {
                 BlueSnackBar.make(binding.root, getString(R.string.no_select_image)).show()
                 return@setOnClickListener
             }
-            loading.show(true)
-            viewModel.writeAlbums(
-                galleryViewModel.selectedImageList.value.orEmpty(),
-                binding.expireDateButton.text.toString(),
-                binding.expireTimeButton.text.toString(),
-                { onFailure(it) }
-            ) {
-                onSuccess(it)
+            viewModel.selectedImageList.value?.let { imageList ->
+                loading.show(true)
+                viewModel.writeAlbums(
+                    imageList,
+                    binding.expireDateButton.text.toString(),
+                    binding.expireTimeButton.text.toString(),
+                    { onFailure(it) }
+                ) {
+                    onSuccess(it)
+                }
             }
         }
     }
@@ -357,15 +416,15 @@ class UploadFragment: Fragment() {
         }
     }
     private fun initViews() = with(binding) {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            isGranted = true
-        } else {
-            galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
+//        if (ContextCompat.checkSelfPermission(
+//                requireContext(),
+//                Manifest.permission.READ_EXTERNAL_STORAGE
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            isGranted = true
+//        } else {
+//            galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+//        }
     }
 
     private fun showGalleryPermissionDialog() {
@@ -384,19 +443,40 @@ class UploadFragment: Fragment() {
     }
 
     private fun showUrlDialog(url: String) {
-        val dialog = EitherDialog.instance(
-            title = getString(R.string.dialog_upload_title),
-            message = getString(R.string.dialog_upload_message),
-            Orientation.VERTICAL
+        showAlertDialog(
+            context = requireContext(),
+            title= R.string.dialog_upload_title,
+            message = R.string.dialog_upload_message,
+            positiveButtonText = R.string.dialog_upload_positive,
+            onContinue = { onContinueUrlDialog(url) },
+            negativeButtonText = R.string.dialog_upload_negative,
+            onCancel = { NavControllerManager.navigateToBack() }
         )
-        dialog.setPositiveButton(getString(R.string.dialog_upload_positive), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
-            val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText(PICLY, url)
-            clipboardManager.setPrimaryClip(clipData)
-            NavControllerManager.navigateToBack()
-        }.setNegativeButton(getString(R.string.dialog_upload_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
-            NavControllerManager.navigateToBack()
-        }.show(requireActivity().supportFragmentManager)
+//        val dialog = EitherDialog.instance(
+//            title = getString(R.string.dialog_upload_title),
+//            message = getString(R.string.dialog_upload_message),
+//            Orientation.VERTICAL
+//        )
+//        dialog.setPositiveButton(getString(R.string.dialog_upload_positive), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
+//            val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+//            val clipData = ClipData.newPlainText(PICLY, url)
+//            clipboardManager.setPrimaryClip(clipData)
+//            NavControllerManager.navigateToBack()
+//        }.setNegativeButton(getString(R.string.dialog_upload_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
+//            NavControllerManager.navigateToBack()
+//        }.show(requireActivity().supportFragmentManager)
+    }
+
+    private fun onContinueUrlDialog(url: String) {
+        val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText(PICLY, url)
+        clipboardManager.setPrimaryClip(clipData)
+        NavControllerManager.navigateToBack()
+    }
+
+    enum class SubView(val defaultMargin: Int,val secondMarin: Int ) {
+        CALENDAR(defaultMargin = 12, secondMarin = 12 + 48),
+        TIME(defaultMargin = 148, secondMarin = 148 + 48)
     }
 }
 

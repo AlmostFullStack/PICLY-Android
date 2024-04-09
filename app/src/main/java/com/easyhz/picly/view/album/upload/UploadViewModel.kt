@@ -25,6 +25,11 @@ class UploadViewModel
     val tags : LiveData<List<String>>
         get() = _tags
 
+    private var _selectedImageList = MutableLiveData<MutableList<GalleryImageItem>>()
+
+    val selectedImageList: MutableLiveData<MutableList<GalleryImageItem>>
+        get() = _selectedImageList
+
     init {
         _tags.value = emptyList()
     }
@@ -62,6 +67,27 @@ class UploadViewModel
         }
     }
 
+    fun addSelectedImageList(value: List<GalleryImageItem>) {
+        _selectedImageList.value = (_selectedImageList.value ?: mutableListOf()).apply {
+            addAll(value)
+            updatePositions()
+        }
+    }
+
+    fun deleteSelectedImageList(value: GalleryImageItem) {
+        _selectedImageList.value = _selectedImageList.value.orEmpty().toMutableList().apply { remove(value) }
+    }
+
+    fun setPosition() {
+        _selectedImageList.value?.forEachIndexed { index, galleryImageItem ->
+            galleryImageItem.position = index
+        }
+    }
+
+    fun initSelectedImageList() {
+        _selectedImageList.value = mutableListOf()
+    }
+
     fun removeTag(tag: String) {
         _tags.value = _tags.value.orEmpty().toMutableList().apply {
             remove(tag)
@@ -70,5 +96,11 @@ class UploadViewModel
 
     fun initTagList() {
         _tags.value = emptyList()
+    }
+
+    private fun MutableList<GalleryImageItem>.updatePositions() {
+        this.forEachIndexed { index, galleryImageItem ->
+            galleryImageItem.position = index
+        }
     }
 }
