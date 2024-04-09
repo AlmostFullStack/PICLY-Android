@@ -27,6 +27,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@{data.url}"
             app:detailImage="@{data}"
+            android:scaleType="centerCrop"
         />
 
     </androidx.cardview.widget.CardView>
