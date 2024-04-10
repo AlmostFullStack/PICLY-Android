@@ -1,5 +1,6 @@
 package com.easyhz.picly.domain.usecase.album
 
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.repository.album.AlbumRepository
 import com.easyhz.picly.util.unknownErrorCode
 import kotlinx.coroutines.Dispatchers
@@ -11,16 +12,12 @@ class DeleteAlbumUseCase
 @Inject constructor(
     private val repository: AlbumRepository
 ){
-    sealed class DeleteAlbumResult {
-        data object Success: DeleteAlbumResult()
-        data class Error(val errorMessage: String): DeleteAlbumResult()
-    }
-    suspend operator fun invoke(id: String): DeleteAlbumResult = withContext(Dispatchers.IO) {
+    suspend operator fun invoke(id: String): AlbumResult<String> = withContext(Dispatchers.IO) {
         return@withContext try {
             repository.deleteAlbum(id).first()
-            DeleteAlbumResult.Success
+            AlbumResult.Success(null)
         } catch (e: Exception) {
-            DeleteAlbumResult.Error(e.unknownErrorCode())
+            AlbumResult.Error(e.unknownErrorCode())
         }
     }
 }

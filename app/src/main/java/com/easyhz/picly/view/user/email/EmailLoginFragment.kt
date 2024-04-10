@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.databinding.FragmentEmailLoginBinding
-import com.easyhz.picly.domain.usecase.user.LoginUseCase
+import com.easyhz.picly.domain.model.result.UserResult
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
 import com.easyhz.picly.util.user.setPasswordField
@@ -74,8 +74,8 @@ class EmailLoginFragment :Fragment() {
                 val password = binding.userField.passwordField.editText.text.toString()
                 CoroutineScope(Dispatchers.Main).launch {
                     when(val result = viewModel.login(email, password)) {
-                        is LoginUseCase.LoginResult.Success -> onSuccess()
-                        is LoginUseCase.LoginResult.Error -> onFailure(result.errorMessage)
+                        is UserResult.Success -> onSuccess()
+                        is UserResult.Error -> onFailure(result.errorMessage)
                     }
                 }
             }

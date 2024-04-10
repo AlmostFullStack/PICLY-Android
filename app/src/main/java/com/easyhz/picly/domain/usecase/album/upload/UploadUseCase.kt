@@ -2,6 +2,7 @@ package com.easyhz.picly.domain.usecase.album.upload
 
 import android.util.Log
 import com.easyhz.picly.data.entity.album.Album
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.easyhz.picly.domain.repository.album.AlbumRepository
 import com.easyhz.picly.util.getImageSizes
@@ -16,26 +17,22 @@ class UploadUseCase
 @Inject constructor(
     private val repository: AlbumRepository
 ) {
-    sealed class UploadAlbumResult{
-        data class Success(val message: String): UploadAlbumResult()
-        data class Error(val errorMessage: String): UploadAlbumResult()
-    }
     suspend fun writeAlbums(
         ownerId: String,
         tags: List<String>,
         selectedImageList: List<GalleryImageItem>,
         expireTime: Timestamp
-    ): UploadAlbumResult = withContext(Dispatchers.IO) {
+    ): AlbumResult<String> = withContext(Dispatchers.IO) {
         val album = createAlbum(ownerId, tags, selectedImageList, expireTime)
         try {
             val documentId = repository.writeAlbums(album).first().id
-            if (documentId.isBlank()) return@withContext UploadAlbumResult.Error("잠시 후 다시 시도해주세요.")
+            if (documentId.isBlank()) return@withContext AlbumResult.Error("잠시 후 다시 시도해주세요.")
             val imageUrls = repository.writeAlbumImages(documentId, selectedImageList.getImageUri()).first()
             val result = repository.updateAlbums(documentId, album.copy(imageUrls = imageUrls.imageUrls, thumbnailUrl = imageUrls.thumbnailUrl)).first()
-            return@withContext UploadAlbumResult.Success(result)
+            return@withContext AlbumResult.Success(result)
         } catch (e: Exception) {
             Log.e(this.javaClass.simpleName, "Error writing albums and images: ${e.message}")
-            UploadAlbumResult.Error("알 수 없는 오류가 발생하였습니다.")
+            return@withContext AlbumResult.Error("알 수 없는 오류가 발생하였습니다.")
         }
     }
 

@@ -20,7 +20,7 @@ import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_GOOGLE
 import com.easyhz.picly.data.repository.user.UserManager.initGoogle
 import com.easyhz.picly.data.repository.user.UserManager.onGoogleSignInAccount
 import com.easyhz.picly.databinding.FragmentLoginBinding
-import com.easyhz.picly.domain.usecase.user.SignUpUseCase
+import com.easyhz.picly.domain.model.result.UserResult
 import com.easyhz.picly.helper.PRIVACY_POLICY_URL
 import com.easyhz.picly.helper.TERMS_OF_SERVICE_URL
 import com.easyhz.picly.util.BlueSnackBar
@@ -145,8 +145,8 @@ class LoginFragment : Fragment() {
                 authProvider = AUTH_PROVIDER_GOOGLE
             )
             when(result) {
-                is SignUpUseCase.SignUpResult.Success -> onSuccess()
-                is SignUpUseCase.SignUpResult.Error -> onFailure(result.errorMessage)
+                is UserResult.Success -> onSuccess()
+                is UserResult.Error -> onFailure(result.errorMessage)
             }
         }
     }

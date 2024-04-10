@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentAlbumBinding
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.AlbumItem
-import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.haptic
@@ -165,8 +165,8 @@ class AlbumFragment: Fragment() {
     private fun deleteAlbum(id: String) {
         CoroutineScope(Dispatchers.Main).launch {
             when(val result = viewModel.deleteAlbum(id)) {
-                is DeleteAlbumUseCase.DeleteAlbumResult.Success -> { viewModel.fetchAlbums() }
-                is DeleteAlbumUseCase.DeleteAlbumResult.Error -> onFailure(result.errorMessage)
+                is AlbumResult.Success -> { viewModel.fetchAlbums() }
+                is AlbumResult.Error -> onFailure(result.errorMessage)
             }
             loading.show(false)
         }

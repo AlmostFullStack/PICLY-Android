@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.BottomSheetDetailMenuBinding
-import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toPICLY
@@ -99,8 +99,8 @@ class DetailMenuBottomSheet: BottomSheetDialogFragment() {
         loading.show(true)
         CoroutineScope(Dispatchers.Main).launch {
             when(val result = viewModel.deleteAlbum(documentId)) {
-                is DeleteAlbumUseCase.DeleteAlbumResult.Success -> onSuccess()
-                is DeleteAlbumUseCase.DeleteAlbumResult.Error -> onFailure(result.errorMessage)
+                is AlbumResult.Success -> onSuccess()
+                is AlbumResult.Error -> onFailure(result.errorMessage)
             }
             loading.show(false)
         }

@@ -5,7 +5,9 @@ import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.data.repository.user.UserManager
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
+import com.easyhz.picly.domain.model.result.UserResult
 import com.easyhz.picly.domain.model.user.UserForm
 import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase
 import com.easyhz.picly.domain.usecase.user.SignUpUseCase
@@ -28,23 +30,23 @@ class SignUpViewModel
         password: String,
         authProvider: String,
         uid: String = ""
-    ): SignUpUseCase.SignUpResult {
+    ): UserResult {
         isEmptyEmailAndPassword(email, password)?.let {
-            return SignUpUseCase.SignUpResult.Error(it)
+            return UserResult.Error(it)
         }
         val signUpResult = signUpUseCase.signUp(UserForm(email, password, authProvider, uid))
-        if (signUpResult is SignUpUseCase.SignUpResult.Error) {
-            return SignUpUseCase.SignUpResult.Error(signUpResult.errorMessage)
+        if (signUpResult is UserResult.Error) {
+            return UserResult.Error(signUpResult.errorMessage)
         }
 
         val initAlbumResult = initAlbum(context)
-        if (initAlbumResult is UploadUseCase.UploadAlbumResult.Error) {
-            return SignUpUseCase.SignUpResult.Error(initAlbumResult.errorMessage)
+        if (initAlbumResult is AlbumResult.Error) {
+            return UserResult.Error(initAlbumResult.errorMessage)
         }
-        return SignUpUseCase.SignUpResult.Success
+        return UserResult.Success
     }
 
-    private suspend fun initAlbum(context: Context): UploadUseCase.UploadAlbumResult {
+    private suspend fun initAlbum(context: Context): AlbumResult<String> {
         UserManager.currentUser?.uid?.let { id ->
             val defaultGalleryItem = getDefaultGalleryItem(context)
             return uploadUseCase.writeAlbums(
@@ -53,7 +55,7 @@ class SignUpViewModel
                 selectedImageList = listOf(defaultGalleryItem!!),
                 expireTime = getExpireTime()
             )
-        } ?: return UploadUseCase.UploadAlbumResult.Error("알 수 없는 오류가 발생했습니다")
+        } ?: return AlbumResult.Error("알 수 없는 오류가 발생했습니다")
     }
 
     private fun getDefaultGalleryItem(context: Context): GalleryImageItem? {

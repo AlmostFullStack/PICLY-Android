@@ -27,9 +27,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentUploadBinding
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem.Companion.toGalleryImageItem
-import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase.UploadAlbumResult
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.animateGrow
@@ -364,8 +364,8 @@ class UploadFragment: Fragment() {
                         binding.expireTimeButton.text.toString(),
                     )
                     when(result) {
-                        is UploadAlbumResult.Success -> onSuccess(result.message)
-                        is UploadAlbumResult.Error -> onFailure(result.errorMessage)
+                        is AlbumResult.Success<*> -> onSuccess(result.value as String)
+                        is AlbumResult.Error -> onFailure(result.errorMessage)
                     }
                 }
             }

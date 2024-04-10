@@ -1,5 +1,6 @@
 package com.easyhz.picly.domain.usecase.user
 
+import com.easyhz.picly.domain.model.result.UserResult
 import com.easyhz.picly.domain.model.user.UserForm
 import com.easyhz.picly.domain.repository.user.UserRepository
 import com.easyhz.picly.util.unknownErrorCode
@@ -12,18 +13,14 @@ class LoginUseCase
 @Inject constructor(
     private val repository: UserRepository
 ) {
-    sealed class LoginResult {
-        data object Success: LoginResult()
-        data class Error(val errorMessage: String): LoginResult()
-    }
-    suspend fun login(user: UserForm): LoginResult = withContext(Dispatchers.IO) {
+    suspend fun login(user: UserForm): UserResult = withContext(Dispatchers.IO) {
         try {
             val result = repository.login(user)
-            return@withContext LoginResult.Success
+            return@withContext UserResult.Success
         } catch (e: FirebaseAuthException) {
-            return@withContext LoginResult.Error(e.errorCode)
+            return@withContext UserResult.Error(e.errorCode)
         } catch (e: Exception) {
-            return@withContext LoginResult.Error(e.unknownErrorCode())
+            return@withContext UserResult.Error(e.unknownErrorCode())
         }
     }
 

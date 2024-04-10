@@ -11,7 +11,7 @@ import com.easyhz.picly.R
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_EMAIL
 import com.easyhz.picly.databinding.FragmentEmailLoginBinding
-import com.easyhz.picly.domain.usecase.user.SignUpUseCase
+import com.easyhz.picly.domain.model.result.UserResult
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.user.setEmailField
 import com.easyhz.picly.util.user.setPasswordField
@@ -75,8 +75,8 @@ class SignUpFragment :Fragment() {
                         authProvider = AUTH_PROVIDER_EMAIL,
                     )
                     when(result) {
-                        is SignUpUseCase.SignUpResult.Success -> onSuccess()
-                        is SignUpUseCase.SignUpResult.Error -> onFailure(result.errorMessage)
+                        is UserResult.Success -> onSuccess()
+                        is UserResult.Error -> onFailure(result.errorMessage)
                     }
                 }
             }

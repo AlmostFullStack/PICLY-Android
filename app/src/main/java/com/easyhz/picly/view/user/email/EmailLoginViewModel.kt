@@ -3,6 +3,7 @@ package com.easyhz.picly.view.user.email
 import androidx.lifecycle.ViewModel
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.data.firebase.Constants.AUTH_PROVIDER_EMAIL
+import com.easyhz.picly.domain.model.result.UserResult
 import com.easyhz.picly.domain.model.user.UserForm
 import com.easyhz.picly.domain.usecase.user.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,9 +15,9 @@ class EmailLoginViewModel
     private val loginUseCase: LoginUseCase,
 ): ViewModel() {
 
-    suspend fun login(email: String, password: String): LoginUseCase.LoginResult {
+    suspend fun login(email: String, password: String): UserResult {
         isEmptyEmailAndPassword(email, password)?.let {
-            return LoginUseCase.LoginResult.Error(it)
+            return UserResult.Error(it)
         }
         return loginUseCase.login(UserForm(email, password, AUTH_PROVIDER_EMAIL))
     }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.easyhz.picly.data.mapper.toAlbumItem
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.domain.usecase.album.AlbumUseCase
 import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
@@ -38,7 +39,7 @@ class AlbumViewModel
         }
     }
 
-    suspend fun deleteAlbum(id: String): DeleteAlbumUseCase.DeleteAlbumResult = deleteAlbumUseCase(id)
+    suspend fun deleteAlbum(id: String): AlbumResult<String> = deleteAlbumUseCase(id)
 
     fun setSearchText(value: String) {
         _searchText.value = value

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.easyhz.picly.data.repository.user.UserManager
+import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.easyhz.picly.domain.usecase.album.upload.UploadUseCase
 import com.easyhz.picly.util.toFirebaseTimestamp
@@ -32,8 +33,8 @@ class UploadViewModel
         selectedImageList: List<GalleryImageItem>,
         expiredDate: String,
         expiredTime: String
-    ): UploadUseCase.UploadAlbumResult {
-        val ownerId = UserManager.currentUser?.uid ?: return UploadUseCase.UploadAlbumResult.Error("")
+    ): AlbumResult<String> {
+        val ownerId = UserManager.currentUser?.uid ?: return AlbumResult.Error("오류가 발생했습니다.")
         return uploadUseCase.writeAlbums(
             ownerId = ownerId,
             tags = tags.value.orEmpty(),
