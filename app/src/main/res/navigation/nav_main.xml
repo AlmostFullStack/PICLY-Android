@@ -15,6 +15,7 @@
         <action
             android:id="@+id/action_mainFragment_to_uploadFragment"
             app:destination="@id/uploadFragment"
+            app:launchSingleTop="true"
             app:enterAnim="@anim/slide_in_up"
             app:popExitAnim="@anim/slide_out_up"
         />
@@ -133,6 +134,11 @@
         android:label="UploadFragment"
         tools:layout="@layout/fragment_upload"
         >
+        <argument
+            android:name="incomingImages"
+            app:argType="com.easyhz.picly.domain.model.album.IncomingImages"
+            app:nullable="true"
+        />
         <action
             android:id="@+id/action_uploadFragment_to_galleryBottomSheet"
             app:destination="@id/galleryBottomSheet" />
@@ -140,6 +146,7 @@
             android:id="@+id/action_uploadFragment_to_mainFragment"
             app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment"
+            app:launchSingleTop="true"
             app:popUpToInclusive="true"
         />
     </fragment>

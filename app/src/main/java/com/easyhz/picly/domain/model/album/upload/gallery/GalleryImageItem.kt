@@ -19,7 +19,7 @@ data class GalleryImageItem(
     var position: Int = -1
 ) {
     companion object {
-        fun Uri.toGalleryImageItem(context: Context): GalleryImageItem? {
+        suspend fun Uri.toGalleryImageItem(context: Context): GalleryImageItem? {
             val contentResolver = context.contentResolver
             val cursor = if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) { // Android 11 이상
                 contentResolver.query(this, null, null, null)

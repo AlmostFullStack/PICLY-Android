@@ -11,6 +11,10 @@ import com.easyhz.picly.data.entity.album.ImageSize
 import com.easyhz.picly.data.firebase.AuthError
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.google.firebase.Timestamp
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -144,23 +148,54 @@ fun List<GalleryImageItem>.getImageUri(): List<Uri> =
 
 
 /**
- *  이미지 가로 세로를 가져 오는 함수
+ *  이미지 가로 세로를 가져오는 함수
  *
  *  @return ImageSize
  */
-fun Context.getImageDimensions(uri: Uri): ImageSize {
+suspend fun Context.getImageDimensions(uri: Uri): ImageSize = withContext(Dispatchers.IO) {
     contentResolver.openInputStream(uri)?.use { inputStream ->
         val options = BitmapFactory.Options().apply {
             inJustDecodeBounds = true
         }
         BitmapFactory.decodeStream(inputStream, null, options)
-        return ImageSize(height = options.outHeight.toLong(), width = options.outWidth.toLong(), )
-    }
-    return ImageSize(938, 938)
+        return@withContext ImageSize(height = options.outHeight.toLong(), width = options.outWidth.toLong())
+    } ?: return@withContext ImageSize(938, 938)
 }
 
 
+/**
+ * 이미지 캐시 디렉토리에 저장하는 함수
+ *
+ */
+suspend fun Context.saveImage(uri: Uri, cacheFile: File) {
+    withContext(Dispatchers.IO) {
+        try {
+            contentResolver.openInputStream(uri)?.use { inputStream ->
+                FileOutputStream(cacheFile).use { outputStream ->
+                    inputStream.copyTo(outputStream, bufferSize = 1024)
+                }
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+    }
+}
 
+suspend fun List<Uri>.toGalleryImageItem(context: Context): List<GalleryImageItem> {
+    return map {
+        val imageSize = context.getImageDimensions(it)
+        GalleryImageItem(
+            id = it.hashCode().toLong(),
+            path = it.path ?: it.toString(),
+            uri = it,
+            name = it.toString(),
+            regDate = Timestamp.now().toDate().toString(),
+            size = 100,
+            width = imageSize.width,
+            height = imageSize.height
+        )
+    }
+}
 
 /**
  * 공유 url

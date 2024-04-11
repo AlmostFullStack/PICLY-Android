@@ -24,12 +24,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentUploadBinding
 import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem.Companion.toGalleryImageItem
+import com.easyhz.picly.provider.PiclyFileProvider
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
 import com.easyhz.picly.util.animateGrow
@@ -42,6 +44,7 @@ import com.easyhz.picly.util.getTime
 import com.easyhz.picly.util.getToday
 import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toDateFormat
+import com.easyhz.picly.util.toGalleryImageItem
 import com.easyhz.picly.util.toMs
 import com.easyhz.picly.util.toPx
 import com.easyhz.picly.util.toTimeFormat
@@ -69,6 +72,7 @@ class UploadFragment: Fragment() {
     private var isShowCalendar: Boolean = false
     private var isShowTimePicker: Boolean = false
     private var isGranted: Boolean = false
+    private val args: UploadFragmentArgs by navArgs()
 //    private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
 //        this.isGranted = isGranted
 //    }
@@ -99,6 +103,7 @@ class UploadFragment: Fragment() {
     }
 
     private fun setUp() {
+        getIncomingImages()
         initCalendarView()
         initTimePicker()
         setTagField()
@@ -114,6 +119,24 @@ class UploadFragment: Fragment() {
         onClickUploadButton()
         onClickBackButton()
         setActivityResultLauncher()
+    }
+
+    private fun getIncomingImages() {
+        loading.show(true)
+        CoroutineScope(Dispatchers.Main).launch {
+            try {
+                val incomingImages = args.incomingImages?.mapNotNull {
+                    PiclyFileProvider.getIncomingImageUri(requireContext(), it)
+                }
+                incomingImages?.toGalleryImageItem(requireActivity())?.let {
+                    viewModel.addSelectedImageList(it)
+                }
+            } catch (e: Exception) {
+                BlueSnackBar.make(binding.root, getString(R.string.incoming_image_error))
+            } finally {
+                loading.show(false)
+            }
+        }
     }
 
     private fun initCalendarView() {
@@ -234,14 +257,16 @@ class UploadFragment: Fragment() {
                     BlueSnackBar.make(binding.root, getString(R.string.over_selected)).show()
                     return@registerForActivityResult
                 }
-                for (i in 0 until clipData.itemCount) {
-                    val item = clipData.getItemAt(i).uri.toGalleryImageItem(requireActivity())
-                    item?.let {
-                        selectedImages.add(it)
+                CoroutineScope(Dispatchers.Main).launch {
+                    for (i in 0 until clipData.itemCount) {
+                        val item = clipData.getItemAt(i).uri.toGalleryImageItem(requireActivity())
+                        item?.let {
+                            selectedImages.add(it)
+                        }
                     }
+                    viewModel.addSelectedImageList(selectedImages)
                 }
             }
-            viewModel.addSelectedImageList(selectedImages)
         }
     }
 

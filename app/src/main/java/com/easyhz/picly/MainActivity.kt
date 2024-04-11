@@ -1,16 +1,16 @@
 package com.easyhz.picly
 
+import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.fragment.NavHostFragment
+import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.databinding.ActivityMainBinding
-import com.easyhz.picly.view.MainViewModel
+import com.easyhz.picly.domain.model.album.IncomingImages
+import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.view.navigation.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -29,6 +29,22 @@ class MainActivity : AppCompatActivity() {
     private fun initNavControllerManager(isFirstRun: Boolean) {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
         NavControllerManager.init(navHostFragment.navController, isFirstRun)
+        if (!isFirstRun && UserManager.isLoggedIn()) getIncomingImages()
+    }
+
+    private fun getIncomingImages() {
+        val incomingImages = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableArrayListExtra("incomingImages", Uri::class.java)
+        } else {
+            @Suppress("DEPRECATION")
+            intent.getParcelableArrayListExtra("incomingImages")
+        }
+        if (incomingImages.isNullOrEmpty()) return
+        if (incomingImages.size > 10) {
+            BlueSnackBar.make(binding.root, getString(R.string.over_selected)).show()
+            return
+        }
+        NavControllerManager.navigateMainToUploadWithIncoming(IncomingImages().apply { addAll(incomingImages) })
     }
 
 }

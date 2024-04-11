@@ -44,7 +44,7 @@ data class GalleryImage(
             )
         }
 
-        fun createFromCursor(cursor: Cursor, uri: Uri, context: Context): GalleryImage {
+        suspend fun createFromCursor(cursor: Cursor, uri: Uri, context: Context): GalleryImage {
             val id = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns._ID) ?: -1
             val name = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
             val path = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DATA)

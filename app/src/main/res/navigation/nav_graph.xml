@@ -12,7 +12,8 @@
         >
         <action
             android:id="@+id/action_page_album_to_uploadFragment"
-            app:destination="@id/uploadFragment" />
+            app:destination="@id/uploadFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/page_settings"

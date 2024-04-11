@@ -1,6 +1,8 @@
 package com.easyhz.picly.view
 
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +24,7 @@ class StartActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStartBinding.inflate(layoutInflater)
         observeIsFirstRun()
+        handleIncomingImage()
         setContentView(binding.root)
     }
 
@@ -40,7 +43,39 @@ class StartActivity : AppCompatActivity() {
     private fun startMainActivity(isFirstRun: Boolean) {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("isFirstRun" , isFirstRun)
+        intent.putParcelableArrayListExtra("incomingImages", handleIncomingImage().toCollection(ArrayList()))
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         startActivity(intent)
         finish()
+    }
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+    }
+
+    /**
+     *  Intent filter 로 들어온 사진을 처리 하는 함수
+     */
+    private fun handleIncomingImage(): List<Uri> {
+        if (intent.type?.startsWith("image/") == false) return emptyList<Uri>()
+        val imageUris = when(intent.action) {
+            Intent.ACTION_SEND -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    listOfNotNull(intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java))
+                } else {
+                    @Suppress("DEPRECATION")
+                    listOfNotNull(intent.getParcelableExtra<Uri>(Intent.EXTRA_STREAM))
+                }
+            }
+            Intent.ACTION_SEND_MULTIPLE -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM, Uri::class.java)?.toList()
+                } else {
+                    @Suppress("DEPRECATION")
+                    intent.getParcelableArrayListExtra<Uri>(Intent.EXTRA_STREAM)?.toList()
+                }
+            }
+            else -> emptyList<Uri>()
+        } ?: emptyList<Uri>()
+        return imageUris
     }
 }
