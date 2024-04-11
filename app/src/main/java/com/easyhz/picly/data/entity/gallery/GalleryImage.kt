@@ -1,10 +1,13 @@
 package com.easyhz.picly.data.entity.gallery
 
 import android.content.ContentUris
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import com.easyhz.picly.data.entity.album.ImageSize
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
+import com.easyhz.picly.util.getImageDimensions
 import com.easyhz.picly.util.getLongColumnOrThrow
 import com.easyhz.picly.util.getStringColumnOrThrow
 
@@ -38,6 +41,32 @@ data class GalleryImage(
                 size = size,
                 width = width,
                 height = height
+            )
+        }
+
+        fun createFromCursor(cursor: Cursor, uri: Uri, context: Context): GalleryImage {
+            val id = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns._ID) ?: -1
+            val name = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DISPLAY_NAME)
+            val path = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DATA)
+            val regDate = cursor.getStringColumnOrThrow(MediaStore.Images.ImageColumns.DATE_TAKEN)
+            val size = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.SIZE) ?: 100
+            val width = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.WIDTH)
+            val height = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.HEIGHT)
+            val imageSize = if (width == null || height == null) {
+                context.getImageDimensions(uri)
+            } else {
+                ImageSize(height = height, width = width)
+            }
+
+            return GalleryImage(
+                id = id,
+                path = path ?: "",
+                uri = uri,
+                name = name ?: "",
+                regDate = regDate ?: "" ,
+                size = size,
+                width = imageSize.width,
+                height = imageSize.height
             )
         }
 

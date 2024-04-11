@@ -2,6 +2,7 @@ package com.easyhz.picly.util
 
 import android.content.Context
 import android.database.Cursor
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -140,6 +141,26 @@ fun List<GalleryImageItem>.getImageSizes(): List<ImageSize> =
  */
 fun List<GalleryImageItem>.getImageUri(): List<Uri> =
     map { it.uri }
+
+
+/**
+ *  이미지 가로 세로를 가져 오는 함수
+ *
+ *  @return ImageSize
+ */
+fun Context.getImageDimensions(uri: Uri): ImageSize {
+    contentResolver.openInputStream(uri)?.use { inputStream ->
+        val options = BitmapFactory.Options().apply {
+            inJustDecodeBounds = true
+        }
+        BitmapFactory.decodeStream(inputStream, null, options)
+        return ImageSize(height = options.outHeight.toLong(), width = options.outWidth.toLong(), )
+    }
+    return ImageSize(938, 938)
+}
+
+
+
 
 /**
  * 공유 url

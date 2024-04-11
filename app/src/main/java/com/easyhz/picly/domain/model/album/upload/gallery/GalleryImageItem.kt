@@ -28,7 +28,7 @@ data class GalleryImageItem(
             }
             cursor?.use { it ->
                 while (it.moveToNext()) {
-                    return createFromCursor(it, this, 0).toGalleryImageItem()
+                    return createFromCursor(it, this, context).toGalleryImageItem()
                 }
             }
             return null
