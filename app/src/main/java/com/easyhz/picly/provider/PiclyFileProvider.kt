@@ -14,20 +14,24 @@ class PiclyFileProvider: FileProvider(R.xml.file_paths) {
          * @return 캐시 파일 Content Uri
          */
         suspend fun getIncomingImageUri(context: Context, uri: Uri): Uri {
-            val directory = File(context.cacheDir, "images")
-            directory.mkdirs()
-            val file = File.createTempFile(
-                "incoming_image_",
-                ".jpeg",
-                directory,
-            )
-            context.saveImage(uri, file)
-            val authority = context.packageName + ".fileprovider"
-            return getUriForFile(
-                context,
-                authority,
-                file,
-            )
+            try {
+                val directory = File(context.cacheDir, "images")
+                directory.mkdirs()
+                val file = File.createTempFile(
+                    "incoming_image_",
+                    ".jpeg",
+                    directory,
+                )
+                context.saveImage(uri, file)
+                val authority = context.packageName + ".fileprovider"
+                return getUriForFile(
+                    context,
+                    authority,
+                    file,
+                )
+            } catch (e: Exception) {
+                throw e
+            }
         }
     }
 }

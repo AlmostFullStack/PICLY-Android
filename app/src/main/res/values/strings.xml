@@ -83,7 +83,7 @@
     <string name="dialog_delete_message">정말로 삭제하시겠습니까?</string>
 
     <string name="dialog_gallery_permission_title">권한 설정</string>
-    <string name="dialog_gallery_permission_message">파일 및 미디어 접근을 위해 앱 설정에서 권한을 설정해주세요.</string>
+    <string name="dialog_gallery_permission_message">파일 및 미디어 접근을 위해 앱 설정에서 권한을 설정해 주세요.</string>
     <string name="dialog_gallery_permission_positive">앱 설정</string>
     <string name="dialog_gallery_permission_negative">창 닫기</string>
 
@@ -147,4 +147,6 @@
         +버튼을 눌러 앨범을 업로드하고 공유해보세요.
     </string>
     <string name="incoming_image_error">이미지를 불러오는데 실패하였습니다.</string>
+    <string name="check_permission_message">앱 설정에서 권한을 설정해 주세요.</string>
+
 </resources>

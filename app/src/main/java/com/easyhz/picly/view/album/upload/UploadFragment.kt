@@ -51,9 +51,7 @@ import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryImageAdapter.Companion.MAX_SELECTED
-import com.easyhz.picly.view.dialog.EitherDialog
 import com.easyhz.picly.view.dialog.LoadingDialog
-import com.easyhz.picly.view.dialog.Orientation
 import com.easyhz.picly.view.navigation.NavControllerManager
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
@@ -73,9 +71,11 @@ class UploadFragment: Fragment() {
     private var isShowTimePicker: Boolean = false
     private var isGranted: Boolean = false
     private val args: UploadFragmentArgs by navArgs()
-//    private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-//        this.isGranted = isGranted
-//    }
+    private val galleryPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        this.isGranted = isGranted
+        if (isGranted) getIncomingImages()
+        else showGalleryPermissionDialog()
+    }
     private var bottomSheetFragment: GalleryBottomSheetFragment? = null
     private lateinit var getResult: ActivityResultLauncher<Intent>
 
@@ -103,7 +103,7 @@ class UploadFragment: Fragment() {
     }
 
     private fun setUp() {
-        getIncomingImages()
+        checkPermission()
         initCalendarView()
         initTimePicker()
         setTagField()
@@ -121,9 +121,27 @@ class UploadFragment: Fragment() {
         setActivityResultLauncher()
     }
 
+    private fun checkPermission() {
+        if (args.incomingImages.isNullOrEmpty()) return
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            isGranted = true
+            getIncomingImages()
+        } else {
+            galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+    }
+
     private fun getIncomingImages() {
-        loading.show(true)
+        if (!isStoragePermissionGranted()) {
+            showGalleryPermissionDialog()
+            return
+        }
         CoroutineScope(Dispatchers.Main).launch {
+            loading.show(true)
             try {
                 val incomingImages = args.incomingImages?.mapNotNull {
                     PiclyFileProvider.getIncomingImageUri(requireContext(), it)
@@ -132,7 +150,7 @@ class UploadFragment: Fragment() {
                     viewModel.addSelectedImageList(it)
                 }
             } catch (e: Exception) {
-                BlueSnackBar.make(binding.root, getString(R.string.incoming_image_error))
+                BlueSnackBar.make(binding.root, getString(R.string.incoming_image_error)).show()
             } finally {
                 loading.show(false)
             }
@@ -446,31 +464,23 @@ class UploadFragment: Fragment() {
             setButtonTextColor(binding.expireTimeButton, isShowTimePicker)
         }
     }
-    private fun initViews() = with(binding) {
-//        if (ContextCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.READ_EXTERNAL_STORAGE
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            isGranted = true
-//        } else {
-//            galleryPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-//        }
-    }
 
     private fun showGalleryPermissionDialog() {
-        val dialog = EitherDialog.instance(
-            title = getString(R.string.dialog_gallery_permission_title),
-            message = getString(R.string.dialog_gallery_permission_message),
-            Orientation.VERTICAL
+        showAlertDialog(
+            context = requireContext(),
+            title= R.string.dialog_gallery_permission_title,
+            message = R.string.dialog_gallery_permission_message,
+            positiveButtonText = R.string.dialog_gallery_permission_positive,
+            onContinue = {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                intent.data = Uri.parse("package:" + requireActivity().packageName)
+                startActivity(intent)
+            },
+            negativeButtonText = R.string.dialog_upload_negative,
+            onCancel = {
+                BlueSnackBar.make(binding.root, getString(R.string.incoming_image_error))
+            }
         )
-        dialog.setPositiveButton(getString(R.string.dialog_gallery_permission_positive), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            intent.data = Uri.parse("package:" + requireActivity().packageName)
-            startActivity(intent)
-        }.setNegativeButton(getString(R.string.dialog_gallery_permission_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
-
-        }.show(requireActivity().supportFragmentManager)
     }
 
     private fun showUrlDialog(url: String) {
