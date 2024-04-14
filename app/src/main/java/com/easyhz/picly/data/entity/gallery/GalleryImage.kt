@@ -7,9 +7,9 @@ import android.net.Uri
 import android.provider.MediaStore
 import com.easyhz.picly.data.entity.album.ImageSize
 import com.easyhz.picly.domain.model.album.upload.gallery.GalleryImageItem
-import com.easyhz.picly.util.getImageDimensions
 import com.easyhz.picly.util.getLongColumnOrThrow
 import com.easyhz.picly.util.getStringColumnOrThrow
+import com.easyhz.picly.util.image.ImageDownloader
 
 data class GalleryImage(
     val id: Long,
@@ -53,7 +53,7 @@ data class GalleryImage(
             val width = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.WIDTH)
             val height = cursor.getLongColumnOrThrow(MediaStore.Images.ImageColumns.HEIGHT)
             val imageSize = if (width == null || height == null) {
-                context.getImageDimensions(uri)
+                ImageDownloader(context).getImageDimensions(uri)
             } else {
                 ImageSize(height = height, width = width)
             }

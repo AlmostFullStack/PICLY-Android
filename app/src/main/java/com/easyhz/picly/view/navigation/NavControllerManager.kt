@@ -2,10 +2,12 @@ package com.easyhz.picly.view.navigation
 
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
+import androidx.navigation.fragment.FragmentNavigator
 import com.easyhz.picly.R
 import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.domain.model.album.IncomingImages
+import com.easyhz.picly.domain.model.album.detail.DetailImageSliderItem
 import com.easyhz.picly.view.MainFragmentDirections
 import com.easyhz.picly.view.album.detail.AlbumDetailFragmentDirections
 import com.easyhz.picly.view.album.upload.UploadFragmentDirections
@@ -114,6 +116,11 @@ object NavControllerManager {
     fun navigateAccountToLogin() {
         val action = AccountFragmentDirections.actionAccountFragmentToLoginFragment()
         navControllerRef?.get()?.navigate(action)
+    }
+
+    fun navigationDetailToImage(extras: FragmentNavigator.Extras, item: DetailImageSliderItem) {
+        val action = AlbumDetailFragmentDirections.actionAlbumDetailFragmentToDetailImageFragment(item)
+        navControllerRef?.get()?.navigate(action, extras)
     }
 
     fun getNavController(): NavController {

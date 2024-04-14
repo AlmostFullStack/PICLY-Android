@@ -130,6 +130,9 @@ dependencies {
 
     // Swipe
     implementation(libs.swiperefreshlayout)
+
+    // PhotoView - Image Pinch Zoom
+    implementation(libs.photoview)
 }
 
 licenseReport {

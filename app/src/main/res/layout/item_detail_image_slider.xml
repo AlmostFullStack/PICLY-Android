@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<!--    <data>-->
+<!--        <variable-->
+<!--            name="imageUrl"-->
+<!--            type="String" />-->
+<!--    </data>-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+    >
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/detailImageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/default_image"
+            android:layout_weight="1"
+            android:contentDescription="@string/detail_image"
+            android:transitionName="detail_image"/>
+    </LinearLayout>
+</layout>

@@ -148,5 +148,9 @@
     </string>
     <string name="incoming_image_error">이미지를 불러오는데 실패하였습니다.</string>
     <string name="check_permission_message">앱 설정에서 권한을 설정해 주세요.</string>
+    <string name="detail_image">detail_image</string>
+    <string name="save">저장</string>
+    <string name="save_to_image_success">이미지가 저장되었습니다.</string>
+    <string name="save_to_image_failure">이미지 저장에 실패하였습니다.</string>
 
 </resources>

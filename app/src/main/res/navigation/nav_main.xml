@@ -59,6 +59,26 @@
             app:popUpTo="@+id/mainFragment"
             app:popUpToInclusive="true"
         />
+        <action
+            android:id="@+id/action_albumDetailFragment_to_detailImageFragment"
+            app:destination="@id/detailImageFragment"
+            app:exitAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_out"
+        />
+    </fragment>
+
+    <fragment
+        android:id="@+id/detailImageFragment"
+        android:name="com.easyhz.picly.view.album.detail.image.DetailImageFragment"
+        android:label="DetailImageFragment"
+        tools:layout="@layout/fragment_detail_image"
+        >
+        <argument
+            android:name="images"
+            app:argType="com.easyhz.picly.domain.model.album.detail.DetailImageSliderItem" />
+        <action
+            android:id="@+id/action_detailImageFragment_to_albumDetailFragment"
+            app:destination="@id/albumDetailFragment" />
     </fragment>
 
     <fragment
