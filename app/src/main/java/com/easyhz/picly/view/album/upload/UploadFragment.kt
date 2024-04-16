@@ -49,6 +49,7 @@ import com.easyhz.picly.util.toMs
 import com.easyhz.picly.util.toPx
 import com.easyhz.picly.util.toTimeFormat
 import com.easyhz.picly.util.toTimeFormat24
+import com.easyhz.picly.view.album.SharedAlbumStateViewModel
 import com.easyhz.picly.view.album.upload.gallery.GalleryBottomSheetFragment
 import com.easyhz.picly.view.album.upload.gallery.GalleryImageAdapter.Companion.MAX_SELECTED
 import com.easyhz.picly.view.dialog.LoadingDialog
@@ -64,6 +65,7 @@ import kotlinx.coroutines.launch
 class UploadFragment: Fragment() {
     private lateinit var binding: FragmentUploadBinding
     private lateinit var viewModel: UploadViewModel
+    private lateinit var sharedViewModel: SharedAlbumStateViewModel
     private lateinit var tagAdapter: TagAdapter
     private lateinit var uploadImageAdapter: UploadImageAdapter
     private lateinit var loading: LoadingDialog
@@ -86,8 +88,8 @@ class UploadFragment: Fragment() {
     ): View {
         binding = FragmentUploadBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[UploadViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedAlbumStateViewModel::class.java]
         loading = LoadingDialog(requireActivity())
-//        initViews()
         return binding.root
     }
 
@@ -398,9 +400,11 @@ class UploadFragment: Fragment() {
                 BlueSnackBar.make(binding.root, getString(R.string.no_select_image)).show()
                 return@setOnClickListener
             }
+            val remainText = binding.tagField.editText.text
             viewModel.selectedImageList.value?.let { imageList ->
                 loading.show(true)
                 CoroutineScope(Dispatchers.Main).launch {
+                    if (!remainText.isNullOrBlank()) { addTag(remainText.toString()) }
                     val result = viewModel.writeAlbums(
                         imageList,
                         binding.expireDateButton.text.toString(),
@@ -493,19 +497,7 @@ class UploadFragment: Fragment() {
             negativeButtonText = R.string.dialog_upload_negative,
             onCancel = { NavControllerManager.navigateToBack() }
         )
-//        val dialog = EitherDialog.instance(
-//            title = getString(R.string.dialog_upload_title),
-//            message = getString(R.string.dialog_upload_message),
-//            Orientation.VERTICAL
-//        )
-//        dialog.setPositiveButton(getString(R.string.dialog_upload_positive), ContextCompat.getColor(requireActivity(), R.color.highlightBlue)) {
-//            val clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-//            val clipData = ClipData.newPlainText(PICLY, url)
-//            clipboardManager.setPrimaryClip(clipData)
-//            NavControllerManager.navigateToBack()
-//        }.setNegativeButton(getString(R.string.dialog_upload_negative), ContextCompat.getColor(requireActivity(), R.color.secondText)) {
-//            NavControllerManager.navigateToBack()
-//        }.show(requireActivity().supportFragmentManager)
+        sharedViewModel.setIsUpload(true)
     }
 
     private fun onContinueUrlDialog(url: String) {

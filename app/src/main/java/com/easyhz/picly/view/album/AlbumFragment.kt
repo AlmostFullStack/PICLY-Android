@@ -36,6 +36,7 @@ class AlbumFragment: Fragment() {
     private lateinit var binding : FragmentAlbumBinding
     private lateinit var albumAdapter: AlbumAdapter
     private lateinit var viewModel: AlbumViewModel
+    private lateinit var sharedViewModel: SharedAlbumStateViewModel
     private lateinit var clipboardManager: ClipboardManager
     private lateinit var loading: LoadingDialog
 
@@ -45,6 +46,7 @@ class AlbumFragment: Fragment() {
     ): View {
         binding = FragmentAlbumBinding.inflate(layoutInflater)
         viewModel = ViewModelProvider(requireActivity())[AlbumViewModel::class.java]
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedAlbumStateViewModel::class.java]
         clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         loading = LoadingDialog(requireActivity())
 
@@ -65,6 +67,7 @@ class AlbumFragment: Fragment() {
         setRefresh()
         refresh()
         pagesUpdatedFlow()
+        observeIsUpload()
     }
 
     private fun setRecyclerView() {
@@ -83,7 +86,7 @@ class AlbumFragment: Fragment() {
     private fun fetchAlbums() {
         lifecycle.coroutineScope.launch {
             viewModel.albumPager.collect { albums ->
-                albumAdapter.submitData(lifecycle, albums)
+                albumAdapter.submitData(albums)
             }
         }
     }
@@ -99,7 +102,6 @@ class AlbumFragment: Fragment() {
 
     private fun observeSearchText() {
         viewModel.searchText.observe(viewLifecycleOwner) {
-            println(it)
             if (it.isNotEmpty()) return@observe
             setAlbums()
         }
@@ -193,10 +195,23 @@ class AlbumFragment: Fragment() {
                 is AlbumResult.Error -> onFailure(result.errorMessage)
             }
             loading.show(false)
+            sharedViewModel.setIsUpload(true)
         }
     }
 
     private fun onFailure(message: String) {
         BlueSnackBar.make(binding.root, message).show()
+    }
+
+    private fun observeIsUpload() {
+        sharedViewModel.isUpload.observe(viewLifecycleOwner) {
+            if (it) {
+                lifecycle.coroutineScope.launch {
+                    sharedViewModel.setIsUpload(false)
+                    delay(500)
+                    binding.albumRecyclerView.smoothScrollToPosition(0)
+                }
+            }
+        }
     }
 }

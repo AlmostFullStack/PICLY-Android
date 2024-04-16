@@ -23,11 +23,6 @@ class AlbumViewModel
     private val searchAlbumUseCase: SearchAlbumUseCase,
     private val deleteAlbumUseCase: DeleteAlbumUseCase,
 ):ViewModel() {
-
-    private val albumsLiveData = MutableLiveData<List<AlbumItem>>()
-    val albums : LiveData<List<AlbumItem>>
-        get() = albumsLiveData
-
     private val _searchText = MutableLiveData<String>()
     val searchText : LiveData<String>
         get() = _searchText
