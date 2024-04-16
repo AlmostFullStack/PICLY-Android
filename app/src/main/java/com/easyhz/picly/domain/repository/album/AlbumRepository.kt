@@ -4,10 +4,13 @@ import android.net.Uri
 import com.easyhz.picly.data.entity.album.Album
 import com.easyhz.picly.data.entity.album.ImageUrl
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.flow.Flow
 
 interface AlbumRepository {
-    fun fetchAlbums() : Flow<List<Album>>
+    suspend fun fetchAlbums(): Query
+
+    fun searchAlbums(searchText: String): Query
 
     fun writeAlbums(album: Album) : Flow<DocumentReference>
 

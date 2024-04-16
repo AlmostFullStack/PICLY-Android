@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.easyhz.picly.R
 import com.easyhz.picly.databinding.FragmentAlbumBinding
@@ -26,6 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -54,23 +56,19 @@ class AlbumFragment: Fragment() {
         setUp()
     }
 
-    override fun onStop() {
-        super.onStop()
-        viewModel.albums.removeObservers(viewLifecycleOwner)
-    }
-
     private fun setUp() {
         setRecyclerView()
-        observeAlbums()
+        fetchSearchAlbums()
+        fetchAlbums()
         onclickFab()
         observeSearchText()
         setRefresh()
         refresh()
+        pagesUpdatedFlow()
     }
 
     private fun setRecyclerView() {
         albumAdapter = AlbumAdapter(
-            noResult = { isEmpty, s -> setNoResult(isEmpty, s) },
             onClickLinkButton = { onClickLinkButton(it) },
             onLongClick = { albumItem, view ->  onLongClick(albumItem, view) }
         ) {
@@ -82,26 +80,49 @@ class AlbumFragment: Fragment() {
         }
     }
 
-    private fun observeAlbums() {
-        viewModel.albums.observe(viewLifecycleOwner) { albums ->
-            updateNoResultMessage(albums.isEmpty(), getString(R.string.no_data_text))
-            albumAdapter.setAlbumList(albums)
-            albumAdapter.originalList = albums
-            if (!binding.swipeRefresh.isRefreshing) return@observe
-            CoroutineScope(Dispatchers.Main).launch {
-                delay(500)
-                binding.swipeRefresh.isRefreshing = false
-                binding.albumRecyclerView.smoothScrollToPosition(0)
+    private fun fetchAlbums() {
+        lifecycle.coroutineScope.launch {
+            viewModel.albumPager.collect { albums ->
+                albumAdapter.submitData(lifecycle, albums)
+            }
+        }
+    }
+
+    private fun fetchSearchAlbums() {
+        lifecycle.coroutineScope.launch {
+            viewModel.searchPager.collectLatest {
+                if (viewModel.searchText.value.isNullOrEmpty()) return@collectLatest
+                albumAdapter.submitData(it)
             }
         }
     }
 
     private fun observeSearchText() {
         viewModel.searchText.observe(viewLifecycleOwner) {
-            albumAdapter.filter.filter(it)
+            println(it)
+            if (it.isNotEmpty()) return@observe
+            setAlbums()
         }
     }
 
+    private fun setAlbums() {
+        lifecycle.coroutineScope.launch {
+            viewModel.refresh()
+            if (!binding.swipeRefresh.isRefreshing) return@launch
+            delay(500)
+            viewModel.setSwipe(false)
+            binding.swipeRefresh.isRefreshing = false
+            binding.albumRecyclerView.smoothScrollToPosition(0)
+        }
+    }
+
+    private fun pagesUpdatedFlow() {
+        lifecycle.coroutineScope.launch {
+            albumAdapter.onPagesUpdatedFlow.collectLatest {
+                updateNoResultMessage()
+            }
+        }
+    }
     private fun onclickFab() {
         binding.addFab.setOnClickListener {
             NavControllerManager.navigateMainToUpload()
@@ -135,15 +156,16 @@ class AlbumFragment: Fragment() {
         }
     }
 
-    private fun setNoResult(isEmpty: Boolean, s: String) {
-        if (s.isEmpty() && albumAdapter.originalList.isEmpty()) updateNoResultMessage(true, getString(R.string.no_data_text))
-        else updateNoResultMessage(isEmpty, getString(R.string.no_search_text))
-    }
+    private fun updateNoResultMessage() {
+        val message = if (viewModel.searchText.value.isNullOrEmpty()) {
+            getString(R.string.no_data_text)
+        } else {
+            getString(R.string.no_search_text)
+        }
 
-    private fun updateNoResultMessage(isEmpty: Boolean, message: String) {
         binding.noResultMessage.apply {
             text = message
-            visibility = if (isEmpty) View.VISIBLE else View.GONE
+            visibility = if (albumAdapter.itemCount == 0) View.VISIBLE else View.GONE
         }
     }
 
@@ -157,7 +179,6 @@ class AlbumFragment: Fragment() {
 
     private fun refresh() {
         binding.swipeRefresh.setOnRefreshListener {
-            viewModel.fetchAlbums()
             viewModel.setSwipe(true)
         }
     }
@@ -165,7 +186,10 @@ class AlbumFragment: Fragment() {
     private fun deleteAlbum(id: String) {
         CoroutineScope(Dispatchers.Main).launch {
             when(val result = viewModel.deleteAlbum(id)) {
-                is AlbumResult.Success -> { viewModel.fetchAlbums() }
+                is AlbumResult.Success -> {
+                    setAlbums()
+                    if (!viewModel.searchText.value.isNullOrEmpty()) viewModel.setSearchText("")
+                }
                 is AlbumResult.Error -> onFailure(result.errorMessage)
             }
             loading.show(false)

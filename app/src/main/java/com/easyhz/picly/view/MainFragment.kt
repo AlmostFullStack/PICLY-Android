@@ -52,7 +52,6 @@ class MainFragment:Fragment() {
     }
 
     private fun setUp() {
-        fetchAlbums()
         observeIsSwipe()
     }
 
@@ -86,10 +85,6 @@ class MainFragment:Fragment() {
             typeface = resources.getFont(fontResId)
             textSize = fontSize
         }
-    }
-
-    private fun fetchAlbums() {
-        viewModel.fetchAlbums()
     }
 
     private fun observeIsSwipe() {

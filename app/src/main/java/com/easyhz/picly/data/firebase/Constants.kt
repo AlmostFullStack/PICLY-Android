@@ -6,6 +6,7 @@ object Constants {
 
     const val OWNER_ID = "ownerID"
     const val CREATION_TIME = "creationTime"
+    const val TAGS = "tags"
 
     const val AUTH_PROVIDER_EMAIL = "Email"
     const val AUTH_PROVIDER_GOOGLE = "Google"

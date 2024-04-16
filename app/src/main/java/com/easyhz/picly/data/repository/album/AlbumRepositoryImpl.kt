@@ -7,13 +7,13 @@ import com.easyhz.picly.data.entity.album.ImageUrl
 import com.easyhz.picly.data.firebase.Constants.ALBUMS
 import com.easyhz.picly.data.firebase.Constants.CREATION_TIME
 import com.easyhz.picly.data.firebase.Constants.OWNER_ID
+import com.easyhz.picly.data.firebase.Constants.TAGS
 import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.domain.repository.album.AlbumRepository
 import com.easyhz.picly.util.toPICLY
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.toObjects
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -25,21 +25,16 @@ class AlbumRepositoryImpl
     private val fireStore: FirebaseFirestore,
     private val storage: FirebaseStorage,
 ): AlbumRepository {
-    override fun fetchAlbums() : Flow<List<Album>> = flow {
-        try {
-            val result = fireStore.collection(ALBUMS)
-                .whereEqualTo(OWNER_ID, UserManager.currentUser?.uid)
-                .orderBy(CREATION_TIME, Query.Direction.DESCENDING)
-                .get()
-                .await()
+    override suspend fun fetchAlbums(): Query = fireStore.collection(ALBUMS)
+        .whereEqualTo(OWNER_ID, UserManager.currentUser?.uid)
+        .orderBy(CREATION_TIME, Query.Direction.DESCENDING)
+        .limit(PAGE_SIZE)
+    override fun searchAlbums(searchText: String): Query = fireStore.collection(ALBUMS)
+        .whereEqualTo(OWNER_ID, UserManager.currentUser?.uid)
+        .whereArrayContains(TAGS, searchText)
+        .orderBy(CREATION_TIME, Query.Direction.DESCENDING)
+        .limit(PAGE_SIZE)
 
-            val albums = result.toObjects<Album>()
-            emit(albums)
-        } catch (e: Exception) {
-            // 예외 처리
-            Log.e(this.javaClass.simpleName, "Error fetching albums: ${e.message}")
-        }
-    }
     override fun writeAlbums(album: Album): Flow<DocumentReference> = flow {
         try {
             val result = fireStore.collection(ALBUMS)
@@ -108,5 +103,6 @@ class AlbumRepositoryImpl
 
     companion object {
         const val THUMBNAIL = "thumbnail.jpeg"
+        const val PAGE_SIZE = 10L
     }
 }

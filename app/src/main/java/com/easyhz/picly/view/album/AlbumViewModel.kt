@@ -4,23 +4,26 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.easyhz.picly.data.mapper.toAlbumItem
+import androidx.paging.cachedIn
 import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.AlbumItem
-import com.easyhz.picly.domain.usecase.album.AlbumUseCase
+import com.easyhz.picly.domain.usecase.album.FetchAlbumUseCase
 import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
+import com.easyhz.picly.domain.usecase.album.SearchAlbumUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AlbumViewModel
 @Inject constructor(
-    private val albumUseCase: AlbumUseCase,
-    private val deleteAlbumUseCase: DeleteAlbumUseCase
+    private val fetchAlbumUseCase: FetchAlbumUseCase,
+    private val searchAlbumUseCase: SearchAlbumUseCase,
+    private val deleteAlbumUseCase: DeleteAlbumUseCase,
 ):ViewModel() {
+
     private val albumsLiveData = MutableLiveData<List<AlbumItem>>()
     val albums : LiveData<List<AlbumItem>>
         get() = albumsLiveData
@@ -33,16 +36,27 @@ class AlbumViewModel
     val isSwipe : LiveData<Boolean>
         get() = _isSwipe
 
-    fun fetchAlbums() = viewModelScope.launch {
-        albumUseCase().distinctUntilChanged().collectLatest {
-            albumsLiveData.value = it.toAlbumItem()
-        }
-    }
+    val albumPager = fetchAlbumUseCase().flow.cachedIn(viewModelScope)
+
+    val searchPager = searchAlbumUseCase().flow.cachedIn(viewModelScope)
+
+    private var searchJob: Job? = null
 
     suspend fun deleteAlbum(id: String): AlbumResult<String> = deleteAlbumUseCase(id)
 
+    fun refresh() {
+        fetchAlbumUseCase.setPagingSource()
+    }
+
     fun setSearchText(value: String) {
         _searchText.value = value
+        if (value.isEmpty()) return
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            delay(500)
+            searchAlbumUseCase.searchText = value
+            searchAlbumUseCase.setPagingSource()
+        }
     }
 
     fun setSwipe(value: Boolean) {
