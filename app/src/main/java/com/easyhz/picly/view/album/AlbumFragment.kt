@@ -102,7 +102,6 @@ class AlbumFragment: Fragment() {
 
     private fun observeSearchText() {
         viewModel.searchText.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()) return@observe
             setAlbums()
         }
     }
@@ -181,6 +180,7 @@ class AlbumFragment: Fragment() {
 
     private fun refresh() {
         binding.swipeRefresh.setOnRefreshListener {
+            setAlbums()
             viewModel.setSwipe(true)
         }
     }
