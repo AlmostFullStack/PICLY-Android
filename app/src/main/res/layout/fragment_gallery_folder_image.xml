@@ -63,7 +63,6 @@
             android:id="@+id/galleryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainBackground"
             android:layout_weight="1"
             android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

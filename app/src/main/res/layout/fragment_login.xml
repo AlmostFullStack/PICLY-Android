@@ -10,7 +10,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".view.user.LoginActivity"
-            android:background="@color/mainBackground"
             android:orientation="vertical"
         >
             <include layout="@layout/toolbar_main" android:id="@+id/toolbar"/>

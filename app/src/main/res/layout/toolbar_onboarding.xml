@@ -13,7 +13,6 @@
             android:textAlignment="center"
             android:gravity="center"
             android:paddingHorizontal="24dp"
-            android:background="@color/mainBackground"
             app:layout_constraintTop_toTopOf="parent">
             <TextView
                 android:id="@+id/toolbarTitle"

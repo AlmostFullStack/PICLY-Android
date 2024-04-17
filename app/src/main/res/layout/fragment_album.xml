@@ -5,7 +5,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBackground"
     >
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefresh"
@@ -16,7 +15,6 @@
                 android:layout_height="match_parent">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/albumRecyclerView"
-                    android:background="@color/mainBackground"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="5dp"
@@ -25,7 +23,6 @@
                     app:spanCount="2"
                     tools:listitem="@layout/item_album"
                 />
-
                 <TextView
                     android:id="@+id/noResultMessage"
                     android:layout_width="match_parent"
@@ -34,7 +31,6 @@
                     android:textColor="@color/secondText"
                     android:gravity="center"
                     android:visibility="gone"
-                    android:background="@color/mainBackground"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +38,13 @@
                     />
             </FrameLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
+<!--        <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--            android:id="@+id/skeletonLoading"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            app:shimmer_auto_start="true">-->
+<!--            <include layout="@layout/skeleton_album" />-->
+<!--        </com.facebook.shimmer.ShimmerFrameLayout>-->
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addFab"
             android:layout_width="56dp"

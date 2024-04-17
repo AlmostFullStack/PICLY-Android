@@ -15,94 +15,89 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/mainBackground"
             android:orientation="vertical">
             <include layout="@layout/toolbar_upload" android:id="@+id/toolbar"/>
-            <FrameLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="16dp"
+                android:orientation="vertical"
                 android:layout_below="@id/toolbar"
             >
+                <include layout="@layout/field_text" android:id="@+id/tagField"/>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/tagRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_tag"
+                />
+                <include layout="@layout/field_album" android:id="@+id/albumField"/>
+                <TextView
+                    android:id="@+id/textViewLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/mainText"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="3dp"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/sf_pro"
+                    android:text="@string/expireDate" />
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingHorizontal="16dp"
-                    android:paddingTop="16dp"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="12dp"
                 >
-                    <include layout="@layout/field_text" android:id="@+id/tagField"/>
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/tagRecyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:overScrollMode="never"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:listitem="@layout/item_tag"
-                    />
-                    <include layout="@layout/field_album" android:id="@+id/albumField"/>
-                    <TextView
-                        android:id="@+id/textViewLabel"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/expireDateButton"
+                        android:background="@drawable/shape_button_sub"
+                        android:backgroundTint="@color/collectionViewCellBackground"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/mainText"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="3dp"
                         android:textSize="14sp"
-                        android:fontFamily="@font/sf_pro"
-                        android:text="@string/expireDate" />
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="12dp"
-                    >
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/expireDateButton"
-                            android:background="@drawable/shape_button_sub"
-                            android:backgroundTint="@color/collectionViewCellBackground"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/mainText"
-                            android:textSize="14sp"
-                            android:padding="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:minHeight="0dp"
-                            android:minWidth="0dp"
-                            android:stateListAnimator="@null"
-                            android:text="2024. 3. 4." />
+                        android:padding="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:stateListAnimator="@null"
+                        android:text="2024. 3. 4." />
 
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/expireTimeButton"
-                            android:background="@drawable/shape_button_sub"
-                            android:backgroundTint="@color/collectionViewCellBackground"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/mainText"
-                            android:textSize="14sp"
-                            android:padding="8dp"
-                            android:minHeight="0dp"
-                            android:minWidth="0dp"
-                            android:stateListAnimator="@null"
-                            android:text="오후 5:59" />
-                        <TextView
-                            android:id="@+id/period"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:textSize="16sp"
-                            android:textColor="@color/secondText"
-                            android:text="1일 8시간 후"
-                        />
-                    </LinearLayout>
-                    <TextView
-                        android:layout_width="match_parent"
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/expireTimeButton"
+                        android:background="@drawable/shape_button_sub"
+                        android:backgroundTint="@color/collectionViewCellBackground"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/upload_warning"
+                        android:textColor="@color/mainText"
+                        android:textSize="14sp"
+                        android:padding="8dp"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:stateListAnimator="@null"
+                        android:text="오후 5:59" />
+                    <TextView
+                        android:id="@+id/period"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:textSize="16sp"
                         android:textColor="@color/secondText"
+                        android:text="1일 8시간 후"
                     />
                 </LinearLayout>
-            </FrameLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/upload_warning"
+                    android:textColor="@color/secondText"
+                />
+            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout

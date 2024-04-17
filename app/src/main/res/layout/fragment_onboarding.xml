@@ -5,7 +5,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/mainBackground"
     >
         <include
             android:id="@+id/toolbar"
@@ -22,7 +21,6 @@
             android:id="@+id/dotIndicator"
             android:layout_width="match_parent"
             android:layout_height="32dp"
-            android:background="@color/mainBackground"
             android:overScrollMode="never"
             app:tabRippleColor="@color/transparent"
             app:tabBackground="@drawable/dot_indicator"

@@ -8,6 +8,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:statusBarColor">@color/mainBackground</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowBackground">@color/mainBackground</item>
     </style>
     <style
         name="ToolbarTheme"
@@ -109,12 +110,13 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+    <style name="BottomNavigationViewCaption" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">10sp</item>
     </style>
 
     <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">10sp</item>
+        <item name="background">@color/mainBackground</item>
     </style>
     <style name="Theme.Picly" parent="Base.Theme.Picly" />
 </resources>

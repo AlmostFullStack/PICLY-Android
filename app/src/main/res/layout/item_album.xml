@@ -24,10 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@color/collectionViewCellBackground"
         >
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:background="@color/mainBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -41,7 +39,6 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/default_image"
                     app:imageUrl="@{data.thumbnailUrl}"
-                    android:background="@color/mainBackground"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -59,10 +56,11 @@
                         android:id="@+id/multiplePicture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
+                        android:layout_margin="8dp"
                         android:contentDescription="@string/multiple_picture"
                         android:rotation="-270"
                         android:src="@drawable/icon_filter_none_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:multiplePicture="@{data.imageCount}" />
@@ -71,9 +69,11 @@
                         android:id="@+id/linkButton"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginVertical="8dp"
+                        android:layout_marginHorizontal="4dp"
                         android:contentDescription="@string/link"
                         android:src="@drawable/icon_link_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -97,7 +97,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:orientation="horizontal"
-                android:background="@color/collectionViewCellBackground"
             >
                 <TextView
                     android:id="@+id/tagTextView"
