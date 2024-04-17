@@ -136,8 +136,8 @@ class DetailImageFragment : Fragment() {
     }
 
     private fun startEnterTransition(currentItem: String) {
-        loading.show(true)
         if (args.images.current == currentItem) {
+            loading.show(true)
             startPostponedEnterTransition()
             loading.show(false)
         }
