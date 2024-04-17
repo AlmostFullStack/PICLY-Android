@@ -24,6 +24,7 @@
             android:overScrollMode="never"
             app:tabRippleColor="@color/transparent"
             app:tabBackground="@drawable/dot_indicator"
+            android:background="@color/mainBackground"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp" />
         <include
