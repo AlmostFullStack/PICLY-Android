@@ -46,6 +46,17 @@ class MainFragment:Fragment() {
         setUp()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.setIsFirst(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.setIsFirst(true)
+    }
+
+
     override fun onPause() {
         super.onPause()
         resetSearchBar()
@@ -128,7 +139,7 @@ class MainFragment:Fragment() {
             searchEditText.setText("")
             viewModel.setSearchText("")
             searchEditText.clearFocus()
-            val layoutParams = ConstraintLayout.LayoutParams(112.toPx(requireContext()), searchEditText.height)
+            val layoutParams = ConstraintLayout.LayoutParams(112.toPx(requireContext()), 40.toPx(requireContext()))
             layoutParams.apply {
                 bottomToBottom = ConstraintSet.PARENT_ID
                 topToTop = ConstraintSet.PARENT_ID

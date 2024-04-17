@@ -18,6 +18,7 @@ import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.AlbumItem
 import com.easyhz.picly.util.BlueSnackBar
 import com.easyhz.picly.util.PICLY
+import com.easyhz.picly.util.fadeOut
 import com.easyhz.picly.util.haptic
 import com.easyhz.picly.util.showAlertDialog
 import com.easyhz.picly.util.toPICLY
@@ -58,12 +59,19 @@ class AlbumFragment: Fragment() {
         setUp()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        if (binding.noResultMessage.visibility == View.VISIBLE) {
+            binding.noResultMessage.visibility = View.GONE
+        }
+    }
+
     private fun setUp() {
+        initSkeleton()
         setRecyclerView()
         fetchSearchAlbums()
         fetchAlbums()
         onclickFab()
-        observeSearchText()
         setRefresh()
         refresh()
         pagesUpdatedFlow()
@@ -85,7 +93,7 @@ class AlbumFragment: Fragment() {
 
     private fun fetchAlbums() {
         lifecycle.coroutineScope.launch {
-            viewModel.albumPager.collect { albums ->
+            viewModel.albumPager.collectLatest { albums ->
                 albumAdapter.submitData(albums)
             }
         }
@@ -100,11 +108,6 @@ class AlbumFragment: Fragment() {
         }
     }
 
-    private fun observeSearchText() {
-        viewModel.searchText.observe(viewLifecycleOwner) {
-            setAlbums()
-        }
-    }
 
     private fun setAlbums() {
         lifecycle.coroutineScope.launch {
@@ -119,8 +122,11 @@ class AlbumFragment: Fragment() {
 
     private fun pagesUpdatedFlow() {
         lifecycle.coroutineScope.launch {
-            albumAdapter.onPagesUpdatedFlow.collectLatest {
-                updateNoResultMessage()
+            albumAdapter.loadStateFlow.collectLatest {
+                if (it.prepend.endOfPaginationReached) {
+                    updateNoResultMessage()
+                    hideSkeleton()
+                }
             }
         }
     }
@@ -207,11 +213,31 @@ class AlbumFragment: Fragment() {
         sharedViewModel.isUpload.observe(viewLifecycleOwner) {
             if (it) {
                 lifecycle.coroutineScope.launch {
+                    viewModel.refresh()
                     sharedViewModel.setIsUpload(false)
                     delay(500)
                     binding.albumRecyclerView.smoothScrollToPosition(0)
                 }
             }
+        }
+    }
+
+    private fun hideSkeleton() {
+        if (albumAdapter.itemCount != 0 || binding.noResultMessage.visibility == View.VISIBLE) {
+            binding.skeletonLoading.hideShimmer()
+            binding.skeletonLoading.stopShimmer()
+            binding.skeletonLoading.fadeOut()
+        }
+    }
+
+    private fun initSkeleton() {
+        if (viewModel.isFirst.value == true) {
+            viewModel.refresh()
+            binding.skeletonLoading.startShimmer()
+        } else {
+            binding.skeletonLoading.hideShimmer()
+            binding.skeletonLoading.stopShimmer()
+            binding.skeletonLoading.visibility = View.GONE
         }
     }
 }

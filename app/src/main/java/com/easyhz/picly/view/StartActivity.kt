@@ -35,8 +35,8 @@ class StartActivity : AppCompatActivity() {
             }
             CoroutineScope(Dispatchers.Main).launch {
                 delay(500)
+                startMainActivity(isFirstRun)
             }
-            startMainActivity(isFirstRun)
         }
     }
 

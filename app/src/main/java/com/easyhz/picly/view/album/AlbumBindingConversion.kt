@@ -8,7 +8,6 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.easyhz.picly.R
-import com.easyhz.picly.util.getShimmerDrawable
 import com.easyhz.picly.util.toDay
 
 object AlbumBindingConversion {
@@ -20,9 +19,8 @@ object AlbumBindingConversion {
     @JvmStatic
     @BindingAdapter("imageUrl")
     fun setImage(view: ImageView, url: String) {
-        val shimmerDrawable = getShimmerDrawable(view.context)
         Glide.with(view.context).load(url)
-            .error(R.drawable.default_image)
+            .error(R.color.collectionViewCellBackground)
             .fallback(R.drawable.default_image)
             .placeholder(R.color.collectionViewCellBackground)
             .transition(DrawableTransitionOptions.withCrossFade())

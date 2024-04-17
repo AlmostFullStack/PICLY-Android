@@ -38,13 +38,13 @@
                     />
             </FrameLayout>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-<!--        <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--            android:id="@+id/skeletonLoading"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            app:shimmer_auto_start="true">-->
-<!--            <include layout="@layout/skeleton_album" />-->
-<!--        </com.facebook.shimmer.ShimmerFrameLayout>-->
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/skeletonLoading"
+            app:shimmer_auto_start="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <include layout="@layout/skeleton_album" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/addFab"
             android:layout_width="56dp"

@@ -2,7 +2,6 @@ package com.easyhz.picly.util
 
 import android.content.Context
 import android.database.Cursor
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import android.view.View
@@ -125,6 +124,15 @@ fun View.animateGrow(isShow: Boolean, duration: Long = 100, tx: Float = 0.5f, ty
             visibility = visibilityState
         }
         .start()
+}
+
+fun View.fadeOut() {
+    animate()
+        .alpha(0f)
+        .setDuration(500)
+        .withEndAction {
+            visibility = View.GONE
+        }
 }
 
 /**
