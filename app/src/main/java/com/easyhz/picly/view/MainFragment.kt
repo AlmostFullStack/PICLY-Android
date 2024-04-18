@@ -25,7 +25,7 @@ import com.easyhz.picly.view.album.AlbumViewModel
 class MainFragment:Fragment() {
 
     private lateinit var binding: FragmentMainBinding
-    private lateinit var viewModel: AlbumViewModel
+    private var viewModel: AlbumViewModel? = null
     private lateinit var navController: NavController
 
     override fun onCreateView(
@@ -48,12 +48,12 @@ class MainFragment:Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.setIsFirst(false)
+        viewModel?.setIsFirst(false)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.setIsFirst(true)
+        viewModel?.setIsFirst(true)
     }
 
 
@@ -99,10 +99,10 @@ class MainFragment:Fragment() {
     }
 
     private fun observeIsSwipe() {
-        viewModel.isSwipe.observe(viewLifecycleOwner) {
+        viewModel?.isSwipe?.observe(viewLifecycleOwner) {
             if (it) {
                 resetSearchBar()
-                viewModel.setSwipe(false)
+                viewModel?.setSwipe(false)
             }
         }
     }
@@ -128,7 +128,7 @@ class MainFragment:Fragment() {
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
 
                 override fun afterTextChanged(s: Editable?) {
-                    viewModel.setSearchText(s.toString())
+                    viewModel?.setSearchText(s.toString())
                 }
             })
         }
@@ -137,7 +137,7 @@ class MainFragment:Fragment() {
     private fun resetSearchBar() {
         binding.toolbar.apply {
             searchEditText.setText("")
-            viewModel.setSearchText("")
+            viewModel?.setSearchText("")
             searchEditText.clearFocus()
             val layoutParams = ConstraintLayout.LayoutParams(112.toPx(requireContext()), 40.toPx(requireContext()))
             layoutParams.apply {

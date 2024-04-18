@@ -19,3 +19,16 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Firebase
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.android.gms.** { *; }
+-keep class com.google.firestore.** { *; }
+-keep class com.google.firebase.** { *; }
+-keep class io.grpc.** { *; }
+-keepclassmembers class com.easyhz.picly.data.entity.** { *; }
+
+
+# OkHttp
+-dontwarn com.squareup.okhttp.**

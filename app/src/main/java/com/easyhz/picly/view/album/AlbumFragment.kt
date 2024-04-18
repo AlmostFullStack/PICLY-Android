@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.easyhz.picly.R
+import com.easyhz.picly.data.repository.album.AlbumRepositoryImpl.Companion.PAGE_SIZE
 import com.easyhz.picly.databinding.FragmentAlbumBinding
 import com.easyhz.picly.domain.model.result.AlbumResult
 import com.easyhz.picly.domain.model.album.AlbumItem
@@ -76,18 +77,15 @@ class AlbumFragment: Fragment() {
         refresh()
         pagesUpdatedFlow()
         observeIsUpload()
+        setOnAdapterClickListener()
     }
 
     private fun setRecyclerView() {
-        albumAdapter = AlbumAdapter(
-            onClickLinkButton = { onClickLinkButton(it) },
-            onLongClick = { albumItem, view ->  onLongClick(albumItem, view) }
-        ) {
-            NavControllerManager.navigateMainToDetail(it)
-        }
+        albumAdapter = AlbumAdapter()
         binding.albumRecyclerView.apply {
             adapter = albumAdapter
             layoutManager = GridLayoutManager(activity, 2)
+            setItemViewCacheSize((2 * PAGE_SIZE).toInt())
         }
     }
 
@@ -108,7 +106,6 @@ class AlbumFragment: Fragment() {
         }
     }
 
-
     private fun setAlbums() {
         lifecycle.coroutineScope.launch {
             viewModel.refresh()
@@ -126,14 +123,32 @@ class AlbumFragment: Fragment() {
                 if (it.prepend.endOfPaginationReached) {
                     updateNoResultMessage()
                     hideSkeleton()
+                    if (!viewModel.searchText.value.isNullOrEmpty()) { binding.albumRecyclerView.smoothScrollToPosition(0) }
                 }
             }
         }
     }
+
     private fun onclickFab() {
         binding.addFab.setOnClickListener {
             NavControllerManager.navigateMainToUpload()
         }
+    }
+
+    private fun setOnAdapterClickListener() {
+        albumAdapter.setOnItemClickListener(object: AlbumAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, albumItem: AlbumItem) {
+                NavControllerManager.navigateMainToDetail(albumItem)
+            }
+
+            override fun onLinkClick(view: View, albumItem: AlbumItem) {
+                onClickLinkButton(albumItem)
+            }
+
+            override fun onLongClick(fade: View, albumItem: AlbumItem) {
+                onLongClickItem(albumItem = albumItem, view = fade)
+            }
+        })
     }
 
     private fun onClickLinkButton(albumItem: AlbumItem) {
@@ -142,7 +157,7 @@ class AlbumFragment: Fragment() {
         BlueSnackBar.make(binding.root, getString(R.string.link_copy)).show()
     }
 
-    private fun onLongClick(albumItem: AlbumItem, view: View) {
+    private fun onLongClickItem(albumItem: AlbumItem, view: View) {
         CoroutineScope(Dispatchers.Main).launch {
             haptic(requireContext(), 50)
             delay(500)

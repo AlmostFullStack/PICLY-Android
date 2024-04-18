@@ -37,14 +37,22 @@
                     android:textColor="@color/mainText"
                     android:textSize="20sp" />
 
-                <ImageView
-                    android:id="@+id/linkButton"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_margin="10dp"
-                    android:contentDescription="@string/link"
-                    android:src="@drawable/icon_link_24"
-                    android:textAlignment="center" />
+                    <LinearLayout
+                        android:id="@+id/linkButton"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="10dp"
+                        android:contentDescription="@string/link"
+                        android:src="@drawable/icon_link_24"
+                        android:textAlignment="center" />
+
+                    </LinearLayout>
             </LinearLayout>
 
             <TextView

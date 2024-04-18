@@ -11,6 +11,7 @@ import com.easyhz.picly.domain.usecase.album.FetchAlbumUseCase
 import com.easyhz.picly.domain.usecase.album.DeleteAlbumUseCase
 import com.easyhz.picly.domain.usecase.album.SearchAlbumUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
@@ -34,7 +35,10 @@ class AlbumViewModel
     val isSwipe : LiveData<Boolean>
         get() = _isSwipe
 
-    val albumPager = fetchAlbumUseCase().flow.distinctUntilChanged().cachedIn(viewModelScope).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
+    val albumPager = fetchAlbumUseCase().flow
+        .distinctUntilChanged()
+        .cachedIn(viewModelScope)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), PagingData.empty())
 
     val searchPager = searchAlbumUseCase().flow.cachedIn(viewModelScope)
 
@@ -46,7 +50,7 @@ class AlbumViewModel
 
     suspend fun deleteAlbum(id: String): AlbumResult<String> = deleteAlbumUseCase(id)
 
-    fun refresh() {
+    fun refresh() = viewModelScope.launch(Dispatchers.IO) {
         fetchAlbumUseCase.setPagingSource()
     }
 
@@ -55,18 +59,18 @@ class AlbumViewModel
         _searchText.value = value
         if (value.isEmpty()) return
         searchJob?.cancel()
-        searchJob = viewModelScope.launch {
+        searchJob = viewModelScope.launch(Dispatchers.IO) {
             delay(500)
             searchAlbumUseCase.searchText = value
             searchAlbumUseCase.setPagingSource()
         }
     }
 
-    fun setSwipe(value: Boolean) {
-        _isSwipe.value = value
+    fun setSwipe(value: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        _isSwipe.postValue(value)
     }
 
-    fun setIsFirst(value: Boolean) {
-        _isFirst.value = value
+    fun setIsFirst(value: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        _isFirst.postValue(value)
     }
 }

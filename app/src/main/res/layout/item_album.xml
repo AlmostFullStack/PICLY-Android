@@ -121,10 +121,9 @@
                     />
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
+        <View
             android:id="@+id/fade"
             android:visibility="gone"
-            android:foreground="@drawable/ripple_card_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal" />
