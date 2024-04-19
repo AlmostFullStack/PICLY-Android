@@ -9,6 +9,7 @@ import com.easyhz.picly.data.repository.user.UserManager
 import com.easyhz.picly.databinding.ActivityMainBinding
 import com.easyhz.picly.domain.model.album.IncomingImages
 import com.easyhz.picly.util.BlueSnackBar
+import com.easyhz.picly.util.exception.PiclyUncaughtExceptionHandler
 import com.easyhz.picly.view.navigation.NavControllerManager
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         getFirstRun()
         setContentView(binding.root)
+        uncaughtException()
     }
 
     private fun getFirstRun() {
@@ -45,6 +47,13 @@ class MainActivity : AppCompatActivity() {
             return
         }
         NavControllerManager.navigateMainToUploadWithIncoming(IncomingImages().apply { addAll(incomingImages) })
+    }
+
+    private fun uncaughtException() {
+        val defaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler()
+        Thread.setDefaultUncaughtExceptionHandler(
+            defaultUncaughtExceptionHandler?.let { PiclyUncaughtExceptionHandler(it) }
+        )
     }
 
 }
