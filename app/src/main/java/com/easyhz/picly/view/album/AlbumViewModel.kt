@@ -48,6 +48,9 @@ class AlbumViewModel
     val isFirst : LiveData<Boolean>
         get() = _isFirst
 
+    var isReselectedAlbumMenu = MutableLiveData<Boolean>(false)
+        private set
+
     suspend fun deleteAlbum(id: String): AlbumResult<String> = deleteAlbumUseCase(id)
 
     fun refresh() = viewModelScope.launch(Dispatchers.IO) {
@@ -72,5 +75,9 @@ class AlbumViewModel
 
     fun setIsFirst(value: Boolean) = viewModelScope.launch(Dispatchers.IO) {
         _isFirst.postValue(value)
+    }
+
+    fun setIsReselectedAlbumMenu(value: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        isReselectedAlbumMenu.postValue(value)
     }
 }

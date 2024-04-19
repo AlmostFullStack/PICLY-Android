@@ -64,6 +64,7 @@ class MainFragment:Fragment() {
 
     private fun setUp() {
         observeIsSwipe()
+        setReselectedMenu()
     }
 
     private fun setNavigation() {
@@ -88,6 +89,14 @@ class MainFragment:Fragment() {
         resetSearchBar()
         binding.toolbar.searchField.visibility = View.GONE
         setToolbarTitle(R.string.app_settings_title, R.font.sf_pro_bold, 22F)
+    }
+
+    private fun setReselectedMenu() {
+        binding.bottomNavigation.setOnItemReselectedListener {
+            if (it.itemId == R.id.page_album) {
+                viewModel?.setIsReselectedAlbumMenu(true)
+            }
+        }
     }
 
     private fun setToolbarTitle(titleResId: Int, fontResId: Int, fontSize: Float = 36F) {

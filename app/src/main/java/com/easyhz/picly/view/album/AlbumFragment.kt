@@ -77,6 +77,7 @@ class AlbumFragment: Fragment() {
         refresh()
         pagesUpdatedFlow()
         observeIsUpload()
+        observeIsReselectedAlbumMenu()
         setOnAdapterClickListener()
     }
 
@@ -234,6 +235,18 @@ class AlbumFragment: Fragment() {
                     binding.albumRecyclerView.smoothScrollToPosition(0)
                 }
             }
+        }
+    }
+
+    private fun observeIsReselectedAlbumMenu() {
+        viewModel.isReselectedAlbumMenu.observe(viewLifecycleOwner) { isReselected ->
+            if (!isReselected) return@observe
+            binding.albumRecyclerView.apply {
+                if (computeVerticalScrollOffset() != 0) {
+                    smoothScrollToPosition(0)
+                }
+            }
+            viewModel.setIsReselectedAlbumMenu(false)
         }
     }
 
