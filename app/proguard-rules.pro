@@ -27,7 +27,8 @@
 -keep class com.google.firestore.** { *; }
 -keep class com.google.firebase.** { *; }
 -keep class io.grpc.** { *; }
--keepclassmembers class com.easyhz.picly.data.entity.** { *; }
+-keep class com.easyhz.picly.data.entity.** { *; }
+-keep class com.easyhz.picly.domain.model.** { *; }
 
 
 # OkHttp
