@@ -27,7 +27,6 @@ PICLY와 함께 새로운 방식의 공유를 경험하세요.
                                                                                   
                                                                                   
 ## Tech Stack
-- Android Clean Architecture
 - Coroutine
 - Dagger-Hilt
 - Data Binding
