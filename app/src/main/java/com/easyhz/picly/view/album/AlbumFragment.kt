@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AlbumFragment: Fragment() {
-    private lateinit var binding : FragmentAlbumBinding
+    private var binding : FragmentAlbumBinding? = null
     private lateinit var albumAdapter: AlbumAdapter
     private lateinit var viewModel: AlbumViewModel
     private lateinit var sharedViewModel: SharedAlbumStateViewModel
@@ -52,7 +52,7 @@ class AlbumFragment: Fragment() {
         clipboardManager = requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         loading = LoadingDialog(requireActivity())
 
-        return binding.root
+        return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -62,8 +62,8 @@ class AlbumFragment: Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (binding.noResultMessage.visibility == View.VISIBLE) {
-            binding.noResultMessage.visibility = View.GONE
+        if (binding?.noResultMessage?.visibility == View.VISIBLE) {
+            binding?.noResultMessage?.visibility = View.GONE
         }
     }
 
@@ -83,7 +83,7 @@ class AlbumFragment: Fragment() {
 
     private fun setRecyclerView() {
         albumAdapter = AlbumAdapter()
-        binding.albumRecyclerView.apply {
+        binding!!.albumRecyclerView.apply {
             adapter = albumAdapter
             layoutManager = GridLayoutManager(activity, 2)
             setItemViewCacheSize((2 * PAGE_SIZE).toInt())
@@ -110,11 +110,11 @@ class AlbumFragment: Fragment() {
     private fun setAlbums() {
         lifecycle.coroutineScope.launch {
             viewModel.refresh()
-            if (!binding.swipeRefresh.isRefreshing) return@launch
+            if (binding?.swipeRefresh?.isRefreshing == false) return@launch
             delay(500)
             viewModel.setSwipe(false)
-            binding.swipeRefresh.isRefreshing = false
-            binding.albumRecyclerView.smoothScrollToPosition(0)
+            binding?.swipeRefresh?.isRefreshing = false
+            binding?.albumRecyclerView?.smoothScrollToPosition(0)
         }
     }
 
@@ -124,14 +124,14 @@ class AlbumFragment: Fragment() {
                 if (it.prepend.endOfPaginationReached) {
                     updateNoResultMessage()
                     hideSkeleton()
-                    if (!viewModel.searchText.value.isNullOrEmpty()) { binding.albumRecyclerView.smoothScrollToPosition(0) }
+                    if (!viewModel.searchText.value.isNullOrEmpty()) { binding?.albumRecyclerView?.smoothScrollToPosition(0) }
                 }
             }
         }
     }
 
     private fun onclickFab() {
-        binding.addFab.setOnClickListener {
+        binding?.addFab?.setOnClickListener {
             NavControllerManager.navigateMainToUpload()
         }
     }
@@ -155,7 +155,7 @@ class AlbumFragment: Fragment() {
     private fun onClickLinkButton(albumItem: AlbumItem) {
         val clipData = ClipData.newPlainText(PICLY, albumItem.documentId.toPICLY())
         clipboardManager.setPrimaryClip(clipData)
-        BlueSnackBar.make(binding.root, getString(R.string.link_copy)).show()
+        binding?.root?.let { BlueSnackBar.make(it, getString(R.string.link_copy)).show() }
     }
 
     private fun onLongClickItem(albumItem: AlbumItem, view: View) {
@@ -186,14 +186,14 @@ class AlbumFragment: Fragment() {
             getString(R.string.no_search_text)
         }
 
-        binding.noResultMessage.apply {
+        binding?.noResultMessage?.apply {
             text = message
             visibility = if (albumAdapter.itemCount == 0) View.VISIBLE else View.GONE
         }
     }
 
     private fun setRefresh() {
-        binding.swipeRefresh.apply {
+        binding?.swipeRefresh?.apply {
             setProgressBackgroundColorSchemeColor(ContextCompat.getColor(requireContext(), R.color.collectionViewCellBackground))
             setColorSchemeColors(ContextCompat.getColor(requireContext(), R.color.highlightBlue))
         }
@@ -201,7 +201,7 @@ class AlbumFragment: Fragment() {
     }
 
     private fun refresh() {
-        binding.swipeRefresh.setOnRefreshListener {
+        binding?.swipeRefresh?.setOnRefreshListener {
             setAlbums()
             viewModel.setSwipe(true)
         }
@@ -222,7 +222,7 @@ class AlbumFragment: Fragment() {
     }
 
     private fun onFailure(message: String) {
-        BlueSnackBar.make(binding.root, message).show()
+        binding?.root?.let { BlueSnackBar.make(it, message).show() }
     }
 
     private fun observeIsUpload() {
@@ -232,7 +232,7 @@ class AlbumFragment: Fragment() {
                     viewModel.refresh()
                     sharedViewModel.setIsUpload(false)
                     delay(500)
-                    binding.albumRecyclerView.smoothScrollToPosition(0)
+                    binding?.albumRecyclerView?.smoothScrollToPosition(0)
                 }
             }
         }
@@ -241,7 +241,7 @@ class AlbumFragment: Fragment() {
     private fun observeIsReselectedAlbumMenu() {
         viewModel.isReselectedAlbumMenu.observe(viewLifecycleOwner) { isReselected ->
             if (!isReselected) return@observe
-            binding.albumRecyclerView.apply {
+            binding?.albumRecyclerView?.apply {
                 if (computeVerticalScrollOffset() != 0) {
                     smoothScrollToPosition(0)
                 }
@@ -251,21 +251,21 @@ class AlbumFragment: Fragment() {
     }
 
     private fun hideSkeleton() {
-        if (albumAdapter.itemCount != 0 || binding.noResultMessage.visibility == View.VISIBLE) {
-            binding.skeletonLoading.hideShimmer()
-            binding.skeletonLoading.stopShimmer()
-            binding.skeletonLoading.fadeOut()
+        if (albumAdapter.itemCount != 0 || binding?.noResultMessage?.visibility == View.VISIBLE) {
+            binding?.skeletonLoading?.hideShimmer()
+            binding?.skeletonLoading?.stopShimmer()
+            binding?.skeletonLoading?.fadeOut()
         }
     }
 
     private fun initSkeleton() {
         if (viewModel.isFirst.value == true) {
             viewModel.refresh()
-            binding.skeletonLoading.startShimmer()
+            binding?.skeletonLoading?.startShimmer()
         } else {
-            binding.skeletonLoading.hideShimmer()
-            binding.skeletonLoading.stopShimmer()
-            binding.skeletonLoading.visibility = View.GONE
+            binding?.skeletonLoading?.hideShimmer()
+            binding?.skeletonLoading?.stopShimmer()
+            binding?.skeletonLoading?.visibility = View.GONE
         }
     }
 }

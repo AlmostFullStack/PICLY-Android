@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">PICLY</string>
+    <string name="app_name" translatable="false">PICLY</string>
     <string name="bottom_album">내 앨범</string>
     <string name="bottom_setting">설정</string>
-    <string name="app_title">PICLY</string>
+    <string name="app_title" translatable="false">PICLY</string>
     <string name="app_settings_title">설정</string>
-    <string name="multiple_picture">multiple_picture</string>
-    <string name="link">link</string>
+    <string name="multiple_picture" translatable="false">multiple_picture</string>
+    <string name="link" translatable="false">link</string>
     <string name="login_title">로그인</string>
     <string name="login_info_text">로그인하고 나의 사진을 공유하세요 \n공유된 사진에는 내 정보가 저장되지 않아요</string>
 
@@ -38,20 +38,20 @@
     <string name="login_warning">위의 “Google/Apple/이메일로 로그인”을 클릭하면 \n이용약관 및 개인정보처리방침을 읽고 이해했으며, \n그에 동의하는 것으로 간주됩니다.\n</string>
     <string name="terms_of_service">이용약관</string>
     <string name="privacy_policy">개인정보처리방침</string>
-    <string name="back_button">backButton</string>
+    <string name="back_button" translatable="false">backButton</string>
     <string name="sign_up">회원가입</string>
     <string name="email_text">이메일</string>
     <string name="email_hint">이메일을 입력하세요</string>
     <string name="password_text">비밀번호</string>
     <string name="password_hint">비밀번호를 입력하세요</string>
-    <string name="floating_action_button">FAB</string>
+    <string name="floating_action_button" translatable="false">FAB</string>
     <string name="upload_album_title">앨범 업로드</string>
     <string name="success">완료</string>
     <string name="tag">태그</string>
     <string name="tag_hint">태그를 입력하세요</string>
-    <string name="close">Close</string>
+    <string name="close" translatable="false">Close</string>
     <string name="image">사진</string>
-    <string name="image_add">ImageAdd</string>
+    <string name="image_add" translatable="false">ImageAdd</string>
     <string name="gallery_cancel">취소</string>
     <string name="gallery_add">추가</string>
     <string name="no_items">갤러리에 사진이 없습니다.</string>
@@ -63,15 +63,15 @@
         다른 사용자의 창작물이나 지적 재산권을 존중해주세요. \n무단으로 타인의 작품을 사용하는 행위는 금지되어 있습니다. \n선정적이거나 모욕적인 이미지, 비속어 포함한 내용은 업로드하지 말아주세요. \n타인의 개인정보가 노출되지 않도록 주의해주세요.
     </string>
     <string name="album">앨범</string>
-    <string name="back">Back</string>
+    <string name="back" translatable="false">Back</string>
     <string name="gallery_album_title">앨범 이름</string>
 
-    <string name="gallery_alert_title">이동 하시겠습니까?</string>
-    <string name="gallery_alert_message">선택 사항이 저장 되지 않습니다.</string>
+    <string name="gallery_alert_title">이동하시겠습니까?</string>
+    <string name="gallery_alert_message">선택 사항이 저장되지 않습니다.</string>
     <string name="gallery_alert_continue">계속</string>
     <string name="gallery_alert_cancel">뒤로 가기</string>
     <string name="detail_info_title">상세정보</string>
-    <string name="more">more</string>
+    <string name="more" translatable="false">more</string>
     <string name="viewCount">조회수</string>
 
     <string name="no_select_image">선택된 이미지가 없습니다.</string>
@@ -137,9 +137,9 @@
     <string name="dialog_delete_user_title">재인증</string>
     <string name="dialog_delete_user_message">계정 탈퇴를 위해서는 재인증이 필요합니다.\n재인증하시겠습니까?</string>
     <string name="recertification">재인증</string>
-    <string name="shimmer">shimmer</string>
+    <string name="shimmer" translatable="false">shimmer</string>
     <string name="search_tag">태그 검색</string>
-    <string name="splash">splash</string>
+    <string name="splash" translatable="false">splash</string>
     <string name="no_search_text">검색 결과가 없습니다.</string>
     <string name="ready">준비 중입니다.</string>
     <string name="no_data_text">
@@ -148,9 +148,10 @@
     </string>
     <string name="incoming_image_error">이미지를 불러오는데 실패하였습니다.</string>
     <string name="check_permission_message">앱 설정에서 권한을 설정해 주세요.</string>
-    <string name="detail_image">detail_image</string>
+    <string name="detail_image" translatable="false">detail_image</string>
     <string name="save">저장</string>
     <string name="save_to_image_success">이미지가 저장되었습니다.</string>
     <string name="save_to_image_failure">이미지 저장에 실패하였습니다.</string>
 
+    <string name="auth_provider">%s로 로그인</string>
 </resources>

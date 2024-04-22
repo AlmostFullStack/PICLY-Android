@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bottom_album">Albums</string>
+    <string name="bottom_setting">Settings</string>
+    <string name="app_settings_title">Settings</string>
+    <string name="login_title">Login</string>
+    <string name="login_info_text">Log in and share my picture. \nMy information is not saved in the shared picture.</string>
+
+    <string name="error_invalid_custom_token">The custom token format is invalid. Please check the document.</string>
+    <string name="error_custom_token_mismatch">Custom tokens do not match other destinations.</string>
+    <string name="error_invalid_credential">Email or password does not match.</string>
+    <string name="error_invalid_email">Email address is not formatted correctly.</string>
+    <string name="error_wrong_password">The password is invalid.</string>
+    <string name="error_user_mismatch">The credentials provided do not match the previously logged-in user.</string>
+    <string name="error_requires_recent_login">Please log in again.</string>
+    <string name="error_account_exists_with_different_credential">This email address is already in use by another account.</string>
+    <string name="error_email_already_in_use">This email address is already in use by another account.</string>
+    <string name="error_credential_already_in_use">An error has occurred.</string>
+    <string name="error_user_disabled">The user account has been disabled by the administrator.</string>
+    <string name="error_user_token_expired">Please log in again.</string>
+    <string name="error_user_not_found">No corresponding user record exists.</string>
+    <string name="error_invalid_user_token">Please log in again.</string>
+    <string name="error_operation_not_allowed">This operation is not allowed.</string>
+    <string name="error_weak_password">password must be at least 6 characters long.</string>
+    <string name="error_missing_email">You must provide an email address.</string>
+    <string name="error_email_empty">Please enter an email.</string>
+    <string name="error_password_empty">Enter the password.</string>
+    <string name="error_unknown">An unknown error occurred.</string>
+
+    <string name="google_login">Log in with Google</string>
+    <string name="apple_login">Log in with Apple</string>
+    <string name="email_login">Log in with email</string>
+    <string name="login_email_text"><u>Log in with email</u></string>
+    <string name="login_warning">Clicking on "Google/Apple/Email login" above means you have read and understood the Terms of Service and Privacy Policy, and agree to them.</string>
+    <string name="terms_of_service">Terms of Service</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email_text">Email</string>
+    <string name="email_hint">Enter an email</string>
+    <string name="password_text">Password</string>
+    <string name="password_hint">Enter the password</string>
+
+    <string name="upload_album_title">Uploading the album</string>
+    <string name="success">Success</string>
+    <string name="tag">Tag</string>
+    <string name="tag_hint">Enter the Tag</string>
+    <string name="image">Picture</string>
+    <string name="gallery_cancel">Cancel</string>
+    <string name="gallery_add">Add</string>
+    <string name="no_items">Gallery has no pictures.</string>
+    <string name="over_selected">You can select up to 10 photos.</string>
+    <string name="image_pick_state">Choose a picture</string>
+    <string name="delete">Delete</string>
+    <string name="expireDate">Expired Date</string>
+    <string name="upload_warning">
+        Please respect other users\' creations or intellectual property rights. \nUnauthorized use of other people\'s works is prohibited. \nDo not upload sensational or offensive images or profanity. \nPlease be careful not to expose other people\'s personal information.
+    </string>
+    <string name="album">Album</string>
+    <string name="gallery_album_title">Album Name</string>
+    <string name="gallery_alert_title">Move?</string>
+    <string name="gallery_alert_message">Changes will not be saved.</string>
+    <string name="gallery_alert_continue">Continue</string>
+    <string name="gallery_alert_cancel">Go Back</string>
+    <string name="detail_info_title">Detail Information</string>
+    <string name="viewCount">View Count</string>
+
+    <string name="no_select_image">No selected images</string>
+    <string name="link_copy">Link copied</string>
+    <string name="cancel">Cancel</string>
+    <string name="share">Share</string>
+    <string name="menu">Menu</string>
+    <string name="dialog_delete_title">Delete Album</string>
+    <string name="dialog_delete_message">Are you sure you want to delete?</string>
+
+    <string name="dialog_gallery_permission_title">Permission Setting</string>
+    <string name="dialog_gallery_permission_message">Please set permissions in the app settings for file and media access.</string>
+    <string name="dialog_gallery_permission_positive">App Settings</string>
+    <string name="dialog_gallery_permission_negative">Close</string>
+
+    <string name="dialog_upload_title">Upload Complete</string>
+    <string name="dialog_upload_message">Do you want to copy the link?</string>
+    <string name="dialog_upload_positive">Copy Link and Close</string>
+    <string name="dialog_upload_negative">Close</string>
+
+    <string name="setting_account">Account Management</string>
+    <string name="setting_tutorial">View Tutorial</string>
+    <string name="setting_terms_of_service">Terms of Service</string>
+    <string name="setting_privacy_policy">Privacy Policy</string>
+    <string name="setting_opensource_license">Open Source Licenses</string>
+    <string name="setting_developer">Developer Information</string>
+    <string name="setting_version">Version</string>
+
+    <string name="onboarding_skip"><u>Skip</u></string>
+    <string name="onboarding">Onboarding</string>
+    <string name="onboarding_title_share">Easy Anonymous Picture Sharing</string>
+    <string name="onboarding_message_share">
+        PICLY offers a fast and secure way to share photos.
+        \nUpload photos anonymously and easily share them via links.
+    </string>
+    <string name="onboarding_title_anonymity">Guaranteed Anonymity</string>
+    <string name="onboarding_message_anonymity">
+        Users accessing the album via the shared link
+        \nwill not be able to see the creator\'s information.
+        \nIf you want to pass on photos without revealing yourself,
+        \nPICLY is the best choice.
+    </string>
+    <string name="onboarding_title_expired_album">Automatically Expiring Albums</string>
+    <string name="onboarding_expired_album">
+        When publishing an album, set an expiration time.
+        \nAfter the expiration time, the link will automatically expire,
+        \nand only you can access the album.
+        \nNow, manage your albums even more conveniently.
+    </string>
+    <string name="onboarding_button_next">Next</string>
+    <string name="onboarding_button_start">Start</string>
+
+    <string name="account_title">Account Management</string>
+    <string name="account_logout">Log out</string>
+    <string name="account_delete">Delete Account</string>
+    <string name="account_email">Email</string>
+    <string name="account_creation_time">Creation Date</string>
+    <string name="account_login_info">Login Information</string>
+    <string name="dialog_logout_title">Log out</string>
+    <string name="dialog_logout_message">Are you sure you want to log out?</string>
+    <string name="dialog_delete_user_title">Re-authentication</string>
+    <string name="dialog_delete_user_message">Re-authentication is required to delete your account.\nDo you want to re-authenticate?</string>
+    <string name="recertification">Re-authentication</string>
+    <string name="search_tag">Search Tags</string>
+    <string name="no_search_text">No search results.</string>
+    <string name="ready">Preparing…</string>
+    <string name="no_data_text">
+        No albums uploaded.\n
+        Press the + button to upload and share albums.
+    </string>
+    <string name="incoming_image_error">Failed to load image.</string>
+    <string name="check_permission_message">Please set permissions in the app settings.</string>
+    <string name="save">Save</string>
+    <string name="save_to_image_success">Image saved successfully.</string>
+    <string name="save_to_image_failure">Failed to save image.</string>
+
+    <string name="auth_provider">Log in with %s</string>
+</resources>
