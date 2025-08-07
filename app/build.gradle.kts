@@ -21,12 +21,12 @@ keystoreProperties.load(project.rootProject.file("keystore.properties").inputStr
 
 android {
     namespace = "com.easyhz.picly"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.easyhz.picly"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 16
+        targetSdk = 35
+        versionCode = 17
         versionName = "2.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
